@@ -1,0 +1,3 @@
+Pacote de Arquivos e Código Fonte para a Disciplina de Construção de Compiladores.
+
+Mantido por Prof. Dr. David Buzatto.

@@ -1,0 +1,3 @@
+Pacote de Arquivos e Código Fonte para a Disciplina de Estruturas de Dados I.
+
+Mantido por Prof. Dr. David Buzatto.
