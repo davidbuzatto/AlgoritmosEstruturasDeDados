@@ -9,7 +9,7 @@ package aesd.esdc4.ds.interfaces;
  * Interface para implementação de deques (double ended queues, filas de fim
  * duplo).
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  * @param <Item> Tipo do itens que serão armazenados na deque.
  */
 public interface Deque<Item> extends Iterable<Item> {

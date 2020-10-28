@@ -12,7 +12,7 @@ import java.util.Iterator;
 /**
  * Implementação de uma lista circular com encadeamento.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class CircularLinkedList<Item> implements List<Item> {
 

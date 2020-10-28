@@ -12,7 +12,7 @@ import java.util.Iterator;
 /**
  * Implementação de uma pilha com encadeamento.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class LinkedStack<Item> implements Stack<Item> {
 

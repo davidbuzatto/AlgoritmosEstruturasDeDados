@@ -8,7 +8,7 @@ package aesd.esdc4.ds.exceptions;
 /**
  * Exceção para indicar pilha vazia.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class EmptyStackException extends RuntimeException {
     

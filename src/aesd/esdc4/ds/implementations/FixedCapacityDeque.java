@@ -13,7 +13,7 @@ import java.util.Iterator;
 /**
  * Implementação de uma deque com capacidade fixa.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class FixedCapacityDeque<Item> implements Deque<Item> {
 

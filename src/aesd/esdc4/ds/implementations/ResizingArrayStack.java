@@ -12,7 +12,7 @@ import java.util.Iterator;
 /**
  * Implementação de uma pilha com redimensionamento de array.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class ResizingArrayStack<Item> implements Stack<Item> {
 

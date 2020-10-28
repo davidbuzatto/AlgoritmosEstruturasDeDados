@@ -14,7 +14,7 @@ import java.util.Iterator;
  * Implementação de uma deque com redimensionamento de array.
  * Usar módulo nessa!
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class ResizingArrayDeque<Item> implements Deque<Item> {
 

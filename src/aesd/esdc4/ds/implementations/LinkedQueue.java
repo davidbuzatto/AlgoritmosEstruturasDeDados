@@ -12,7 +12,7 @@ import java.util.Iterator;
 /**
  * Implementação de uma fila com encadeamento.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class LinkedQueue<Item> implements Queue<Item> {
 

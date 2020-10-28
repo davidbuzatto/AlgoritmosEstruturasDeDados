@@ -13,7 +13,7 @@ import java.util.Iterator;
  * Implementação de uma lista com redimensionamento de array.
  * Usar módulo nessa!
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class ResizingArrayList<Item> implements List<Item> {
 

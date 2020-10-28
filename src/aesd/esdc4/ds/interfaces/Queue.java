@@ -8,7 +8,7 @@ package aesd.esdc4.ds.interfaces;
 /**
  * Interface para implementação de filas.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  * @param <Item> Tipo do itens que serão armazenados na fila.
  */
 public interface Queue<Item> extends Iterable<Item> {

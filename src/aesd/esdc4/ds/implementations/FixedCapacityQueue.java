@@ -13,7 +13,7 @@ import java.util.Iterator;
 /**
  * Implementação de uma fila com capacidade fixa.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class FixedCapacityQueue<Item> implements Queue<Item> {
 

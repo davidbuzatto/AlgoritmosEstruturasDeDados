@@ -8,7 +8,7 @@ package aesd.esdc4.ds.exceptions;
 /**
  * Exceção para indicar estouro de deque.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class DequeOverflowException extends RuntimeException {
     

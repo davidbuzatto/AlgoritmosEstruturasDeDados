@@ -8,7 +8,7 @@ package aesd.esdc4.ds.interfaces;
 /**
  * Interface para implementação de listas.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  * @param <Item> Tipo do itens que serão armazenados na lista.
  */
 public interface List<Item> extends Iterable<Item> {

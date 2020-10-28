@@ -13,7 +13,7 @@ import java.util.Iterator;
 /**
  * Implementação de uma pilha com capacidade fixa.
  * 
- * @author David Buzatto
+ * @author Prof. Dr. David Buzatto
  */
 public class FixedCapacityStack<Item> implements Stack<Item> {
 
