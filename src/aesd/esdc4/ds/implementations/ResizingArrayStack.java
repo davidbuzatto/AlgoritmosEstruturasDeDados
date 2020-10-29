@@ -10,7 +10,7 @@ import aesd.esdc4.ds.exceptions.EmptyStackException;
 import java.util.Iterator;
 
 /**
- * Implementação de uma pilha com redimensionamento de array.
+ * Implementação de uma pilha genérica com redimensionamento de array.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
@@ -184,60 +184,6 @@ public class ResizingArrayStack<Item> implements Stack<Item> {
         sb.append( "\n" );
         
         return sb.toString();
-        
-    }
-    
-    /**
-     * Testes da pilha.
-     * 
-     * @param args
-     */
-    public static void main( String[] args ) {
-        
-        Stack<Integer> pilha = new ResizingArrayStack<>();
-        
-        pilha.push( 10 );
-        System.out.println( pilha );
-        pilha.push( 5 );
-        System.out.println( pilha );
-        pilha.push( -2 );
-        System.out.println( pilha );
-        pilha.push( 3 );
-        System.out.println( pilha );
-        pilha.push( 7 );
-        System.out.println( pilha );
-        
-        System.out.println( "Dados da pilha através do iterador:" );
-        for ( int i : pilha ) {
-            System.out.print( i );
-            System.out.print( " " );
-        }
-        
-        System.out.println( "\n" );
-        
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        //System.out.println( "Desempilhou: " + pilha.pop() ); // <- pilha vazia!
-        
-        // verificação das mudanças de capacidade
-        /*
-        for ( int i = 0; i < 128; i++ ) {
-            System.out.println( i );
-            pilha.push( i );
-        }
-        pilha.push( 1000 );
-        
-        System.out.println( "" );
-        pilha.clear();
-        */
         
     }
     

@@ -10,7 +10,7 @@ import aesd.esdc4.ds.exceptions.EmptyStackException;
 import java.util.Iterator;
 
 /**
- * Implementação de uma pilha com encadeamento simples.
+ * Implementação de uma pilha genérica com encadeamento simples.
  *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
@@ -165,48 +165,6 @@ public class LinkedStack<Item> implements Stack<Item> {
         sb.append( "\n" );
         
         return sb.toString();
-        
-    }
-    
-    /**
-     * Testes da pilha.
-     * 
-     * @param args
-     */
-    public static void main( String[] args ) {
-        
-        Stack<Integer> pilha = new LinkedStack<>();
-        
-        pilha.push( 10 );
-        System.out.println( pilha );
-        pilha.push( 5 );
-        System.out.println( pilha );
-        pilha.push( -2 );
-        System.out.println( pilha );
-        pilha.push( 3 );
-        System.out.println( pilha );
-        pilha.push( 7 );
-        System.out.println( pilha );
-        
-        System.out.println( "Dados da pilha através do iterador:" );
-        for ( int i : pilha ) {
-            System.out.print( i );
-            System.out.print( " " );
-        }
-        
-        System.out.println( "\n" );
-        
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        System.out.println( "Desempilhou: " + pilha.pop() );
-        System.out.println( pilha );
-        //System.out.println( "Desempilhou: " + pilha.pop() ); // <- pilha vazia!
         
     }
     

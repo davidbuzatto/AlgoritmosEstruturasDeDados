@@ -10,7 +10,7 @@ import aesd.esdc4.ds.exceptions.EmptyListException;
 import java.util.Iterator;
 
 /**
- * Implementação de uma lista com redimensionamento de array.
+ * Implementação de uma lista genérica com redimensionamento de array.
  * Usar módulo nessa!
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 

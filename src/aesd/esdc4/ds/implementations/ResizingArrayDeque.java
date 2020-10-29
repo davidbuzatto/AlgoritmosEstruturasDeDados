@@ -11,7 +11,7 @@ import aesd.esdc4.ds.exceptions.EmptyDequeException;
 import java.util.Iterator;
 
 /**
- * Implementação de uma deque com redimensionamento de array.
+ * Implementação de uma deque genérica com redimensionamento de array.
  * Usar módulo nessa!
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 

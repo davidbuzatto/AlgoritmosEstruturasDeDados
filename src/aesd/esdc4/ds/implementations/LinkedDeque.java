@@ -11,7 +11,7 @@ import aesd.esdc4.ds.exceptions.EmptyDequeException;
 import java.util.Iterator;
 
 /**
- * Implementação de uma deque com encadeamento.
+ * Implementação de uma deque genérica com encadeamento.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.

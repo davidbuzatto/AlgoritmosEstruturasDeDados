@@ -10,7 +10,7 @@ import aesd.esdc4.ds.exceptions.EmptyListException;
 import java.util.Iterator;
 
 /**
- * Implementação de uma lista com encadeamento.
+ * Implementação de uma lista genérica com encadeamento.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.

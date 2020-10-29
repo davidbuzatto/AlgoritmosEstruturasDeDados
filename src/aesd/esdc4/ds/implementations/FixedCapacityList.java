@@ -11,7 +11,7 @@ import aesd.esdc4.ds.exceptions.ListOverflowException;
 import java.util.Iterator;
 
 /**
- * Implementação de uma lista com capacidade fixa.
+ * Implementação de uma lista genérica com capacidade fixa.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.

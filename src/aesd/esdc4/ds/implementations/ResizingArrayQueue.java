@@ -10,7 +10,7 @@ import aesd.esdc4.ds.exceptions.EmptyStackException;
 import java.util.Iterator;
 
 /**
- * Implementação de uma fila com redimensionamento de array.
+ * Implementação de uma fila genérica com redimensionamento de array.
  * Usar módulo nessa!
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
