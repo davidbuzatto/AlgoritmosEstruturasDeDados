@@ -12,6 +12,11 @@ import java.util.Iterator;
 /**
  * Implementação de uma fila com encadeamento.
  * 
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ * 4. ed. Boston: Pearson Education, 2011. 955 p.
+ * 
+ * @param <Item> Tipo dos itens armazenados na fila.
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class LinkedQueue<Item> implements Queue<Item> {

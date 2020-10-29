@@ -13,6 +13,11 @@ import java.util.Iterator;
  * Implementação de uma fila com redimensionamento de array.
  * Usar módulo nessa!
  * 
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ * 4. ed. Boston: Pearson Education, 2011. 955 p.
+ * 
+ * @param <Item> Tipo dos itens armazenados na fila.
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class ResizingArrayQueue<Item> implements Queue<Item> {
