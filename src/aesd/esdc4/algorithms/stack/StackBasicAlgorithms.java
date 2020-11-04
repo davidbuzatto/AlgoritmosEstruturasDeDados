@@ -150,8 +150,8 @@ public class StackBasicAlgorithms {
     }
     
     /**
-     * Calcula o resultado de uma expressão pós-fixada em que os operandos
-     * e operadores estão separados por espaços.
+     * Calcula o resultado de uma expressão pós-fixada composta de inteiros
+     * em que os operandos e operadores estão separados por espaços.
      * 
      * @param expression Expressão a ser avaliada.
      * @return O resultado da expressão avaliada.
@@ -166,7 +166,7 @@ public class StackBasicAlgorithms {
         
         try {
             
-            for ( String token : expression.split( " " ) ) {
+            for ( String token : expression.split( "\\s+" ) ) {
 
                 switch ( token ) {
 
