@@ -13,6 +13,12 @@ import java.util.Iterator;
 /**
  * Implementação de uma pilha genérica com capacidade fixa.
  * 
+ * Obs: Implementação com a marcação do topo para a direita (fim do array).
+ * 
+ * Questões a se pensar:
+ *     Qual a ordem de crescimento das operações de empilhar e desempilhar?
+ *     Precisa melhorar?
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 

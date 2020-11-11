@@ -8,15 +8,15 @@ package aesd.esdc4.ds.implementations;
 import aesd.esdc4.ds.interfaces.Deque;
 
 /**
- * Teste de uso da deque genérica com capacidade fixa.
+ * Teste de uso da deque genérica com encadeamento.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestFixedCapacityDeque {
+public class TestDoubleLinkedDeque {
     
     public static void main( String[] args ) {
         
-        Deque<Integer> deque = new FixedCapacityDeque<>( 5 );
+        Deque<Integer> deque = new DoubleLinkedDeque<>();
         
         deque.addFirst( 10 );
         System.out.println( deque );
@@ -28,8 +28,6 @@ public class TestFixedCapacityDeque {
         System.out.println( deque );
         deque.addFirst( 7 );
         System.out.println( deque );
-        //deque.addLast( 15 ); // <- estouro da deque!
-        //deque.addFirst( 15 ); // <- estouro da deque!
         
         System.out.println( "Dados da deque através do iterador:" );
         for ( int i : deque ) {

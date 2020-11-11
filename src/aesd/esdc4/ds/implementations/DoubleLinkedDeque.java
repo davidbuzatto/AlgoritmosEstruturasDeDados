@@ -17,12 +17,7 @@ import java.util.Iterator;
  * 
  * Questões a se pensar:
  *     Qual a ordem de crescimento das operações de inserção e remoção?
- *     Há como melhorar?
- *     Mudar a topologia resolve?
- *     Caso o encadeamento mude, ou seja, ao invés de usar uma referência
- *     para o nó posterior, usar uma referência ao anterior, qual o impacto
- *     na ordem de crescimento das operações?
- *     E se o encadeamento for duplo?
+ *     Precisa melhorar?
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
@@ -31,15 +26,17 @@ import java.util.Iterator;
  *
  * @author Prof. Dr. David Buzatto
  */
-public class LinkedDeque<Item> implements Deque<Item> {
+public class DoubleLinkedDeque<Item> implements Deque<Item> {
 
     /*
      * Classe interna privada que define os nós da deque.
      * A referência next é direcionada à direita.
+     * A referência previous é direcionada à esquerda.
      */
     private class Node<Item> {
         Item item;
         Node<Item> next;
+        Node<Item> previous;
     }
     
     // início e fim da deque
@@ -52,7 +49,7 @@ public class LinkedDeque<Item> implements Deque<Item> {
     /**
      * Constrói uma deque vazia.
      */
-    public LinkedDeque() {
+    public DoubleLinkedDeque() {
         first = null;   // redundante, apenas para mostrar o que acontece
         last = null;    // redundante também
         size = 0;       // redundante também
@@ -63,13 +60,15 @@ public class LinkedDeque<Item> implements Deque<Item> {
         
         Node<Item> newNode = new Node<>();
         newNode.item = item;
-        newNode.next = null;  // redundante...
+        newNode.next = null;      // redundante...
+        newNode.previous = null;  // redundante...
         
         if ( isEmpty()) {
             first = newNode;
             last = newNode;
         } else {
             newNode.next = first;
+            first.previous = newNode;
             first = newNode;
         }
         
@@ -82,12 +81,14 @@ public class LinkedDeque<Item> implements Deque<Item> {
         
         Node<Item> newNode = new Node<>();
         newNode.item = item;
-        newNode.next = null;  // redundante...
+        newNode.next = null;      // redundante...
+        newNode.previous = null;  // redundante...
         
         if ( isEmpty()) {
             first = newNode;
             last = newNode;
         } else {
+            newNode.previous = last;
             last.next = newNode;
             last = newNode;
         }
@@ -130,9 +131,9 @@ public class LinkedDeque<Item> implements Deque<Item> {
                 first = null;
                 last = null;
             } else {
-                Node<Item> temp = first;
                 first = first.next;
-                temp.next = null;
+                first.previous.next = null;
+                first.previous = null;
             }
             
             size--;
@@ -156,17 +157,9 @@ public class LinkedDeque<Item> implements Deque<Item> {
                 first = null;
                 last = null;
             } else {
-                
-                // percorre o encadeamento, parando no item à esquerda do último
-                Node<Item> current = first;
-                
-                while ( current.next != last ) {
-                    current = current.next;
-                }
-                
-                current.next = null;
-                last = current;
-                
+                last = last.previous;
+                last.next.previous = null;
+                last.next = null;
             }
             
             size--;

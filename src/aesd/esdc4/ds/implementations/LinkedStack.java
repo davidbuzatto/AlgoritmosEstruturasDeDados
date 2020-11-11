@@ -12,6 +12,15 @@ import java.util.Iterator;
 /**
  * Implementação de uma pilha genérica com encadeamento simples.
  *
+ * Obs: Implementação com a marcação do topo para a direita.
+ * 
+ * Questões a se pensar:
+ *     Qual a ordem de crescimento das operações de empilhar e desempilhar?
+ *     Precisa melhorar?
+ *     Caso o encadeamento mude, ou seja, ao invés de usar uma referência
+ *     para o nó anterior, usar uma referência ao próximo, qual o impacto
+ *     na ordem de crescimento das operações?
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
