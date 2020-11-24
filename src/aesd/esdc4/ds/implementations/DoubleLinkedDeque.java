@@ -63,7 +63,7 @@ public class DoubleLinkedDeque<Item> implements Deque<Item> {
         newNode.next = null;      // redundante...
         newNode.previous = null;  // redundante...
         
-        if ( isEmpty()) {
+        if ( isEmpty() ) {
             first = newNode;
             last = newNode;
         } else {
@@ -84,7 +84,7 @@ public class DoubleLinkedDeque<Item> implements Deque<Item> {
         newNode.next = null;      // redundante...
         newNode.previous = null;  // redundante...
         
-        if ( isEmpty()) {
+        if ( isEmpty() ) {
             first = newNode;
             last = newNode;
         } else {
@@ -122,7 +122,7 @@ public class DoubleLinkedDeque<Item> implements Deque<Item> {
     @Override
     public Item removeFirst() throws EmptyDequeException {
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             Item item = first.item;
             
@@ -148,7 +148,7 @@ public class DoubleLinkedDeque<Item> implements Deque<Item> {
     @Override
     public Item removeLast() throws EmptyDequeException {
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             Item item = last.item;
             
@@ -247,7 +247,7 @@ public class DoubleLinkedDeque<Item> implements Deque<Item> {
             }
             
         } else {
-            sb.append( "empty queue!\n" );
+            sb.append( "empty deque!\n" );
         }
         
         return sb.toString();

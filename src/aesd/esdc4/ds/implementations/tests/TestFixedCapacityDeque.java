@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations;
+package aesd.esdc4.ds.implementations.tests;
 
+import aesd.esdc4.ds.implementations.FixedCapacityDeque;
 import aesd.esdc4.ds.interfaces.Deque;
 
 /**
- * Teste de uso da deque genérica com encadeamento.
+ * Teste de uso da deque genérica com capacidade fixa.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestDoubleLinkedDeque {
+public class TestFixedCapacityDeque {
     
     public static void main( String[] args ) {
         
-        Deque<Integer> deque = new DoubleLinkedDeque<>();
+        Deque<Integer> deque = new FixedCapacityDeque<>( 5 );
         
         deque.addFirst( 10 );
         System.out.println( deque );
@@ -28,6 +29,8 @@ public class TestDoubleLinkedDeque {
         System.out.println( deque );
         deque.addFirst( 7 );
         System.out.println( deque );
+        //deque.addLast( 15 ); // <- estouro da deque!
+        //deque.addFirst( 15 ); // <- estouro da deque!
         
         System.out.println( "Dados da deque através do iterador:" );
         for ( int i : deque ) {

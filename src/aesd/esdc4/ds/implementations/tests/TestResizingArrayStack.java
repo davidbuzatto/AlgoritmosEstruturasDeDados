@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations;
+package aesd.esdc4.ds.implementations.tests;
 
+import aesd.esdc4.ds.implementations.ResizingArrayStack;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- * Teste de uso da pilha genérica com encadeamento.
+ * Teste de uso da pilha genérica com redimensionamento de array.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestLinkedStack {
+public class TestResizingArrayStack {
     
     public static void main( String[] args ) {
         
-        Stack<Integer> pilha = new LinkedStack<>();
+        Stack<Integer> pilha = new ResizingArrayStack<>();
         
         pilha.push( 10 );
         System.out.println( pilha );
@@ -48,6 +49,18 @@ public class TestLinkedStack {
         System.out.println( "Desempilhou: " + pilha.pop() );
         System.out.println( pilha );
         //System.out.println( "Desempilhou: " + pilha.pop() ); // <- pilha vazia!
+        
+        // verificação das mudanças de capacidade
+        /*
+        for ( int i = 0; i < 128; i++ ) {
+            System.out.println( i );
+            pilha.push( i );
+        }
+        pilha.push( 1000 );
+        
+        System.out.println( "" );
+        pilha.clear();
+        */
         
     }
     

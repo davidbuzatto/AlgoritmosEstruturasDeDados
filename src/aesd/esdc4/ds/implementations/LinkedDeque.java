@@ -254,7 +254,7 @@ public class LinkedDeque<Item> implements Deque<Item> {
             }
             
         } else {
-            sb.append( "empty queue!\n" );
+            sb.append( "empty deque!\n" );
         }
         
         return sb.toString();

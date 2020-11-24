@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations;
+package aesd.esdc4.ds.implementations.tests;
 
+import aesd.esdc4.ds.implementations.LinkedQueue;
 import aesd.esdc4.ds.interfaces.Queue;
 
 /**
- * Teste de uso da fila genérica com capacidade fixa.
+ * Teste de uso da fila genérica com encadeamento.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestFixedCapacityQueue {
+public class TestLinkedQueue {
     
     public static void main( String[] args ) {
         
-        Queue<Integer> fila = new FixedCapacityQueue<>( 5 );
+        Queue<Integer> fila = new LinkedQueue<>();
         
         fila.enqueue( 10 );
         System.out.println( fila );
@@ -28,7 +29,6 @@ public class TestFixedCapacityQueue {
         System.out.println( fila );
         fila.enqueue( 7 );
         System.out.println( fila );
-        //fila.enqueue( 15 ); // <- estouro da fila!
         
         System.out.println( "Dados da fila através do iterador:" );
         for ( int i : fila ) {

@@ -7,6 +7,7 @@ package aesd.esdc4.ds.implementations;
 
 import aesd.esdc4.ds.interfaces.List;
 import aesd.esdc4.ds.exceptions.EmptyListException;
+import aesd.esdc4.ds.exceptions.ListIndexOutOfBoundsException;
 import java.util.Iterator;
 
 /**
@@ -26,16 +27,19 @@ public class CircularLinkedList<Item> implements List<Item> {
     }
     
     @Override
-    public void add( int index, Item item ) {
+    public void add( int index, Item item ) 
+            throws ListIndexOutOfBoundsException {
     }
 
     @Override
-    public Item get( int index ) throws EmptyListException {
+    public Item get( int index ) 
+            throws ListIndexOutOfBoundsException, EmptyListException {
         return null;
     }
 
     @Override
-    public Item remove( int index ) throws EmptyListException {
+    public Item remove( int index ) 
+            throws ListIndexOutOfBoundsException, EmptyListException {
         return null;
     }
 

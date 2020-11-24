@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations;
+package aesd.esdc4.ds.implementations.tests;
 
+import aesd.esdc4.ds.implementations.FixedCapacityQueue;
 import aesd.esdc4.ds.interfaces.Queue;
 
 /**
- * Teste de uso da fila genérica com redimensionamento de array.
+ * Teste de uso da fila genérica com capacidade fixa.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestResizingArrayQueue {
+public class TestFixedCapacityQueue {
     
     public static void main( String[] args ) {
         
-        Queue<Integer> fila = new ResizingArrayQueue<>();
+        Queue<Integer> fila = new FixedCapacityQueue<>( 5 );
         
         fila.enqueue( 10 );
         System.out.println( fila );
@@ -28,6 +29,7 @@ public class TestResizingArrayQueue {
         System.out.println( fila );
         fila.enqueue( 7 );
         System.out.println( fila );
+        //fila.enqueue( 15 ); // <- estouro da fila!
         
         System.out.println( "Dados da fila através do iterador:" );
         for ( int i : fila ) {
@@ -48,21 +50,6 @@ public class TestResizingArrayQueue {
         System.out.println( "Desenfileirou: " + fila.dequeue() );
         System.out.println( fila );
         //System.out.println( "Desenfileirou: " + fila.dequeue() ); // <- fila vazia!
-        
-        // verificação das mudanças de capacidade
-        /*
-        for ( int i = 0; i < 128; i++ ) {
-            System.out.println( i );
-            fila.enqueue( i );
-        }
-        fila.enqueue( 1000 );
-        
-        System.out.println( "" );
-        
-        while ( !fila.isEmpty() ) {
-            fila.dequeue();
-        }
-        */
         
     }
     

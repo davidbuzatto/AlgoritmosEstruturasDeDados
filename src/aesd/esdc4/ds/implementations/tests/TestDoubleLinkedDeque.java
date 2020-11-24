@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations;
+package aesd.esdc4.ds.implementations.tests;
 
+import aesd.esdc4.ds.implementations.DoubleLinkedDeque;
 import aesd.esdc4.ds.interfaces.Deque;
 
 /**
- * Teste de uso da deque genérica com redimensionamento de array.
+ * Teste de uso da deque genérica com encadeamento.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestResizingArrayDeque {
+public class TestDoubleLinkedDeque {
     
     public static void main( String[] args ) {
         
-        Deque<Integer> deque = new ResizingArrayDeque<>();
+        Deque<Integer> deque = new DoubleLinkedDeque<>();
         
         deque.addFirst( 10 );
         System.out.println( deque );
@@ -49,18 +50,6 @@ public class TestResizingArrayDeque {
         System.out.println( deque );
         //System.out.println( "Removeu do Fim: " + deque.removeLast() ); // <- deque vazia!
         //System.out.println( "Removeu do Inicio: " + deque.removeFirst() ); // <- deque vazia!
-        
-        // verificação das mudanças de capacidade
-        /*
-        for ( int i = 0; i < 128; i++ ) {
-            System.out.println( i );
-            deque.addLast( i );
-        }
-        deque.addLast( 1000 );
-        
-        System.out.println( "" );
-        deque.clear();
-        */
         
     }
     

@@ -5,6 +5,8 @@
  */
 package aesd.esdc4.ds.interfaces;
 
+import aesd.esdc4.ds.exceptions.ListIndexOutOfBoundsException;
+
 /**
  * Interface para implementação de listas.
  * 
@@ -26,7 +28,7 @@ public interface List<Item> extends Iterable<Item> {
      * @param index Índice em que o item será inserido.
      * @param item Item a ser inserido.
      */
-    public void add( int index, Item item );
+    public void add( int index, Item item ) throws ListIndexOutOfBoundsException;
     
     /**
      * Retorna um item de uma posição específica da lista.
@@ -34,7 +36,7 @@ public interface List<Item> extends Iterable<Item> {
      * @param index Índice em que o item está.
      * @return O item da lista.
      */
-    public Item get( int index );
+    public Item get( int index ) throws ListIndexOutOfBoundsException;
     
     /**
      * Remove um item de uma posição da lista.
@@ -42,7 +44,7 @@ public interface List<Item> extends Iterable<Item> {
      * @param index Índice do item que será removido.
      * @return O item da lista.
      */
-    public Item remove( int index );
+    public Item remove( int index ) throws ListIndexOutOfBoundsException;
     
     /**
      * Remove todos os elementos dessa lista.

@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations;
+package aesd.esdc4.ds.implementations.tests;
 
 /**
- * Teste de uso da lista circular genérica.
+ * Teste de uso da lista genérica com encadeamento.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestCircularLinkedList {
+public class TestDoubleLinkedList {
     
     public static void main( String[] args ) {
         

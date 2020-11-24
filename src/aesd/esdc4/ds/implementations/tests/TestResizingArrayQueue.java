@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations;
+package aesd.esdc4.ds.implementations.tests;
 
+import aesd.esdc4.ds.implementations.ResizingArrayQueue;
 import aesd.esdc4.ds.interfaces.Queue;
 
 /**
- * Teste de uso da fila genérica com encadeamento.
+ * Teste de uso da fila genérica com redimensionamento de array.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestLinkedQueue {
+public class TestResizingArrayQueue {
     
     public static void main( String[] args ) {
         
-        Queue<Integer> fila = new LinkedQueue<>();
+        Queue<Integer> fila = new ResizingArrayQueue<>();
         
         fila.enqueue( 10 );
         System.out.println( fila );
@@ -48,6 +49,21 @@ public class TestLinkedQueue {
         System.out.println( "Desenfileirou: " + fila.dequeue() );
         System.out.println( fila );
         //System.out.println( "Desenfileirou: " + fila.dequeue() ); // <- fila vazia!
+        
+        // verificação das mudanças de capacidade
+        /*
+        for ( int i = 0; i < 128; i++ ) {
+            System.out.println( i );
+            fila.enqueue( i );
+        }
+        fila.enqueue( 1000 );
+        
+        System.out.println( "" );
+        
+        while ( !fila.isEmpty() ) {
+            fila.dequeue();
+        }
+        */
         
     }
     

@@ -3,17 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations;
+package aesd.esdc4.ds.exceptions;
 
 /**
- * Teste de uso da lista genérica com encadeamento.
+ * Exceção para indicar um índice inválido de uma lista.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestLinkedList {
-    
-    public static void main( String[] args ) {
-        
-    }
+public class ListIndexOutOfBoundsException extends RuntimeException {
     
 }
