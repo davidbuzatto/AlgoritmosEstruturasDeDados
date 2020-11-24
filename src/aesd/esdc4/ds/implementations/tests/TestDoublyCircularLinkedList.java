@@ -5,7 +5,7 @@
  */
 package aesd.esdc4.ds.implementations.tests;
 
-import aesd.esdc4.ds.implementations.CircularDoubleLinkedList;
+import aesd.esdc4.ds.implementations.CircularDoublyLinkedList;
 import aesd.esdc4.ds.interfaces.List;
 
 /**
@@ -13,11 +13,11 @@ import aesd.esdc4.ds.interfaces.List;
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestCircularLinkedList {
+public class TestDoublyCircularLinkedList {
     
     public static void main( String[] args ) {
         
-        List<Integer> lista = new CircularDoubleLinkedList<>();
+        List<Integer> lista = new CircularDoublyLinkedList<>();
         
         lista.add( 10 );                    // inserção no fim
         System.out.println( lista );

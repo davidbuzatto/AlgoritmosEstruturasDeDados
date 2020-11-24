@@ -26,7 +26,7 @@ import java.util.Iterator;
  *
  * @author Prof. Dr. David Buzatto
  */
-public class DoubleLinkedDeque<Item> implements Deque<Item> {
+public class DoublyLinkedDeque<Item> implements Deque<Item> {
 
     /*
      * Classe interna privada que define os nós da deque.
@@ -49,7 +49,7 @@ public class DoubleLinkedDeque<Item> implements Deque<Item> {
     /**
      * Constrói uma deque vazia.
      */
-    public DoubleLinkedDeque() {
+    public DoublyLinkedDeque() {
         first = null;   // redundante, apenas para mostrar o que acontece
         last = null;    // redundante também
         size = 0;       // redundante também

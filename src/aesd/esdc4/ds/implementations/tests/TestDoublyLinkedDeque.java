@@ -5,7 +5,7 @@
  */
 package aesd.esdc4.ds.implementations.tests;
 
-import aesd.esdc4.ds.implementations.DoubleLinkedDeque;
+import aesd.esdc4.ds.implementations.DoublyLinkedDeque;
 import aesd.esdc4.ds.interfaces.Deque;
 
 /**
@@ -13,11 +13,11 @@ import aesd.esdc4.ds.interfaces.Deque;
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestDoubleLinkedDeque {
+public class TestDoublyLinkedDeque {
     
     public static void main( String[] args ) {
         
-        Deque<Integer> deque = new DoubleLinkedDeque<>();
+        Deque<Integer> deque = new DoublyLinkedDeque<>();
         
         deque.addFirst( 10 );
         System.out.println( deque );

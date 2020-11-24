@@ -5,7 +5,7 @@
  */
 package aesd.esdc4.ds.implementations.tests;
 
-import aesd.esdc4.ds.implementations.DoubleLinkedList;
+import aesd.esdc4.ds.implementations.DoublyLinkedList;
 import aesd.esdc4.ds.interfaces.List;
 
 /**
@@ -13,11 +13,11 @@ import aesd.esdc4.ds.interfaces.List;
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class TestDoubleLinkedList {
+public class TestDoublyLinkedList {
     
     public static void main( String[] args ) {
         
-        List<Integer> lista = new DoubleLinkedList<>();
+        List<Integer> lista = new DoublyLinkedList<>();
         
         lista.add( 10 );                    // inserção no fim
         System.out.println( lista );
