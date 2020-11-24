@@ -11,10 +11,7 @@ import aesd.esdc4.ds.exceptions.ListIndexOutOfBoundsException;
 import java.util.Iterator;
 
 /**
- * Implementação de uma lista genérica com encadeamento duplo.
- * 
- * Obs: Implementação com a marcação do início/primeiro para a esquerda e o
- * fim/último para direita.
+ * Implementação de uma lista circular genérica com encadeamento duplo.
  * 
  * Questões a se pensar:
  *     Qual a ordem de crescimento das operações?
@@ -28,7 +25,7 @@ import java.util.Iterator;
  *
  * @author Prof. Dr. David Buzatto
  */
-public class DoubleLinkedList<Item> implements List<Item> {
+public class CircularDoubleLinkedList<Item> implements List<Item> {
 
     /*
      * Classe interna privada que define os nós da lista.
@@ -53,19 +50,17 @@ public class DoubleLinkedList<Item> implements List<Item> {
         
     }
     
-    // início e fim da lista
+    // início da lista circular
     private Node<Item> start;
-    private Node<Item> end;
     
-    // tamanho da lista
+    // tamanho da lista circular
     private int size;
     
     /**
-     * Constrói uma lista vazia.
+     * Constrói uma lista circular vazia.
      */
-    public DoubleLinkedList() {
+    public CircularDoubleLinkedList() {
         start = null;   // redundante, apenas para mostrar o que acontece
-        end = null;     // redundante também
         size = 0;       // redundante também
     }
     
@@ -78,12 +73,21 @@ public class DoubleLinkedList<Item> implements List<Item> {
         newNode.previous = null;  // redundante...
         
         if ( isEmpty() ) {
+            
             start = newNode;
-            end = newNode;
+            
+            start.next = start;
+            start.previous = start;
+            
         } else {
-            newNode.previous = end;
-            end.next = newNode;
-            end = newNode;
+            
+            Node<Item> last = start.previous;
+            
+            newNode.next = start;
+            start.previous = newNode;
+            newNode.previous = last;
+            last.next = newNode;
+            
         }
         
         size++;
@@ -107,26 +111,35 @@ public class DoubleLinkedList<Item> implements List<Item> {
         if ( isEmpty() ) {
             
             start = newNode;
-            end = newNode;
+            
+            start.next = start;
+            start.previous = start;
             
             // inserção no início
         } else if ( index == 0 ) {
 
+            Node<Item> last = start.previous;
+            
             newNode.next = start;
+            newNode.previous = last;
+            last.next = newNode;
             start.previous = newNode;
             start = newNode;
         
             // inserção no fim
         } else if ( index == size ) {
             
-            newNode.previous = end;
-            end.next = newNode;
-            end = newNode;
+            Node<Item> last = start.previous;
+            
+            newNode.next = start;
+            start.previous = newNode;
+            newNode.previous = last;
+            last.next = newNode;
             
             // inserção no meio
         } else {
             
-            // posiciona onde será mexido (vai deslocar a lista para a direita)
+            // posiciona onde será mexido (vai girar a lista em sentido horário)
             Node<Item> temp = start;
             for ( int i = 0; i < index; i++ ) {
                 temp = temp.next;
@@ -145,17 +158,14 @@ public class DoubleLinkedList<Item> implements List<Item> {
     }
 
     @Override
-    public Item get( int index ) 
-            throws ListIndexOutOfBoundsException, EmptyListException {
+    public Item get( int index ) throws EmptyListException {
         
         if ( isEmpty() ) {
             throw new EmptyListException();
         }
         
-        if ( index < 0 || index >= size ) {
-            throw new ListIndexOutOfBoundsException( 
-                    "index must be between 0 and " + size + ", but it's " + index );
-        }
+        // mapeamento!
+        index = index % size;
         
         Node<Item> current = start;
         for ( int i = 0; i < index; i++ ) {
@@ -182,11 +192,10 @@ public class DoubleLinkedList<Item> implements List<Item> {
         Item item = null;
         
         // a lista tem apenas um elemento
-        if ( start == end ) {
+        if ( start == start.next ) {
             
             item = start.item;
             start = null;
-            end = null;
             
         } else {
             
@@ -195,18 +204,28 @@ public class DoubleLinkedList<Item> implements List<Item> {
                 
                 item = start.item;
                 
+                Node<Item> last = start.previous;
+                
                 start = start.next;
                 start.previous.next = null;
-                start.previous = null;
+                start.previous.previous = null;
+                
+                start.previous = last;
+                last.next = start;
                 
                 // remoção do fim
             } else if ( index == size - 1 ) {
                 
-                item = end.item;
+                Node<Item> last = start.previous;
                 
-                end = end.previous;
-                end.next.previous = null;
-                end.next = null;
+                item = last.item;
+                
+                last = last.previous;
+                last.next.previous = null;
+                last.next.next = null;
+                
+                start.previous = last;
+                last.next = start;
                 
                 // remoção do meio
             } else {
@@ -258,17 +277,19 @@ public class DoubleLinkedList<Item> implements List<Item> {
         
         return new Iterator<Item>() {
             
+            private int index = 0;
             private Node<Item> current = start;
             
             @Override
             public boolean hasNext() {
-                return current != null;
+                return index < size;
             }
 
             @Override
             public Item next() {
                 Item item = current.item;
                 current = current.next;
+                index++;
                 return item;
             }
             
@@ -292,7 +313,7 @@ public class DoubleLinkedList<Item> implements List<Item> {
             Node<Item> current = start;
             int index = 0;
             
-            while ( current != null ) {
+            while ( index < size ) {
                 
                 // debug
                 //sb.append( String.format( "[%d] - %s\n", index++, current ) );
@@ -300,12 +321,8 @@ public class DoubleLinkedList<Item> implements List<Item> {
                 sb.append( String.format( "[%d] - ", index++ ) )
                         .append( current.item );
                 
-                if ( start == end ) {
-                    sb.append( " <- start/end\n" );
-                } else if ( current == start ) {
+                if ( current == start ) {
                     sb.append( " <- start\n" );
-                } else if ( current == end ) {
-                    sb.append( " <- end\n" );
                 } else {
                     sb.append( "\n" );
                 }

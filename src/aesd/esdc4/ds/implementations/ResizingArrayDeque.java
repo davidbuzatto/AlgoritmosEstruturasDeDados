@@ -56,7 +56,7 @@ public class ResizingArrayDeque<Item> implements Deque<Item> {
     private void resize( int max ) {
         
         // para ver a mudança de capacidade, descomente a linha abaixo.
-        System.out.println( "capacity " + items.length + " size " + size );
+        //System.out.println( "capacity " + items.length + " size " + size );
         
         // nova alocação
         Item[] temp = (Item[]) new Object[max];
@@ -69,7 +69,7 @@ public class ResizingArrayDeque<Item> implements Deque<Item> {
         items = temp;
         
         // para ver a mudança de capacidade, descomente a linha abaixo.
-        System.out.println( "new capacity " + items.length + " size " + size );
+        //System.out.println( "new capacity " + items.length + " size " + size );
         
     }
     
