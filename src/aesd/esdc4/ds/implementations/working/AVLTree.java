@@ -5,10 +5,11 @@
  */
 package aesd.esdc4.ds.implementations.working;
 
-import aesd.esdc4.algorithms.tree.AVLTreeTraversals;
 import aesd.esdc4.algorithms.tree.TraversalTypes;
-import java.util.Collections;
-import java.util.List;
+import aesd.esdc4.algorithms.tree.TreeTraversals;
+import aesd.esdc4.ds.exceptions.KeyNotFoundException;
+import aesd.esdc4.ds.interfaces.Tree;
+import java.util.Iterator;
 
 /**
  * Implementação de uma árvore AVL.
@@ -19,25 +20,29 @@ import java.util.List;
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class AVLTree<Tipo extends Comparable<Tipo>> {
+public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Value> {
 
     /*
-     * Classe interna que define os nós da árvore.
-     * É pública para poder acessar a estrutura dos nós externamente
-     * no simulador e nos percursos. Deveria ser privada.
+     * Classe interna estática que define os nós da árvore AVL.
+     * Ela e seus membros são públicos para poder expor a estrutura dos nós.
+     * Normalmente deveria ser privada.
      */
-    public class No<Tipo> {
+    public static class Node<Key extends Comparable<Key>, Value> extends Tree.Node<Key, Value> {
         
-        public int altura;
+        public int height;
         
-        public Tipo valor;
-        public No<Tipo> esquerda;
-        public No<Tipo> direita;
+        @Override
+        public String toString() {
+            return key + " -> " + value + " (" + height + ")";
+        }
         
     }
     
     // raiz da árvore
-    private No<Tipo> raiz;
+    protected Node<Key, Value> root;
+    
+    // tamanho da árvore (quantidade de pares chave/valor)
+    protected int size;
     
     // valor máximo na diferença de alturas de duas subárvores
     private static final int DESBALANCEAMENTO_PERMITIDO = 1;
@@ -46,81 +51,89 @@ public class AVLTree<Tipo extends Comparable<Tipo>> {
      * Constrói uma Árvore AVL vazia.
      */
     public AVLTree() {
-        raiz = null;
-    }
-
-    /**
-     * Insere um elemento na árvore. Elementos duplicados são ignorados.
-     * 
-     * @param valor Elemento a ser inserido.
-     */
-    public void inserir( Tipo valor ) {
-        raiz = inserir( raiz, valor );
+        root = null;
     }
     
-    /**
-     * Método privado para inserção recursiva na subárvore.
-     *
-     * @param no raiz da subárvore.
-     * @param valor elemento que será inserido.
-     * @return a nova raiz da subárvore.
-     */
-    private No<Tipo> inserir( No<Tipo> no, Tipo valor ) {
+    @Override
+    public void put( Key key, Value value ) {
+        root = put( root, key, value );
+    }
+    
+    private Node<Key, Value> put( Node<Key, Value> node, Key key, Value value ) {
         
-        if ( no == null ) {
+        if ( node == null ) {
             
-            no = new No<Tipo>();
-            no.valor = valor;
-            no.esquerda = null;
-            no.direita = null;
-            no.altura = 0;
+            node = new Node<>();
+            node.key = key;
+            node.value = value;
+            node.left = null;
+            node.right = null;
+            node.height = 0;
+            
+            size++;
             
         }
 
-        int comparacao = valor.compareTo( no.valor );
+        int comp = key.compareTo( node.key );
 
-        if ( comparacao < 0 ) {
-            no.esquerda = inserir( no.esquerda, valor );
-        } else if ( comparacao > 0 ) {
-            no.direita = inserir( no.direita, valor );
+        if ( comp < 0 ) {
+            node.left = put( (Node<Key, Value>) node.left, key, value );
+        } else if ( comp > 0 ) {
+            node.right = put( (Node<Key, Value>) node.right, key, value );
         }
 
         // não faz nada para duplicatas
         
         // balanceia a árvore
-        return balancear( no );
+        return balancear( node );
         
     }
     
-    /**
-     * Verifica se um valor está contido na árvore.
-     *
-     * @param valor Valor a ser pesquisado.
-     * @return true caso tenha encontrado, false caso contrário.
-     */
-    public boolean contem( Tipo valor ) {
-        return contem( raiz, valor );
+    @Override
+    public Value get( Key key ) throws KeyNotFoundException {
+        return get( root, key );
     }
-    
-    /**
-     * Método privado para consulta na subárvore.
-     *
-     * @param no raiz da subárvore.
-     * @param valor elemento que será consultado.
-     * @return true caso tenha encontrado, false caso contrário.
+
+    /*
+     * Método privado para a consulta recursiva.
      */
-    private boolean contem( No<Tipo> no, Tipo valor ) {
+    private Value get( Node<Key, Value> node, Key key ) throws KeyNotFoundException {
         
-        while ( no != null ) {
+        if ( node != null ) {
             
-            int comparacao = valor.compareTo( no.valor );
+            int comp = key.compareTo( node.key );
+            
+            if ( comp == 0 ) {
+                return node.value;
+            } else if ( comp < 0 ) {
+                return get( (Node<Key, Value>) node.left, key );
+            } else { // comparacao > 0
+                return get( (Node<Key, Value>) node.right, key );
+            }
+            
+        }
+
+        throw new KeyNotFoundException( key + " not found!" );
+
+    }
+    
+    @Override
+    public boolean contains( Key key ) {
+        return contains( root, key );
+    }
+    
+    private boolean contains( Node<Key, Value> node, Key key ) {
+        
+        while ( node != null ) {
+            
+            int comparacao = key.compareTo( node.key );
 
             if ( comparacao == 0 ) {
                 return true;
             } else if ( comparacao < 0 ) {
-                no = no.esquerda;
+                return contains( (Node<Key, Value>) node.left, key );
             } else { // comparacao > 0
-                no = no.direita;
+                return contains( (Node<Key, Value>) node.left, key );
             }
         }
 
@@ -128,42 +141,38 @@ public class AVLTree<Tipo extends Comparable<Tipo>> {
         
     }
     
-    /**
-     * Remove um elemento da árvore.
-     * 
-     * @param valor Valor a ser removido.
-     */
-    public void remover( Tipo valor ) {
-        raiz = remover( raiz, valor );
+    @Override
+    public void delete( Key key ) {
+        root = (Node<Key, Value>) delete( root, key );
     }
 
     /**
      * Método privado para remoção recursiva na subárvore.
      *
-     * @param no raiz da subárvore.
-     * @param valor elemento que será removido.
+     * @param node raiz da subárvore.
+     * @param key elemento que será removido.
      * @return a nova raiz da subárvore.
      */
-    private No<Tipo> remover( No<Tipo> no, Tipo valor ) {
+    private Node<Key, Value> delete( Node<Key, Value> node, Key key ) {
         
-        if ( no == null ) {
-            return no;   // não encontrado
+        if ( node == null ) {
+            return node;   // não encontrado
         }
         
-        int comparacao = valor.compareTo( no.valor );
+        int comp = key.compareTo( node.key );
 
-        if ( comparacao < 0 ) {
-            no.esquerda = remover( no.esquerda, valor );
-        } else if ( comparacao > 0 ) {
-            no.direita = remover( no.direita, valor );
-        } else if ( no.esquerda != null && no.direita != null ) { // dois filhos
-            no.valor = encontrarMinimo( no.direita ).valor;
-            no.direita = remover( no.direita, no.valor );
+        if ( comp < 0 ) {
+            node.left = delete( (Node<Key, Value>) node.left, key );
+        } else if ( comp > 0 ) {
+            node.right = delete( (Node<Key, Value>) node.right, key );
+        } else if ( node.left != null && node.right != null ) { // dois filhos
+            node.key = encontrarMinimo( (Node<Key, Value>) node.right ).key;
+            node.right = delete( (Node<Key, Value>) node.right, node.key );
         } else {
-            no = ( no.esquerda != null ) ? no.esquerda : no.direita;
+            node = ( (Node<Key, Value>) node.left != null ) ? (Node<Key, Value>) node.left : (Node<Key, Value>) node.right;
         }
         
-        return balancear( no );
+        return balancear( node );
         
     }
 
@@ -172,33 +181,33 @@ public class AVLTree<Tipo extends Comparable<Tipo>> {
      *
      * @return o menor item ou null caso a árvore esteja vazia.
      */
-    public Tipo encontrarMinimo() {
+    public Node<Key, Value> encontrarMinimo() {
         
-        if ( estaVazia() ) {
+        if ( isEmpty() ) {
             return null;
         }
         
-        return encontrarMinimo( raiz ).valor;
+        return encontrarMinimo( root );
         
     }
     
     /**
      * Método privado para encontrar o menor item de uma subárvore.
      *
-     * @param no raiz da subárvore
+     * @param node raiz da subárvore
      * @return o nó que contém o menor item.
      */
-    private No<Tipo> encontrarMinimo( No<Tipo> no ) {
+    private Node<Key, Value> encontrarMinimo( Node<Key, Value> node ) {
         
-        if ( no == null ) {
-            return no;
+        if ( node == null ) {
+            return node;
         }
 
-        while ( no.esquerda != null ) {
-            no = no.esquerda;
+        while ( node.left != null ) {
+            node = (Node<Key, Value>) node.left;
         }
         
-        return no;
+        return node;
         
     }
 
@@ -207,125 +216,133 @@ public class AVLTree<Tipo extends Comparable<Tipo>> {
      *
      * @return o maior item ou null caso a árvore esteja vazia.
      */
-    public Tipo encontrarMaximo() {
+    public Node<Key, Value> encontrarMaximo() {
         
-        if ( estaVazia() ) {
+        if ( isEmpty() ) {
             return null;
         }
         
-        return encontrarMaximo( raiz ).valor;
+        return encontrarMaximo( root );
         
     }
     
     /**
      * Método privado para encontrar o maior item de uma subárvore.
      *
-     * @param no raiz da subárvore
+     * @param node raiz da subárvore
      * @return o nó que contém o maior item.
      */
-    private No<Tipo> encontrarMaximo( No<Tipo> no ) {
+    private Node<Key, Value> encontrarMaximo( Node<Key, Value> node ) {
         
-        if ( no == null ) {
-            return no;
+        if ( node == null ) {
+            return node;
         }
 
-        while ( no.direita != null ) {
-            no = no.direita;
+        while ( node.right != null ) {
+            node = (Node<Key, Value>) node.right;
         }
         
-        return no;
+        return node;
         
     }
 
     /**
      * Esvazia a árvore.
      */
-    public void esvaziar() {
-        raiz = desalocar( raiz );
+    @Override
+    public void clear() {
+        root = (Node<Key, Value>) clear( root );
+        size = 0;
     }
 
     /*
      * Método privado para remoção de todos os itens de forma recursiva.
      */
-    private No<Tipo> desalocar( No<Tipo> no ) {
+    private Node<Key, Value> clear( Node<Key, Value> node ) {
 
-        if ( no != null ) {
-            no.esquerda = desalocar( no.esquerda );
-            no.direita = desalocar( no.direita );
+        if ( node != null ) {
+            node.left = clear( (Node<Key, Value>) node.left );
+            node.right = clear( (Node<Key, Value>) node.right );
         }
 
         return null;
 
     }
     
-    /**
-     * Verifica se a árvore está vazia.
-     * 
-     * @return true se a árvore estiver vazia, false caso contrário.
-     */
-    public boolean estaVazia() {
-        return raiz == null;
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    
+    @Override
+    public int getSize() {
+        return size;
+    }
+    
+    @Override
+    public Node<Key, Value> getRoot() {
+        return root;
     }
     
     // Assume que no está balanceado ou está sendo balanceado
-    private No<Tipo> balancear( No<Tipo> no ) {
+    private Node<Key, Value> balancear( Node<Key, Value> node ) {
         
-        if ( no == null ) {
-            return no;
+        if ( node == null ) {
+            return node;
         }
 
-        if ( altura( no.esquerda ) - altura( no.direita ) > DESBALANCEAMENTO_PERMITIDO ) {
-            if ( altura( no.esquerda.esquerda ) >= altura( no.esquerda.direita ) ) {
-                no = rotacionarComFilhoEsquerdo( no );
+        if ( height( (Node<Key, Value>) node.left ) - height( (Node<Key, Value>) node.right ) > DESBALANCEAMENTO_PERMITIDO ) {
+            if ( height( (Node<Key, Value>) (Node<Key, Value>) node.left.left ) >= height( (Node<Key, Value>) node.left.right ) ) {
+                node = rotacionarComFilhoEsquerdo( node );
             } else {
-                no = rotacionarDuploComFilhoEsquerdo( no );
+                node = rotacionarDuploComFilhoEsquerdo( node );
             }
-        } else if ( altura( no.direita ) - altura( no.esquerda ) > DESBALANCEAMENTO_PERMITIDO ) {
-            if ( altura( no.direita.direita ) >= altura( no.direita.esquerda ) ) {
-                no = rotacionarComFilhoDireito( no );
+        } else if ( height( (Node<Key, Value>) node.right ) - height( (Node<Key, Value>) node.left ) > DESBALANCEAMENTO_PERMITIDO ) {
+            if ( height( (Node<Key, Value>) node.right.right ) >= height( (Node<Key, Value>) node.right.left ) ) {
+                node = rotacionarComFilhoDireito( node );
             } else {
-                no = rotacionarDuploComFilhoDireito( no );
+                node = rotacionarDuploComFilhoDireito( node );
             }
         }
 
-        no.altura = Math.max( altura( no.esquerda ), altura( no.direita ) ) + 1;
+        node.height = Math.max( height( (Node<Key, Value>) node.left ), height( (Node<Key, Value>) node.right ) ) + 1;
         
-        return no;
+        return node;
         
     }
 
     public void verificarBalanceamento() {
-        verificarBalanceamento( raiz );
+        verificarBalanceamento( root );
     }
 
-    private int verificarBalanceamento( No<Tipo> no ) {
+    private int verificarBalanceamento( Node<Key, Value> node ) {
         
-        if ( no == null ) {
+        if ( node == null ) {
             return -1;
         }
 
-        if ( no != null ) {
+        if ( node != null ) {
             
-            int alturaEsquerda = verificarBalanceamento( no.esquerda );
-            int alturaDireita = verificarBalanceamento( no.direita );
+            int alturaEsquerda = verificarBalanceamento( (Node<Key, Value>) node.left );
+            int alturaDireita = verificarBalanceamento( (Node<Key, Value>) node.right );
             
-            if ( Math.abs( altura( no.esquerda ) - altura( no.direita ) ) > 1 || 
-                    altura( no.esquerda ) != alturaEsquerda || 
-                    altura( no.direita ) != alturaDireita ) {
+            if ( Math.abs( height( (Node<Key, Value>) node.left ) - height( (Node<Key, Value>) node.right ) ) > 1 || 
+                    height( (Node<Key, Value>) node.left ) != alturaEsquerda || 
+                    height( (Node<Key, Value>) node.right ) != alturaDireita ) {
                 System.out.println( "Desbalanceamento encontrado!" );
             }
             
         }
 
-        return altura( no );
+        return height( node );
         
     }
 
     /**
      * Retorna a altura de um no ou -1 caso no seja nulo.
      */
-    private int altura( No<Tipo> no ) {
-        return no == null ? -1 : no.altura;
+    private int height( Node<Key, Value> node ) {
+        return node == null ? -1 : node.height;
     }
 
     /**
@@ -333,12 +350,12 @@ public class AVLTree<Tipo extends Comparable<Tipo>> {
      * Rotacionada um nó com filho à esquerda. Para as árvores AVL, essa é a 
      * rotação simples do caso 1. Atualiza as alturas e retorna a nova raiz.
      */
-    private No<Tipo> rotacionarComFilhoEsquerdo( No<Tipo> a ) {
-        No<Tipo> b = a.esquerda;
-        a.esquerda = b.direita;
-        b.direita = a;
-        a.altura = Math.max( altura( a.esquerda ), altura( a.direita ) ) + 1;
-        b.altura = Math.max( altura( b.esquerda ), a.altura ) + 1;
+    private Node<Key, Value> rotacionarComFilhoEsquerdo( Node<Key, Value> a ) {
+        Node<Key, Value> b = (Node<Key, Value>) a.left;
+        a.left = b.right;
+        b.right = a;
+        a.height = Math.max( height( (Node<Key, Value>) a.left ), height( (Node<Key, Value>) a.right ) ) + 1;
+        b.height = Math.max( height( (Node<Key, Value>) b.left ), a.height ) + 1;
         return b;
     }
 
@@ -347,12 +364,12 @@ public class AVLTree<Tipo extends Comparable<Tipo>> {
      * Rotacionada um nó com filho à direita. Para as árvores AVL, essa é a 
      * rotação simples do caso 4. Atualiza as alturas e retorna a nova raiz.
      */
-    private No<Tipo> rotacionarComFilhoDireito( No<Tipo> a ) {
-        No<Tipo> b = a.direita;
-        a.direita = b.esquerda;
-        b.esquerda = a;
-        a.altura = Math.max( altura( a.esquerda ), altura( a.direita ) ) + 1;
-        b.altura = Math.max( altura( b.direita ), a.altura ) + 1;
+    private Node<Key, Value> rotacionarComFilhoDireito( Node<Key, Value> a ) {
+        Node<Key, Value> b = (Node<Key, Value>) a.right;
+        a.right = b.left;
+        b.left = a;
+        a.height = Math.max( height( (Node<Key, Value>) a.left ), height( (Node<Key, Value>) a.right ) ) + 1;
+        b.height = Math.max( height( (Node<Key, Value>) b.right ), a.height ) + 1;
         return b;
     }
 
@@ -365,8 +382,8 @@ public class AVLTree<Tipo extends Comparable<Tipo>> {
      * Para as árvores AVL, essa é a rotação dupla do caso 2.
      * Atualiza as alturas e retorna a nova raiz.
      */
-    private No<Tipo> rotacionarDuploComFilhoEsquerdo( No<Tipo> a ) {
-        a.esquerda = rotacionarComFilhoDireito( a.esquerda );
+    private Node<Key, Value> rotacionarDuploComFilhoEsquerdo( Node<Key, Value> a ) {
+        a.left = rotacionarComFilhoDireito( (Node<Key, Value>) a.left );
         return rotacionarComFilhoEsquerdo( a );
     }
 
@@ -379,11 +396,15 @@ public class AVLTree<Tipo extends Comparable<Tipo>> {
      * Para as árvores AVL, essa é a rotação dupla do caso 3.
      * Atualiza as alturas e retorna a nova raiz.
      */
-    private No<Tipo> rotacionarDuploComFilhoDireito( No<Tipo> a ) {
-        a.direita = rotacionarComFilhoEsquerdo( a.direita );
+    private Node<Key, Value> rotacionarDuploComFilhoDireito( Node<Key, Value> a ) {
+        a.right = rotacionarComFilhoEsquerdo( (Node<Key, Value>) a.right );
         return rotacionarComFilhoDireito( a );
     }
 
+    @Override
+    public Iterator<Tree.Entry<Key, Value>> iterator() {
+        return TreeTraversals.traverse( this, TraversalTypes.IN_ORDER ).iterator();
+    }
     
     /**
      * Cria uma representação em String da árvore.
@@ -394,147 +415,23 @@ public class AVLTree<Tipo extends Comparable<Tipo>> {
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !estaVazia() ) {
+        if ( !isEmpty() ) {
             
-            /*for ( Tipo valor : AVLTreeTraversals.percorrer( this, TraversalTypes.EM_ORDEM ) ) {
+            for ( Tree.Entry<Key, Value> e : TreeTraversals.traverse( this, TraversalTypes.IN_ORDER ) ) {
                 
-                if ( valor.equals( raiz.valor ) ) {
-                    sb.append( valor ).append( " <- raiz\n" );
+                if ( e.getKey().equals( root.key ) ) {
+                    sb.append( e ).append( " <- root\n" );
                 } else {
-                    sb.append( valor ).append( "\n" );
+                    sb.append( e ).append( "\n" );
                 }
                 
-            }*/
+            }
             
         } else {
-            sb.append( "árvore vazia!\n" );
+            sb.append( "empty tree!\n" );
         }
         
         return sb.toString();
-        
-    }
-    
-    /**
-     * Método para obter o nó da raiz.
-     * Não deveria existir, mas é necessário para o simulador.
-     * 
-     * @return Nó com a raiz da árvore.
-     */
-    public No<Tipo> getRaiz() {
-        return raiz;
-    }
-    
-    /**
-     * Testes da árvore.
-     * 
-     * @param args
-     */
-    public static void main( String[] args ) {
-        
-        AVLTree<Integer> aavl = new AVLTree<>();
-        
-        aavl.inserir( 6 );
-        System.out.println( aavl );
-        aavl.inserir( 8 );
-        System.out.println( aavl );
-        aavl.inserir( 7 );
-        System.out.println( aavl );
-        aavl.inserir( 4 );
-        System.out.println( aavl );
-        aavl.inserir( 5 );
-        System.out.println( aavl );
-        aavl.inserir( 9 );
-        System.out.println( aavl );
-        aavl.inserir( 3 );
-        System.out.println( aavl );
-        
-        System.out.println();
-        
-        System.out.println( "----- Percursos -----" );
-        System.out.print( "Pré-Ordem: " );
-        for ( Integer e : AVLTreeTraversals.percorrer( aavl, TraversalTypes.PRE_ORDEM ) ) {
-            System.out.print( e + " " );
-        }
-        System.out.println();
-        
-        System.out.print( "Em Ordem: " );
-        for ( Integer e : AVLTreeTraversals.percorrer( aavl, TraversalTypes.EM_ORDEM ) ) {
-            System.out.print( e + " " );
-        }
-        System.out.println();
-        
-        System.out.print( "Pós-Ordem: " );
-        for ( Integer e : AVLTreeTraversals.percorrer( aavl, TraversalTypes.POS_ORDEM ) ) {
-            System.out.print( e + " " );
-        }
-        System.out.println();
-        
-        System.out.print( "Em Nível: " );
-        for ( Integer e : AVLTreeTraversals.percorrer( aavl, TraversalTypes.EM_NIVEL ) ) {
-            System.out.print( e + " " );
-        }
-        System.out.println();
-        
-        System.out.print( "Pré-Ordem Inverso: " );
-        for ( Integer e : AVLTreeTraversals.percorrer( aavl, TraversalTypes.PRE_ORDEM_INVERSO ) ) {
-            System.out.print( e + " " );
-        }
-        System.out.println();
-        
-        System.out.print( "Em Ordem Inverso: " );
-        for ( Integer e : AVLTreeTraversals.percorrer( aavl, TraversalTypes.EM_ORDEM_INVERSO ) ) {
-            System.out.print( e + " " );
-        }
-        System.out.println();
-        
-        System.out.print( "Pós-Ordem Inverso: " );
-        for ( Integer e : AVLTreeTraversals.percorrer( aavl, TraversalTypes.POS_ORDEM_INVERSO ) ) {
-            System.out.print( e + " " );
-        }
-        System.out.println();
-        
-        System.out.print( "Em Nível Inverso: " );
-        for ( Integer e : AVLTreeTraversals.percorrer( aavl, TraversalTypes.EM_NIVEL_INVERSO ) ) {
-            System.out.print( e + " " );
-        }
-        System.out.println();
-        
-        // consultas
-        System.out.println( "\n----- Consultas -----" );
-        List<Integer> elementos = (List<Integer>) AVLTreeTraversals.percorrer( aavl, TraversalTypes.EM_ORDEM );
-        elementos.add( 15 );
-        elementos.add( 19 );
-        elementos.add( -4 );
-        Collections.shuffle( elementos );
-        for ( Integer e : elementos ) {
-            System.out.printf( "%4d está na lista? => %s\n", e,
-                    aavl.contem( e ) ? "SIM" : "NÃO" );
-        }
-        
-        System.out.println( "\n----- Remoção -----" );
-        System.out.println( aavl );
-        for ( Integer e : elementos ) {
-            System.out.printf( "Removendo o elemento %4d...\n", e );
-            aavl.remover( e );
-            System.out.println( aavl );
-        }
-        
-        // utilizando a árvore binária de busca anotada para testar os dados
-        aavl.inserir( 8 );
-        aavl.inserir( 4 );
-        aavl.inserir( 2 );
-        aavl.inserir( 1 );
-        aavl.inserir( 3 );
-        aavl.inserir( 6 );
-        aavl.inserir( 5 );
-        aavl.inserir( 7 );
-        aavl.inserir( 12 );
-        aavl.inserir( 10 );
-        aavl.inserir( 9 );
-        aavl.inserir( 11 );
-        aavl.inserir( 14 );
-        aavl.inserir( 13 );
-        aavl.inserir( 15 );
         
     }
 

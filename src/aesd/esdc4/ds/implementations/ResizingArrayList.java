@@ -141,6 +141,23 @@ public class ResizingArrayList<Item> implements List<Item> {
     }
 
     @Override
+    public void set( int index, Item item ) 
+            throws EmptyListException, ListIndexOutOfBoundsException {
+        
+        if ( isEmpty() ) {
+            throw new EmptyListException();
+        }
+        
+        if ( index < 0 || index >= size ) {
+            throw new ListIndexOutOfBoundsException( 
+                    "index must be between 0 and " + size + ", but it's " + index );
+        }
+        
+        items[index] = item;
+        
+    }
+    
+    @Override
     public Item remove( int index ) 
             throws ListIndexOutOfBoundsException, EmptyListException {
         

@@ -5,8 +5,6 @@
  */
 package aesd.esdc4.ds.implementations.working;
 
-import aesd.esdc4.algorithms.tree.RBTreeTraversals;
-import aesd.esdc4.algorithms.tree.TraversalTypes;
 import aesd.esdc4.ds.implementations.LinkedQueue;
 import aesd.esdc4.ds.interfaces.Queue;
 import java.util.NoSuchElementException;
@@ -1144,9 +1142,9 @@ public class RBTree<Tipo extends Comparable<Tipo>> {
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !estaVazia() ) {
+        /*if ( !estaVazia() ) {
             
-            for ( No<Tipo> no : RBTreeTraversals.percorrer( this, TraversalTypes.EM_ORDEM ) ) {
+            for ( No<Tipo> no : RBTreeTraversals.percorrer( this, TraversalTypes.IN_ORDER ) ) {
                 
                 if ( no == raiz ) {
                     sb.append( no ).append( " <- raiz\n" );
@@ -1158,7 +1156,7 @@ public class RBTree<Tipo extends Comparable<Tipo>> {
             
         } else {
             sb.append( "árvore vazia!\n" );
-        }
+        }*/
         
         return sb.toString();
         
@@ -1172,32 +1170,6 @@ public class RBTree<Tipo extends Comparable<Tipo>> {
      */
     public No<Tipo> getRaiz() {
         return raiz;
-    }
-    
-    /**
-     * Testes da árvore.
-     * 
-     * @param args
-     */
-    public static void main( String[] args ) {
-        
-        RBTree<Integer> avp = new RBTree<>();
-        
-        avp.inserir( 6 );
-        System.out.println( avp );
-        avp.inserir( 8 );
-        System.out.println( avp );
-        avp.inserir( 7 );
-        System.out.println( avp );
-        avp.inserir( 4 );
-        System.out.println( avp );
-        avp.inserir( 5 );
-        System.out.println( avp );
-        avp.inserir( 9 );
-        System.out.println( avp );
-        avp.inserir( 3 );
-        System.out.println( avp );
-        
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package aesd.esdc4.ds.interfaces;
 
+import aesd.esdc4.ds.exceptions.EmptyListException;
 import aesd.esdc4.ds.exceptions.ListIndexOutOfBoundsException;
 
 /**
@@ -36,7 +37,17 @@ public interface List<Item> extends Iterable<Item> {
      * @param index Índice em que o item está.
      * @return O item da lista.
      */
-    public Item get( int index ) throws ListIndexOutOfBoundsException;
+    public Item get( int index ) 
+            throws EmptyListException, ListIndexOutOfBoundsException;
+    
+    /**
+     * Altera o valor de um item da lista.
+     * 
+     * @param index Índice do item que será alterado.
+     * @return O novo valor do item da lista.
+     */
+    public void set( int index, Item item ) 
+            throws EmptyListException, ListIndexOutOfBoundsException;
     
     /**
      * Remove um item de uma posição da lista.
@@ -44,7 +55,8 @@ public interface List<Item> extends Iterable<Item> {
      * @param index Índice do item que será removido.
      * @return O item da lista.
      */
-    public Item remove( int index ) throws ListIndexOutOfBoundsException;
+    public Item remove( int index ) 
+            throws EmptyListException, ListIndexOutOfBoundsException;
     
     /**
      * Remove todos os elementos dessa lista.

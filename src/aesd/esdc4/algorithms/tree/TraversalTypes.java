@@ -12,12 +12,14 @@ package aesd.esdc4.algorithms.tree;
  * @author Prof. Dr. David Buzatto
  */
 public enum TraversalTypes {
-    PRE_ORDEM,
-    EM_ORDEM,
-    POS_ORDEM,
-    EM_NIVEL,
-    PRE_ORDEM_INVERSO,
-    EM_ORDEM_INVERSO,
-    POS_ORDEM_INVERSO,
-    EM_NIVEL_INVERSO;
+    
+    PRE_ORDER,
+    IN_ORDER,
+    POST_ORDER,
+    LEVEL_ORDER,
+    INVERSE_PRE_ORDER,
+    INVERSE_IN_ORDER,
+    INVERSE_POST_ORDER,
+    INVERSE_LEVEL_ORDER;
+    
 }

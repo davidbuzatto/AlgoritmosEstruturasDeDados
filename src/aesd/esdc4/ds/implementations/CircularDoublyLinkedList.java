@@ -177,8 +177,30 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
     }
 
     @Override
+    public void set( int index, Item item ) 
+            throws EmptyListException, ListIndexOutOfBoundsException {
+        
+        if ( isEmpty() ) {
+            throw new EmptyListException();
+        }
+        
+        if ( index < 0 || index >= size ) {
+            throw new ListIndexOutOfBoundsException( 
+                    "index must be between 0 and " + size + ", but it's " + index );
+        }
+        
+        Node<Item> current = start;
+        for ( int i = 0; i < index; i++ ) {
+            current = current.next;
+        }
+        
+        current.item = item;
+        
+    }
+    
+    @Override
     public Item remove( int index ) 
-            throws ListIndexOutOfBoundsException, EmptyListException {
+            throws EmptyListException, ListIndexOutOfBoundsException {
         
         if ( isEmpty() ) {
             throw new EmptyListException();
