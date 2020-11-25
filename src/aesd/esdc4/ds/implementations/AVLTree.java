@@ -14,9 +14,8 @@ import java.util.Iterator;
 /**
  * Implementação de uma árvore AVL.
  * 
- * Baseado no código de:
- *     WEISS, M. A. Data Structures and Algorithm Analysis in Java. 3. ed. 
- *     Pearson Education: New Jersey, 2012. 614 p.
+ * Implementação baseada na obra: WEISS, M. A. Data Structures and Algorithm
+ * Analysis in Java. 3. ed. Pearson Education: New Jersey, 2012. 614 p.
  * 
  * @author Prof. Dr. David Buzatto
  */
@@ -56,19 +55,21 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
     
     @Override
     public void put( Key key, Value value ) {
-        root = put( root, key, value );
+        root = (Node<Key, Value>) put( root, key, value );
     }
     
-    private Node<Key, Value> put( Node<Key, Value> node, Key key, Value value ) {
+    private Tree.Node<Key, Value> put( Tree.Node<Key, Value> node, Key key, Value value ) {
         
         if ( node == null ) {
             
-            node = new Node<>();
-            node.key = key;
-            node.value = value;
-            node.left = null;
-            node.right = null;
-            node.height = 0;
+            Node<Key, Value> avlNode = new Node<>();
+            avlNode.key = key;
+            avlNode.value = value;
+            avlNode.left = null;
+            avlNode.right = null;
+            avlNode.height = 0;
+            
+            node = avlNode;
             
             size++;
             
@@ -77,9 +78,9 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
         int comp = key.compareTo( node.key );
 
         if ( comp < 0 ) {
-            node.left = put( (Node<Key, Value>) node.left, key, value );
+            node.left = put( node.left, key, value );
         } else if ( comp > 0 ) {
-            node.right = put( (Node<Key, Value>) node.right, key, value );
+            node.right = put( node.right, key, value );
         }
 
         // não faz nada para duplicatas
@@ -93,11 +94,8 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
     public Value get( Key key ) throws KeyNotFoundException {
         return get( root, key );
     }
-
-    /*
-     * Método privado para a consulta recursiva.
-     */
-    private Value get( Node<Key, Value> node, Key key ) throws KeyNotFoundException {
+    
+    private Value get( Tree.Node<Key, Value> node, Key key ) throws KeyNotFoundException {
         
         if ( node != null ) {
             
@@ -106,9 +104,9 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
             if ( comp == 0 ) {
                 return node.value;
             } else if ( comp < 0 ) {
-                return get( (Node<Key, Value>) node.left, key );
+                return get( node.left, key );
             } else { // comparacao > 0
-                return get( (Node<Key, Value>) node.right, key );
+                return get( node.right, key );
             }
             
         }
@@ -118,32 +116,15 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
     }
     
     @Override
-    public boolean contains( Key key ) {
-        return contains( root, key );
-    }
-    
-    private boolean contains( Node<Key, Value> node, Key key ) {
-        
-        while ( node != null ) {
-            
-            int comparacao = key.compareTo( node.key );
-
-            if ( comparacao == 0 ) {
-                return true;
-            } else if ( comparacao < 0 ) {
-                return contains( (Node<Key, Value>) node.left, key );
-            } else { // comparacao > 0
-                return contains( (Node<Key, Value>) node.left, key );
-            }
-        }
-
-        return false;
-        
-    }
-    
-    @Override
     public void delete( Key key ) {
+        
+        if ( !contains( key ) ) {
+            return;
+        }
+        
         root = (Node<Key, Value>) delete( root, key );
+        size--;
+        
     }
 
     /**
@@ -153,7 +134,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
      * @param key elemento que será removido.
      * @return a nova raiz da subárvore.
      */
-    private Node<Key, Value> delete( Node<Key, Value> node, Key key ) {
+    private Tree.Node<Key, Value> delete( Tree.Node<Key, Value> node, Key key ) {
         
         if ( node == null ) {
             return node;   // não encontrado
@@ -162,17 +143,41 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
         int comp = key.compareTo( node.key );
 
         if ( comp < 0 ) {
-            node.left = delete( (Node<Key, Value>) node.left, key );
+            node.left = delete( node.left, key );
         } else if ( comp > 0 ) {
-            node.right = delete( (Node<Key, Value>) node.right, key );
+            node.right = delete( node.right, key );
         } else if ( node.left != null && node.right != null ) { // dois filhos
-            node.key = encontrarMinimo( (Node<Key, Value>) node.right ).key;
-            node.right = delete( (Node<Key, Value>) node.right, node.key );
+            node.key = encontrarMinimo( node.right ).key;
+            node.right = delete( node.right, node.key );
         } else {
-            node = ( (Node<Key, Value>) node.left != null ) ? (Node<Key, Value>) node.left : (Node<Key, Value>) node.right;
+            node = ( node.left != null ) ? node.left : node.right;
         }
         
         return balancear( node );
+        
+    }
+    
+    @Override
+    public boolean contains( Key key ) {
+        return contains( root, key );
+    }
+    
+    private boolean contains( Tree.Node<Key, Value> node, Key key ) {
+        
+        while ( node != null ) {
+            
+            int comparacao = key.compareTo( node.key );
+
+            if ( comparacao == 0 ) {
+                return true;
+            } else if ( comparacao < 0 ) {
+                return contains( node.left, key );
+            } else { // comparacao > 0
+                return contains( node.left, key );
+            }
+        }
+
+        return false;
         
     }
 
@@ -181,7 +186,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
      *
      * @return o menor item ou null caso a árvore esteja vazia.
      */
-    public Node<Key, Value> encontrarMinimo() {
+    public Tree.Node<Key, Value> encontrarMinimo() {
         
         if ( isEmpty() ) {
             return null;
@@ -197,14 +202,14 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
      * @param node raiz da subárvore
      * @return o nó que contém o menor item.
      */
-    private Node<Key, Value> encontrarMinimo( Node<Key, Value> node ) {
+    private Tree.Node<Key, Value> encontrarMinimo( Tree.Node<Key, Value> node ) {
         
         if ( node == null ) {
             return node;
         }
 
         while ( node.left != null ) {
-            node = (Node<Key, Value>) node.left;
+            node = node.left;
         }
         
         return node;
@@ -216,7 +221,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
      *
      * @return o maior item ou null caso a árvore esteja vazia.
      */
-    public Node<Key, Value> encontrarMaximo() {
+    public Tree.Node<Key, Value> encontrarMaximo() {
         
         if ( isEmpty() ) {
             return null;
@@ -232,14 +237,14 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
      * @param node raiz da subárvore
      * @return o nó que contém o maior item.
      */
-    private Node<Key, Value> encontrarMaximo( Node<Key, Value> node ) {
+    private Tree.Node<Key, Value> encontrarMaximo( Tree.Node<Key, Value> node ) {
         
         if ( node == null ) {
             return node;
         }
 
         while ( node.right != null ) {
-            node = (Node<Key, Value>) node.right;
+            node = node.right;
         }
         
         return node;
@@ -258,11 +263,11 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
     /*
      * Método privado para remoção de todos os itens de forma recursiva.
      */
-    private Node<Key, Value> clear( Node<Key, Value> node ) {
+    private Tree.Node<Key, Value> clear( Tree.Node<Key, Value> node ) {
 
         if ( node != null ) {
-            node.left = clear( (Node<Key, Value>) node.left );
-            node.right = clear( (Node<Key, Value>) node.right );
+            node.left = clear( node.left );
+            node.right = clear( node.right );
         }
 
         return null;
@@ -280,32 +285,32 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
     }
     
     @Override
-    public Node<Key, Value> getRoot() {
+    public Tree.Node<Key, Value> getRoot() {
         return root;
     }
     
     // Assume que no está balanceado ou está sendo balanceado
-    private Node<Key, Value> balancear( Node<Key, Value> node ) {
+    private Tree.Node<Key, Value> balancear( Tree.Node<Key, Value> node ) {
         
         if ( node == null ) {
             return node;
         }
 
-        if ( height( (Node<Key, Value>) node.left ) - height( (Node<Key, Value>) node.right ) > DESBALANCEAMENTO_PERMITIDO ) {
-            if ( height( (Node<Key, Value>) (Node<Key, Value>) node.left.left ) >= height( (Node<Key, Value>) node.left.right ) ) {
+        if ( height( node.left ) - height( node.right ) > DESBALANCEAMENTO_PERMITIDO ) {
+            if ( height( node.left.left ) >= height( node.left.right ) ) {
                 node = rotacionarComFilhoEsquerdo( node );
             } else {
                 node = rotacionarDuploComFilhoEsquerdo( node );
             }
-        } else if ( height( (Node<Key, Value>) node.right ) - height( (Node<Key, Value>) node.left ) > DESBALANCEAMENTO_PERMITIDO ) {
-            if ( height( (Node<Key, Value>) node.right.right ) >= height( (Node<Key, Value>) node.right.left ) ) {
+        } else if ( height( node.right ) - height( node.left ) > DESBALANCEAMENTO_PERMITIDO ) {
+            if ( height( node.right.right ) >= height( node.right.left ) ) {
                 node = rotacionarComFilhoDireito( node );
             } else {
                 node = rotacionarDuploComFilhoDireito( node );
             }
         }
 
-        node.height = Math.max( height( (Node<Key, Value>) node.left ), height( (Node<Key, Value>) node.right ) ) + 1;
+        ( (Node<Key, Value>) node ).height = Math.max( height( node.left ), height( node.right ) ) + 1;
         
         return node;
         
@@ -315,7 +320,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
         verificarBalanceamento( root );
     }
 
-    private int verificarBalanceamento( Node<Key, Value> node ) {
+    private int verificarBalanceamento( Tree.Node<Key, Value> node ) {
         
         if ( node == null ) {
             return -1;
@@ -323,12 +328,12 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
 
         if ( node != null ) {
             
-            int alturaEsquerda = verificarBalanceamento( (Node<Key, Value>) node.left );
-            int alturaDireita = verificarBalanceamento( (Node<Key, Value>) node.right );
+            int alturaEsquerda = verificarBalanceamento( node.left );
+            int alturaDireita = verificarBalanceamento( node.right );
             
-            if ( Math.abs( height( (Node<Key, Value>) node.left ) - height( (Node<Key, Value>) node.right ) ) > 1 || 
-                    height( (Node<Key, Value>) node.left ) != alturaEsquerda || 
-                    height( (Node<Key, Value>) node.right ) != alturaDireita ) {
+            if ( Math.abs( height( node.left ) - height( node.right ) ) > 1 || 
+                    height( node.left ) != alturaEsquerda || 
+                    height( node.right ) != alturaDireita ) {
                 System.out.println( "Desbalanceamento encontrado!" );
             }
             
@@ -341,8 +346,8 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
     /**
      * Retorna a altura de um no ou -1 caso no seja nulo.
      */
-    private int height( Node<Key, Value> node ) {
-        return node == null ? -1 : node.height;
+    private int height( Tree.Node<Key, Value> node ) {
+        return node == null ? -1 : ( (Node<Key, Value>) node ).height;
     }
 
     /**
@@ -350,13 +355,20 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
      * Rotacionada um nó com filho à esquerda. Para as árvores AVL, essa é a 
      * rotação simples do caso 1. Atualiza as alturas e retorna a nova raiz.
      */
-    private Node<Key, Value> rotacionarComFilhoEsquerdo( Node<Key, Value> a ) {
-        Node<Key, Value> b = (Node<Key, Value>) a.left;
+    private Tree.Node<Key, Value> rotacionarComFilhoEsquerdo( Tree.Node<Key, Value> a ) {
+        
+        Tree.Node<Key, Value> b = a.left;
         a.left = b.right;
         b.right = a;
-        a.height = Math.max( height( (Node<Key, Value>) a.left ), height( (Node<Key, Value>) a.right ) ) + 1;
-        b.height = Math.max( height( (Node<Key, Value>) b.left ), a.height ) + 1;
+        
+        Node<Key, Value> aAvl = (Node<Key, Value>) a;
+        Node<Key, Value> bAvl = (Node<Key, Value>) b;
+        
+        aAvl.height = Math.max( height( a.left ), height( a.right ) ) + 1;
+        bAvl.height = Math.max( height( b.left ), aAvl.height ) + 1;
+        
         return b;
+        
     }
 
     /**
@@ -364,13 +376,20 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
      * Rotacionada um nó com filho à direita. Para as árvores AVL, essa é a 
      * rotação simples do caso 4. Atualiza as alturas e retorna a nova raiz.
      */
-    private Node<Key, Value> rotacionarComFilhoDireito( Node<Key, Value> a ) {
-        Node<Key, Value> b = (Node<Key, Value>) a.right;
+    private Tree.Node<Key, Value> rotacionarComFilhoDireito( Tree.Node<Key, Value> a ) {
+        
+        Tree.Node<Key, Value> b = a.right;
         a.right = b.left;
         b.left = a;
-        a.height = Math.max( height( (Node<Key, Value>) a.left ), height( (Node<Key, Value>) a.right ) ) + 1;
-        b.height = Math.max( height( (Node<Key, Value>) b.right ), a.height ) + 1;
+        
+        Node<Key, Value> aAvl = (Node<Key, Value>) a;
+        Node<Key, Value> bAvl = (Node<Key, Value>) b;
+        
+        aAvl.height = Math.max( height( a.left ), height( a.right ) ) + 1;
+        bAvl.height = Math.max( height( b.right ), aAvl.height ) + 1;
+        
         return b;
+        
     }
 
     /**
@@ -382,8 +401,8 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
      * Para as árvores AVL, essa é a rotação dupla do caso 2.
      * Atualiza as alturas e retorna a nova raiz.
      */
-    private Node<Key, Value> rotacionarDuploComFilhoEsquerdo( Node<Key, Value> a ) {
-        a.left = rotacionarComFilhoDireito( (Node<Key, Value>) a.left );
+    private Tree.Node<Key, Value> rotacionarDuploComFilhoEsquerdo( Tree.Node<Key, Value> a ) {
+        a.left = rotacionarComFilhoDireito( a.left );
         return rotacionarComFilhoEsquerdo( a );
     }
 
@@ -396,20 +415,18 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements Tree<Key, Va
      * Para as árvores AVL, essa é a rotação dupla do caso 3.
      * Atualiza as alturas e retorna a nova raiz.
      */
-    private Node<Key, Value> rotacionarDuploComFilhoDireito( Node<Key, Value> a ) {
-        a.right = rotacionarComFilhoEsquerdo( (Node<Key, Value>) a.right );
+    private Tree.Node<Key, Value> rotacionarDuploComFilhoDireito( Tree.Node<Key, Value> a ) {
+        a.right = rotacionarComFilhoEsquerdo( a.right );
         return rotacionarComFilhoDireito( a );
     }
 
+    
     @Override
     public Iterator<Tree.Entry<Key, Value>> iterator() {
         return TreeTraversals.traverse( this, TraversalTypes.IN_ORDER ).iterator();
     }
     
-    /**
-     * Cria uma representação em String da árvore.
-     * Esta representação apresenta os elementos na ordem do percurso em ordem.
-     */
+    
     @Override
     public String toString() {
         

@@ -23,6 +23,9 @@ import aesd.esdc4.ds.interfaces.Tree;
  * teve como objetivo permitir que os detalhes estruturais da árvore possam ser
  * usados pela classe com os algoritmos de percursos (TreeTraversals).
  * 
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ * 4. ed. Boston: Pearson Education, 2011. 955 p.
+ * 
  * @author Prof. Dr. David Buzatto
  * @param <Key> Tipo das chaves que serão armazenadas na árvore.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na árvore.
