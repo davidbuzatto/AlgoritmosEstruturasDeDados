@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations.working;
+package aesd.esdc4.ds.implementations;
 
 import aesd.esdc4.algorithms.tree.TraversalTypes;
 import aesd.esdc4.algorithms.tree.TreeTraversals;

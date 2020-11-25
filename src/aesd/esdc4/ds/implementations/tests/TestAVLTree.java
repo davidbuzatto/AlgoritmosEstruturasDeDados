@@ -7,7 +7,7 @@ package aesd.esdc4.ds.implementations.tests;
 
 import aesd.esdc4.algorithms.tree.TraversalTypes;
 import aesd.esdc4.algorithms.tree.TreeTraversals;
-import aesd.esdc4.ds.implementations.working.AVLTree;
+import aesd.esdc4.ds.implementations.AVLTree;
 import aesd.esdc4.ds.interfaces.List;
 import aesd.esdc4.ds.interfaces.Tree;
 import aesd.esdc4.ds.utils.Utils;
