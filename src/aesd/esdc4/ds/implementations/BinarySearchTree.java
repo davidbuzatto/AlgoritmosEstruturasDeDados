@@ -8,9 +8,8 @@ package aesd.esdc4.ds.implementations;
 
 import aesd.esdc4.algorithms.tree.TraversalTypes;
 import aesd.esdc4.algorithms.tree.TreeTraversals;
-import aesd.esdc4.ds.exceptions.KeyNotFoundException;
 import java.util.Iterator;
-import aesd.esdc4.ds.interfaces.Tree;
+import aesd.esdc4.ds.interfaces.BinaryTree;
 
 /**
  * Implementação de uma árvore binária de busca fundamental (Binary Search Tree).
@@ -30,23 +29,32 @@ import aesd.esdc4.ds.interfaces.Tree;
  * @param <Key> Tipo das chaves que serão armazenadas na árvore.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na árvore.
  */
-public class BSTree<Key extends Comparable<Key>, Value> implements Tree<Key, Value> {
+public class BinarySearchTree<Key extends Comparable<Key>, Value> implements BinaryTree<Key, Value> {
 
     // raiz da árvore
-    protected Node<Key, Value> root;
+    private Node<Key, Value> root;
     
     // tamanho da árvore (quantidade de pares chave/valor)
-    protected int size;
+    private int size;
     
     /**
      * Constrói uma árvore binária de busca vazia.
      */
-    public BSTree() {
+    public BinarySearchTree() {
         root = null;   // redundante, apenas para mostrar o que acontece
     }
     
     @Override
-    public void put( Key key, Value value ) {
+    public void put( Key key, Value value ) throws IllegalArgumentException {
+        
+        if ( key == null ) {
+            throw new IllegalArgumentException( "first argument to put() is null" );
+        }
+        
+        if ( value == null ) {
+            delete( key );
+            return;
+        }
         
         /*
          * Algoritmo iterativo.
@@ -87,7 +95,8 @@ public class BSTree<Key extends Comparable<Key>, Value> implements Tree<Key, Val
                         temp = temp.right;
                     }
  
-                } else { // igual, não insere
+                } else { // igual, atualiza o valor
+                    temp.value = value;
                     break;
                 }
                 
@@ -127,6 +136,8 @@ public class BSTree<Key extends Comparable<Key>, Value> implements Tree<Key, Val
                 node.left = put( node.left, key, value );
             } else if ( comp > 0 ) {
                 node.right = put( node.right, key, value );
+            } else {
+                node.value = value;
             }
             
         }
@@ -136,79 +147,40 @@ public class BSTree<Key extends Comparable<Key>, Value> implements Tree<Key, Val
     }
     
     @Override
-    public Value get( Key key ) throws KeyNotFoundException {
-        
-        /*
-         * Algoritmo iterativo.
-         */
-        /*if ( !isEmpty() ) {
-
-            Node<Key, Value> temp = root;
-            int comp = 0;
-
-            while ( true ) {
-                
-                comp = key.compareTo( temp.key );
-                
-                if ( comp == 0 ) {
-                    return temp.value;
-                } else if ( comp < 0 ) {
-
-                    if ( temp.left == null ) {
-                        break;
-                    } else {
-                        temp = temp.left;
-                    }
-
-                } else { // comparacao > 0
-
-                    if ( temp.right == null ) {
-                        break;
-                    } else {
-                        temp = temp.right;
-                    }
-
-                }
-
-            }
-
+    public Value get( Key key ) throws IllegalArgumentException {
+        if ( key == null ) {
+            throw new IllegalArgumentException( "argument to get() is null" );
         }
-        
-        throw new KeyNotFoundException( key + " not found!" );*/
-        
-        /*
-         * Algoritmo recursivo.
-         */
         return get( root, key );
-        
     }
 
-    /*
-     * Método privado para a consulta recursiva.
-     */
-    private Value get( Node<Key, Value> node, Key key ) throws KeyNotFoundException {
+    private Value get( Node<Key, Value> node, Key key ) {
         
-        if ( node != null ) {
+        while ( node != null ) {
             
             int comp = key.compareTo( node.key );
             
-            if ( comp == 0 ) {
+            if ( comp < 0 ) {
+                node = node.left;
+            } else if ( comp > 0 ) {
+                node = node.right;
+            } else {
                 return node.value;
-            } else if ( comp < 0 ) {
-                return get( node.left, key );
-            } else { // comparacao > 0
-                return get( node.right, key );
             }
             
         }
 
-        throw new KeyNotFoundException( key + " not found!" );
+        return null;
 
     }
     
     @Override
-    public void delete( Key key ) {
+    public void delete( Key key ) throws IllegalArgumentException {
 
+        if ( key == null ) {
+            throw new IllegalArgumentException( "argument to delete() is null" );
+        }
+        
         /*
          * Algoritmo iterativo.
          */
@@ -415,79 +387,8 @@ public class BSTree<Key extends Comparable<Key>, Value> implements Tree<Key, Val
     }
     
     @Override
-    public boolean contains( Key key ) {
-        
-        /*
-         * Algoritmo iterativo.
-         */
-        /*boolean found = false;
-        
-        if ( !isEmpty() ) {
-
-            Node<Key, Value> temp = root;
-            int comp = 0;
-
-            while ( !found ) {
-                
-                comp = key.compareTo( temp.key );
-                
-                if ( comp == 0 ) {
-                    found = true;
-                    break;
-                } else if ( comp < 0 ) {
-
-                    if ( temp.left == null ) {
-                        found = false;
-                        break;
-                    } else {
-                        temp = temp.left;
-                    }
-
-                } else { // comparacao > 0
-
-                    if ( temp.right == null ) {
-                        found = false;
-                        break;
-                    } else {
-                        temp = temp.right;
-                    }
-
-                }
-
-            }
-
-        }
-        
-        return found;*/
-        
-        /*
-         * Algoritmo recursivo.
-         */
-        return contains( root, key );
-        
-    }
-
-    /*
-     * Método privado para a consulta recursiva.
-     */
-    private boolean contains( Node<Key, Value> node, Key key ) {
-        
-        if ( node != null ) {
-            
-            int comp = key.compareTo( node.key );
-            
-            if ( comp == 0 ) {
-                return true;
-            } else if ( comp < 0 ) {
-                return contains( node.left, key );
-            } else { // comparacao > 0
-                return contains( node.right, key );
-            }
-            
-        }
-
-        return false;
-
+    public boolean contains( Key key ) throws IllegalArgumentException {
+        return get( key ) != null;
     }
     
     @Override
@@ -521,13 +422,13 @@ public class BSTree<Key extends Comparable<Key>, Value> implements Tree<Key, Val
     }
     
     @Override
-    public Node<Key, Value> getRoot() {
-        return root;
+    public Iterable<Entry<Key, Value>> traverse( TraversalTypes type ) {
+        return TreeTraversals.traverse( root, type );
     }
     
     @Override
-    public Iterator<Tree.Entry<Key, Value>> iterator() {
-        return TreeTraversals.traverse( this, TraversalTypes.IN_ORDER ).iterator();
+    public Iterator<BinaryTree.Entry<Key, Value>> iterator() {
+        return traverse( TraversalTypes.IN_ORDER ).iterator();
     }
     
     /**
@@ -541,7 +442,7 @@ public class BSTree<Key extends Comparable<Key>, Value> implements Tree<Key, Val
         
         if ( !isEmpty() ) {
             
-            for ( Tree.Entry<Key, Value> e : TreeTraversals.traverse( this, TraversalTypes.IN_ORDER ) ) {
+            for ( BinaryTree.Entry<Key, Value> e : TreeTraversals.traverse( root, TraversalTypes.IN_ORDER ) ) {
                 
                 if ( e.getKey().equals( root.key ) ) {
                     sb.append( e ).append( " <- root\n" );

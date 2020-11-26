@@ -12,7 +12,7 @@ import aesd.esdc4.ds.implementations.ResizingArrayStack;
 import aesd.esdc4.ds.interfaces.List;
 import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;
-import aesd.esdc4.ds.interfaces.Tree;
+import aesd.esdc4.ds.interfaces.BinaryTree;
 
 /**
  * Implementação dos percursos das árvores binárias de busca.
@@ -22,43 +22,43 @@ import aesd.esdc4.ds.interfaces.Tree;
 public class TreeTraversals {
     
     /**
-     * Retorna uma lista contendo os ítens das árvores na ordem do percurso
+     * Retorna um iterável contendo os ítens das árvores na ordem do percurso
      * especificado.
      * 
      * @param <Key> Tipo da chave do par chave/valor da árvore
      * @param <Value> Tipo do valor do par chave/valor da árvore
-     * @param tree Árvore a ser percorrida
+     * @param node Árvore a ser percorrida
      * @param type Tipo do percurso
      * @return 
      */
-    public static <Key extends Comparable<Key>, Value> Iterable<Tree.Entry<Key, Value>> traverse( Tree<Key, Value> tree, TraversalTypes type ) {
+    public static <Key extends Comparable<Key>, Value> Iterable<BinaryTree.Entry<Key, Value>> traverse( BinaryTree.Node<Key, Value> node, TraversalTypes type ) {
         
-        List<Tree.Entry<Key, Value>> entries = new ResizingArrayList<>();
+        List<BinaryTree.Entry<Key, Value>> entries = new ResizingArrayList<>();
         
         switch ( type ) {
             case PRE_ORDER:
-                preOrder( tree.getRoot(), entries );
+                preOrder( node, entries );
                 break;
             case IN_ORDER:
-                inOrder( tree.getRoot(), entries );
+                inOrder( node, entries );
                 break;
             case POST_ORDER:
-                postOrder( tree.getRoot(), entries );
+                postOrder( node, entries );
                 break;
             case LEVEL_ORDER:
-                levelOrder( tree.getRoot(), entries );
+                levelOrder( node, entries );
                 break;
             case INVERSE_PRE_ORDER:
-                inversePreOrder( tree.getRoot(), entries );
+                inversePreOrder( node, entries );
                 break;
             case INVERSE_IN_ORDER:
-                inverseInOrder( tree.getRoot(), entries );
+                inverseInOrder( node, entries );
                 break;
             case INVERSE_POST_ORDER:
-                inversePostOrder( tree.getRoot(), entries );
+                inversePostOrder( node, entries );
                 break;
             case INVERSE_LEVEL_ORDER:
-                inverseLevelOrder( tree.getRoot(), entries );
+                inverseLevelOrder( node, entries );
                 break;
         }
         
@@ -70,47 +70,47 @@ public class TreeTraversals {
     /*
      * Métodos privados para os percursos.
      */
-    private static <Key extends Comparable<Key>, Value> void preOrder( Tree.Node<Key, Value> no, List<Tree.Entry<Key, Value>> entries ) {
+    private static <Key extends Comparable<Key>, Value> void preOrder( BinaryTree.Node<Key, Value> no, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( no != null ) {
-            entries.add( new Tree.Entry<Key, Value>( no.key, no.value ) );
+            entries.add( new BinaryTree.Entry<Key, Value>( no.key, no.value ) );
             preOrder( no.left, entries );
             preOrder( no.right, entries );
         }
         
     }
     
-    private static <Key extends Comparable<Key>, Value> void inOrder( Tree.Node<Key, Value> node, List<Tree.Entry<Key, Value>> entries ) {
+    private static <Key extends Comparable<Key>, Value> void inOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( node != null ) {
             inOrder( node.left, entries );
-            entries.add( new Tree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
             inOrder( node.right, entries );
         }
         
     }
     
-    private static <Key extends Comparable<Key>, Value> void postOrder( Tree.Node<Key, Value> node, List<Tree.Entry<Key, Value>> entries ) {
+    private static <Key extends Comparable<Key>, Value> void postOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( node != null ) {
             postOrder( node.left, entries );
             postOrder( node.right, entries );
-            entries.add( new Tree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
         }
         
     }
     
-    private static <Key extends Comparable<Key>, Value> void levelOrder( Tree.Node<Key, Value> node, List<Tree.Entry<Key, Value>> entries ) {
+    private static <Key extends Comparable<Key>, Value> void levelOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( node != null ) {
             
-            Queue<Tree.Node<Key, Value>> queue = new LinkedQueue<>();
+            Queue<BinaryTree.Node<Key, Value>> queue = new LinkedQueue<>();
             queue.enqueue( node );
 
             while ( !queue.isEmpty() ) {
 
-                Tree.Node<Key, Value> current = queue.dequeue();
-                entries.add( new Tree.Entry<Key, Value>( current.key, current.value ) );
+                BinaryTree.Node<Key, Value> current = queue.dequeue();
+                entries.add( new BinaryTree.Entry<Key, Value>( current.key, current.value ) );
 
                 if ( current.left != null ) {
                     queue.enqueue( current.left );
@@ -126,48 +126,48 @@ public class TreeTraversals {
         
     }
     
-    private static <Key extends Comparable<Key>, Value> void inversePreOrder( Tree.Node<Key, Value> node, List<Tree.Entry<Key, Value>> entries ) {
+    private static <Key extends Comparable<Key>, Value> void inversePreOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( node != null ) {
-            entries.add( new Tree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
             inversePreOrder( node.right, entries );
             inversePreOrder( node.left, entries );
         }
         
     }
     
-    private static <Key extends Comparable<Key>, Value> void inverseInOrder( Tree.Node<Key, Value> node, List<Tree.Entry<Key, Value>> entries ) {
+    private static <Key extends Comparable<Key>, Value> void inverseInOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( node != null ) {
             inverseInOrder( node.right, entries );
-            entries.add( new Tree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
             inverseInOrder( node.left, entries );
         }
         
     }
     
-    private static <Key extends Comparable<Key>, Value> void inversePostOrder( Tree.Node<Key, Value> node, List<Tree.Entry<Key, Value>> entries ) {
+    private static <Key extends Comparable<Key>, Value> void inversePostOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( node != null ) {
             inversePostOrder( node.right, entries );
             inversePostOrder( node.left, entries );
-            entries.add( new Tree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
         }
         
     }
     
-    private static <Key extends Comparable<Key>, Value> void inverseLevelOrder( Tree.Node<Key, Value> node, List<Tree.Entry<Key, Value>> entries ) {
+    private static <Key extends Comparable<Key>, Value> void inverseLevelOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( node != null ) {
             
-            Queue<Tree.Node<Key, Value>> queue = new LinkedQueue<>();
-            Stack<Tree.Entry<Key, Value>> stack = new ResizingArrayStack<>();
+            Queue<BinaryTree.Node<Key, Value>> queue = new LinkedQueue<>();
+            Stack<BinaryTree.Entry<Key, Value>> stack = new ResizingArrayStack<>();
             queue.enqueue( node );
 
             while ( !queue.isEmpty() ) {
 
-                Tree.Node<Key, Value> current = queue.dequeue();
-                stack.push( new Tree.Entry<Key, Value>( current.key, current.value ) );
+                BinaryTree.Node<Key, Value> current = queue.dequeue();
+                stack.push( new BinaryTree.Entry<Key, Value>( current.key, current.value ) );
 
                 if ( current.left != null ) {
                     queue.enqueue( current.left );

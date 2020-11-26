@@ -5,8 +5,6 @@
  */
 package aesd.esdc4.ds.interfaces;
 
-import aesd.esdc4.ds.exceptions.KeyNotFoundException;
-
 /**
  * Interface para implementação de tabelas de símbolos.
  * 
@@ -49,12 +47,14 @@ public interface SymbolTable<Key extends Comparable<Key>, Value> extends Iterabl
     }
     
     /**
-     * Insere um par chave/valor na árvore.
+     * Insere um par chave/valor na tabela de símbolos. Caso a chave já exista,
+     * sobrescreve o valor antigo. Caso o valor seja null, remove a chave da
+     * tabela.
      * 
      * @param key Chave usada na inserção.
      * @param value Valor associado à chave.
      */
-    public void put( Key key, Value value );
+    public void put( Key key, Value value ) throws IllegalArgumentException;
     
     /**
      * Obtém o valor associado à uma chave.
@@ -62,14 +62,14 @@ public interface SymbolTable<Key extends Comparable<Key>, Value> extends Iterabl
      * @param key Chave usada na busca.
      * @return O valor associado à chave.
      */
-    public Value get( Key key ) throws KeyNotFoundException;
+    public Value get( Key key ) throws IllegalArgumentException;
     
     /**
      * Remove uma chave seu valor associado da árvore.
      * 
      * @param key Chave usada na busca.
      */
-    public void delete( Key key );
+    public void delete( Key key ) throws IllegalArgumentException;
     
     /**
      * Verifica se uma chave está contida na árvore.
@@ -77,7 +77,7 @@ public interface SymbolTable<Key extends Comparable<Key>, Value> extends Iterabl
      * 
      * @return Verdadeiro, caso a chave exista na árvore, falso caso contrário.
      */
-    public boolean contains( Key key );
+    public boolean contains( Key key ) throws IllegalArgumentException;
     
     /**
      * Remove todos os elementos dessa árvore.
