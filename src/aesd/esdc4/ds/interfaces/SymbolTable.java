@@ -35,7 +35,6 @@ public interface SymbolTable<Key extends Comparable<Key>, Value> extends Iterabl
         }
 
         public Value getValue() {
-            
             return value;
         }
 

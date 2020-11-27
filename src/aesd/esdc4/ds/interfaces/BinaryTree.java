@@ -6,7 +6,6 @@
 package aesd.esdc4.ds.interfaces;
 
 import aesd.esdc4.algorithms.tree.TraversalTypes;
-import java.util.Iterator;
 
 /**
  * Interface para implementação de árvores binárias.
@@ -15,7 +14,7 @@ import java.util.Iterator;
  * @param <Key> Tipo das chaves que serão armazenadas na árvore binária.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na árvore binária.
  */
-public interface BinaryTree<Key extends Comparable<Key>, Value> extends SymbolTable<Key, Value>, Iterable<SymbolTable.Entry<Key, Value>> {
+public interface BinaryTree<Key extends Comparable<Key>, Value> extends SymbolTable<Key, Value> {
     
     /*
      * Classe interna estática que define a estrutura básica dos nós das árvores.

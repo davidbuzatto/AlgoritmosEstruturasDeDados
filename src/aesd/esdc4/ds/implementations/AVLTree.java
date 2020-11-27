@@ -41,7 +41,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
     private int size;
     
     // valor máximo na diferença de alturas de duas subárvores
-    private static final int ALLOWED_UNBALANCED = 1;
+    private static final int ALLOWED_UNBALANCE = 1;
     
     /**
      * Constrói uma Árvore AVL vazia.
@@ -257,13 +257,13 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
             return node;
         }
 
-        if ( height( node.left ) - height( node.right ) > ALLOWED_UNBALANCED ) {
+        if ( height( node.left ) - height( node.right ) > ALLOWED_UNBALANCE ) {
             if ( height( node.left.left ) >= height( node.left.right ) ) {
                 node = rotacionarComFilhoEsquerdo( node );
             } else {
                 node = rotacionarDuploComFilhoEsquerdo( node );
             }
-        } else if ( height( node.right ) - height( node.left ) > ALLOWED_UNBALANCED ) {
+        } else if ( height( node.right ) - height( node.left ) > ALLOWED_UNBALANCE ) {
             if ( height( node.right.right ) >= height( node.right.left ) ) {
                 node = rotacionarComFilhoDireito( node );
             } else {
