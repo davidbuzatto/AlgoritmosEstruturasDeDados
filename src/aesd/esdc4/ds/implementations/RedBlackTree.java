@@ -9,6 +9,7 @@ import aesd.esdc4.algorithms.tree.TraversalTypes;
 import aesd.esdc4.algorithms.tree.TreeTraversals;
 import java.util.Iterator;
 import aesd.esdc4.ds.interfaces.BinaryTree;
+import aesd.esdc4.ds.interfaces.Queue;
 
 /**
  * Implementação de uma árvore vermelho-preto (Red Black Tree).
@@ -23,7 +24,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     /*
      * Classe interna estática que define os nós da árvore vermelho-preto.
      */
-    private static class Node<Key extends Comparable<Key>, Value> extends BinaryTree.Node<Key, Value> {
+    private static class RBNode<Key extends Comparable<Key>, Value> extends BinaryTree.Node<Key, Value> {
         
         public NodeColor color;
         public int size;
@@ -44,7 +45,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     }
 
     // raiz da árvore
-    private Node<Key, Value> root;
+    private RBNode<Key, Value> root;
     
     /**
      * Constrói uma Árvore vermelho-preto vazia.
@@ -63,7 +64,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
         if ( node == null ) {
             return false;
         }
-        return ( ( Node<Key, Value>) node ).color == NodeColor.RED;
+        return ( ( RBNode<Key, Value>) node ).color == NodeColor.RED;
     }
 
     /**
@@ -77,7 +78,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
         if ( node == null ) {
             return 0;
         }
-        return ( (Node<Key, Value>) node ).size;
+        return ( (RBNode<Key, Value>) node ).size;
     }
     
     @Override
@@ -97,7 +98,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
             return;
         }
         
-        root = (Node<Key, Value>) put( root, key, value );
+        root = (RBNode<Key, Value>) put( root, key, value );
         root.color = NodeColor.BLACK;
         
     }
@@ -106,7 +107,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
         
         if ( node == null ) {
             
-            RedBlackTree.Node<Key, Value> rbNode = new RedBlackTree.Node<>();
+            RBNode<Key, Value> rbNode = new RBNode<>();
             rbNode.key = key;
             rbNode.value = value;
             rbNode.left = null;
@@ -141,7 +142,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
             flipColors( node );
         }
 
-        ( (Node<Key, Value>) node ).size = nodeSize( node.left ) + nodeSize( node.right ) + 1;
+        ( (RBNode<Key, Value>) node ).size = nodeSize( node.left ) + nodeSize( node.right ) + 1;
 
         return node;
         
@@ -191,7 +192,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
             root.color = NodeColor.RED;
         }
 
-        root = (Node<Key, Value>) delete( root, key );
+        root = (RBNode<Key, Value>) delete( root, key );
         if ( !isEmpty() ) {
             root.color = NodeColor.BLACK;
         }
@@ -266,15 +267,15 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
      */
     private BinaryTree.Node<Key, Value> rotateRight( BinaryTree.Node<Key, Value> node ) {
         
-        Node<Key, Value> newRoot = (Node<Key, Value>) node.left;
+        RBNode<Key, Value> newRoot = (RBNode<Key, Value>) node.left;
         node.left = newRoot.right;
         
         newRoot.right = node;
-        newRoot.color = ( ( Node<Key, Value> ) newRoot.right ).color;
-        ( ( Node<Key, Value> ) newRoot.right ).color = NodeColor.RED;
-        newRoot.size = ( ( Node<Key, Value> ) node ).size;
+        newRoot.color = ( ( RBNode<Key, Value> ) newRoot.right ).color;
+        ( ( RBNode<Key, Value> ) newRoot.right ).color = NodeColor.RED;
+        newRoot.size = ( ( RBNode<Key, Value> ) node ).size;
         
-        ( ( Node<Key, Value> ) node ).size = nodeSize( node.left ) + nodeSize( node.right ) + 1;
+        ( ( RBNode<Key, Value> ) node ).size = nodeSize( node.left ) + nodeSize( node.right ) + 1;
         
         return newRoot;
         
@@ -288,15 +289,15 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
      */
     private BinaryTree.Node<Key, Value> rotateLeft( BinaryTree.Node<Key, Value> node ) {
         
-        Node<Key, Value> newRoot = (Node<Key, Value>) node.right;
+        RBNode<Key, Value> newRoot = (RBNode<Key, Value>) node.right;
         node.right = newRoot.left;
         
         newRoot.left = node;
-        newRoot.color = ( ( Node<Key, Value> ) newRoot.left ).color;
-        ( ( Node<Key, Value> ) newRoot.left ).color = NodeColor.RED;
-        newRoot.size = ( ( Node<Key, Value> ) node ).size;
+        newRoot.color = ( ( RBNode<Key, Value> ) newRoot.left ).color;
+        ( ( RBNode<Key, Value> ) newRoot.left ).color = NodeColor.RED;
+        newRoot.size = ( ( RBNode<Key, Value> ) node ).size;
         
-        ( ( Node<Key, Value> ) node ).size = nodeSize( node.left ) + nodeSize( node.right ) + 1;
+        ( ( RBNode<Key, Value> ) node ).size = nodeSize( node.left ) + nodeSize( node.right ) + 1;
         
         return newRoot;
         
@@ -309,9 +310,9 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
      */
     private void flipColors( BinaryTree.Node<Key, Value> node ) {
         
-        Node<Key, Value> rbNode = (Node<Key, Value>) node;
-        Node<Key, Value> rbNodeLeft = (Node<Key, Value>) node.left;
-        Node<Key, Value> rbNodeRight = (Node<Key, Value>) node.right;
+        RBNode<Key, Value> rbNode = (RBNode<Key, Value>) node;
+        RBNode<Key, Value> rbNodeLeft = (RBNode<Key, Value>) node.left;
+        RBNode<Key, Value> rbNodeRight = (RBNode<Key, Value>) node.right;
         
         rbNode.color           = rbNode.color == NodeColor.RED ? NodeColor.BLACK : NodeColor.RED;
         rbNodeLeft.color   = rbNodeLeft.color == NodeColor.RED ? NodeColor.BLACK : NodeColor.RED;
@@ -380,7 +381,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
             flipColors( node );
         }
 
-        ( (Node<Key, Value>) node ).size = nodeSize( node.left ) + nodeSize( node.right ) + 1;
+        ( (RBNode<Key, Value>) node ).size = nodeSize( node.left ) + nodeSize( node.right ) + 1;
         
         return node;
         
@@ -398,7 +399,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     
     @Override
     public void clear() {
-        root = (Node<Key, Value>) clear( root );
+        root = (RBNode<Key, Value>) clear( root );
     }
 
     private BinaryTree.Node<Key, Value> clear( BinaryTree.Node<Key, Value> node ) {
@@ -425,6 +426,15 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     @Override
     public Iterator<BinaryTree.Entry<Key, Value>> iterator() {
         return traverse( TraversalTypes.IN_ORDER ).iterator();
+    }
+    
+    @Override
+    public Iterable<Key> getKeys() {
+        Queue<Key> keys = new LinkedQueue<>();
+        for ( BinaryTree.Entry<Key, Value> e : traverse( TraversalTypes.IN_ORDER ) ) {
+            keys.enqueue( e.getKey() );
+        }
+        return keys;
     }
     
     @Override

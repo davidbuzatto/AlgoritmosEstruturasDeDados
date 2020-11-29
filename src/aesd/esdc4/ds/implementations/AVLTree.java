@@ -9,9 +9,10 @@ import aesd.esdc4.algorithms.tree.TraversalTypes;
 import aesd.esdc4.algorithms.tree.TreeTraversals;
 import java.util.Iterator;
 import aesd.esdc4.ds.interfaces.BinaryTree;
+import aesd.esdc4.ds.interfaces.Queue;
 
 /**
- * Implementação de uma árvore AVL (Adelson-Velsky and Landis).
+ * Implementação de uma árvore AVL (Adelson-Velsky e Landis).
  * 
  * Implementação baseada na obra: WEISS, M. A. Data Structures and Algorithm
  * Analysis in Java. 3. ed. Pearson Education: New Jersey, 2012. 614 p.
@@ -23,7 +24,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
     /*
      * Classe interna estática que define os nós da árvore AVL.
      */
-    private static class Node<Key extends Comparable<Key>, Value> extends BinaryTree.Node<Key, Value> {
+    private static class AVLNode<Key extends Comparable<Key>, Value> extends BinaryTree.Node<Key, Value> {
         
         public int height;
         
@@ -35,13 +36,13 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
     }
     
     // raiz da árvore
-    private Node<Key, Value> root;
+    private AVLNode<Key, Value> root;
     
     // tamanho da árvore (quantidade de pares chave/valor)
     private int size;
     
     // valor máximo na diferença de alturas de duas subárvores
-    private static final int ALLOWED_UNBALANCE = 1;
+    private static final int ALLOWED_IMBALANCE = 1;
     
     /**
      * Constrói uma Árvore AVL vazia.
@@ -62,7 +63,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
             return;
         }
         
-        root = (Node<Key, Value>) put( root, key, value );
+        root = (AVLNode<Key, Value>) put( root, key, value );
         
     }
     
@@ -70,7 +71,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
         
         if ( node == null ) {
             
-            Node<Key, Value> avlNode = new Node<>();
+            AVLNode<Key, Value> avlNode = new AVLNode<>();
             avlNode.key = key;
             avlNode.value = value;
             avlNode.left = null;
@@ -137,7 +138,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
             return;
         }
         
-        root = (Node<Key, Value>) delete( root, key );
+        root = (AVLNode<Key, Value>) delete( root, key );
         size--;
         
     }
@@ -223,7 +224,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      */
     @Override
     public void clear() {
-        root = (Node<Key, Value>) clear( root );
+        root = (AVLNode<Key, Value>) clear( root );
         size = 0;
     }
 
@@ -257,46 +258,23 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
             return node;
         }
 
-        if ( height( node.left ) - height( node.right ) > ALLOWED_UNBALANCE ) {
+        if ( height( node.left ) - height( node.right ) > ALLOWED_IMBALANCE ) {
             if ( height( node.left.left ) >= height( node.left.right ) ) {
-                node = rotacionarComFilhoEsquerdo( node );
+                node = rotateWithLeftChild( node );
             } else {
-                node = rotacionarDuploComFilhoEsquerdo( node );
+                node = doubleWithLeftChild( node );
             }
-        } else if ( height( node.right ) - height( node.left ) > ALLOWED_UNBALANCE ) {
+        } else if ( height( node.right ) - height( node.left ) > ALLOWED_IMBALANCE ) {
             if ( height( node.right.right ) >= height( node.right.left ) ) {
-                node = rotacionarComFilhoDireito( node );
+                node = rotateWithRightChild( node );
             } else {
-                node = rotacionarDuploComFilhoDireito( node );
+                node = doubleWithRightChild( node );
             }
         }
 
-        ( (Node<Key, Value>) node ).height = Math.max( height( node.left ), height( node.right ) ) + 1;
+        ( (AVLNode<Key, Value>) node ).height = Math.max( height( node.left ), height( node.right ) ) + 1;
         
         return node;
-        
-    }
-
-    public void verify() {
-        verify( root );
-    }
-
-    private int verify( BinaryTree.Node<Key, Value> node ) {
-        
-        if ( node == null ) {
-            return -1;
-        }
-
-        int leftHeight = verify( node.left );
-        int rightHeight = verify( node.right );
-
-        if ( Math.abs( height( node.left ) - height( node.right ) ) > 1 || 
-                height( node.left ) != leftHeight || 
-                height( node.right ) != rightHeight ) {
-            System.out.println( "Desbalanceamento encontrado!" );
-        }
-
-        return height( node );
         
     }
 
@@ -304,7 +282,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      * Retorna a altura de um no ou -1 caso no seja nulo.
      */
     private int height( BinaryTree.Node<Key, Value> node ) {
-        return node == null ? -1 : ( (Node<Key, Value>) node ).height;
+        return node == null ? -1 : ( (AVLNode<Key, Value>) node ).height;
     }
 
     /**
@@ -312,19 +290,19 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      * Rotacionada um nó com filho à esquerda. Para as árvores AVL, essa é a 
      * rotação simples do caso 1. Atualiza as alturas e retorna a nova raiz.
      */
-    private BinaryTree.Node<Key, Value> rotacionarComFilhoEsquerdo( BinaryTree.Node<Key, Value> a ) {
+    private BinaryTree.Node<Key, Value> rotateWithLeftChild( BinaryTree.Node<Key, Value> k2 ) {
         
-        BinaryTree.Node<Key, Value> b = a.left;
-        a.left = b.right;
-        b.right = a;
+        BinaryTree.Node<Key, Value> k1 = k2.left;
+        k2.left = k1.right;
+        k1.right = k2;
         
-        Node<Key, Value> aAvl = (Node<Key, Value>) a;
-        Node<Key, Value> bAvl = (Node<Key, Value>) b;
+        AVLNode<Key, Value> k1Avl = (AVLNode<Key, Value>) k1;
+        AVLNode<Key, Value> k2Avl = (AVLNode<Key, Value>) k2;
         
-        aAvl.height = Math.max( height( a.left ), height( a.right ) ) + 1;
-        bAvl.height = Math.max( height( b.left ), aAvl.height ) + 1;
+        k2Avl.height = Math.max( height( k2.left ), height( k2.right ) ) + 1;
+        k1Avl.height = Math.max( height( k1.left ), k2Avl.height ) + 1;
         
-        return b;
+        return k1;
         
     }
 
@@ -333,19 +311,19 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      * Rotacionada um nó com filho à direita. Para as árvores AVL, essa é a 
      * rotação simples do caso 4. Atualiza as alturas e retorna a nova raiz.
      */
-    private BinaryTree.Node<Key, Value> rotacionarComFilhoDireito( BinaryTree.Node<Key, Value> a ) {
+    private BinaryTree.Node<Key, Value> rotateWithRightChild( BinaryTree.Node<Key, Value> k1 ) {
         
-        BinaryTree.Node<Key, Value> b = a.right;
-        a.right = b.left;
-        b.left = a;
+        BinaryTree.Node<Key, Value> k2 = k1.right;
+        k1.right = k2.left;
+        k2.left = k1;
         
-        Node<Key, Value> aAvl = (Node<Key, Value>) a;
-        Node<Key, Value> bAvl = (Node<Key, Value>) b;
+        AVLNode<Key, Value> k1Avl = (AVLNode<Key, Value>) k1;
+        AVLNode<Key, Value> k2Avl = (AVLNode<Key, Value>) k2;
         
-        aAvl.height = Math.max( height( a.left ), height( a.right ) ) + 1;
-        bAvl.height = Math.max( height( b.right ), aAvl.height ) + 1;
+        k1Avl.height = Math.max( height( k1.left ), height( k1.right ) ) + 1;
+        k2Avl.height = Math.max( height( k2.right ), k1Avl.height ) + 1;
         
-        return b;
+        return k2;
         
     }
 
@@ -358,9 +336,9 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      * Para as árvores AVL, essa é a rotação dupla do caso 2.
      * Atualiza as alturas e retorna a nova raiz.
      */
-    private BinaryTree.Node<Key, Value> rotacionarDuploComFilhoEsquerdo( BinaryTree.Node<Key, Value> a ) {
-        a.left = rotacionarComFilhoDireito( a.left );
-        return rotacionarComFilhoEsquerdo( a );
+    private BinaryTree.Node<Key, Value> doubleWithLeftChild( BinaryTree.Node<Key, Value> k3 ) {
+        k3.left = rotateWithRightChild( k3.left );
+        return rotateWithLeftChild( k3 );
     }
 
     /**
@@ -372,11 +350,10 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      * Para as árvores AVL, essa é a rotação dupla do caso 3.
      * Atualiza as alturas e retorna a nova raiz.
      */
-    private BinaryTree.Node<Key, Value> rotacionarDuploComFilhoDireito( BinaryTree.Node<Key, Value> a ) {
-        a.right = rotacionarComFilhoEsquerdo( a.right );
-        return rotacionarComFilhoDireito( a );
+    private BinaryTree.Node<Key, Value> doubleWithRightChild( BinaryTree.Node<Key, Value> k3 ) {
+        k3.right = rotateWithLeftChild( k3.right );
+        return rotateWithRightChild( k3 );
     }
-
     
     @Override
     public Iterable<Entry<Key, Value>> traverse( TraversalTypes type ) {
@@ -388,6 +365,14 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
         return traverse( TraversalTypes.IN_ORDER ).iterator();
     }
     
+    @Override
+    public Iterable<Key> getKeys() {
+        Queue<Key> keys = new LinkedQueue<>();
+        for ( BinaryTree.Entry<Key, Value> e : traverse( TraversalTypes.IN_ORDER ) ) {
+            keys.enqueue( e.getKey() );
+        }
+        return keys;
+    }
     
     @Override
     public String toString() {

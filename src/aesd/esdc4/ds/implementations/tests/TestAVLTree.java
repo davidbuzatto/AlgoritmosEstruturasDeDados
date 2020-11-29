@@ -7,6 +7,7 @@ package aesd.esdc4.ds.implementations.tests;
 
 import aesd.esdc4.algorithms.tree.TraversalTypes;
 import aesd.esdc4.ds.implementations.AVLTree;
+import aesd.esdc4.ds.implementations.ResizingArrayList;
 import aesd.esdc4.ds.interfaces.List;
 import aesd.esdc4.ds.utils.Utils;
 import aesd.esdc4.ds.interfaces.BinaryTree;
@@ -102,7 +103,10 @@ public class TestAVLTree {
         
         // consultas
         System.out.println( "\n----- Consultas -----" );
-        List<BinaryTree.Entry<Integer, String>> elementos = (List<BinaryTree.Entry<Integer, String>>) aavl.traverse( TraversalTypes.IN_ORDER );
+        List<BinaryTree.Entry<Integer, String>> elementos = new ResizingArrayList<>();
+        for ( BinaryTree.Entry<Integer, String> e : aavl.traverse( TraversalTypes.IN_ORDER ) ) {
+            elementos.add( e );
+        }
         elementos.add(new BinaryTree.Entry<>( 15, "Snoopy" ) );
         elementos.add(new BinaryTree.Entry<>( 19, "Papai Noel" ) );
         elementos.add(new BinaryTree.Entry<>( -4, "Garfield" ) );

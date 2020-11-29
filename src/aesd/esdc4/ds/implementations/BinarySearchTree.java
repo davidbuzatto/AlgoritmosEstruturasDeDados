@@ -10,6 +10,7 @@ import aesd.esdc4.algorithms.tree.TraversalTypes;
 import aesd.esdc4.algorithms.tree.TreeTraversals;
 import java.util.Iterator;
 import aesd.esdc4.ds.interfaces.BinaryTree;
+import aesd.esdc4.ds.interfaces.Queue;
 
 /**
  * Implementação de uma árvore binária de busca fundamental (Binary Search Tree).
@@ -429,6 +430,15 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
     @Override
     public Iterator<BinaryTree.Entry<Key, Value>> iterator() {
         return traverse( TraversalTypes.IN_ORDER ).iterator();
+    }
+    
+    @Override
+    public Iterable<Key> getKeys() {
+        Queue<Key> keys = new LinkedQueue<>();
+        for ( BinaryTree.Entry<Key, Value> e : traverse( TraversalTypes.IN_ORDER ) ) {
+            keys.enqueue( e.getKey() );
+        }
+        return keys;
     }
     
     /**

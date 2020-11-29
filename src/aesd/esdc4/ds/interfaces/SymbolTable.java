@@ -12,7 +12,7 @@ package aesd.esdc4.ds.interfaces;
  * @param <Key> Tipo das chaves que serão armazenadas na tabela.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na tabela.
  */
-public interface SymbolTable<Key extends Comparable<Key>, Value> extends Iterable<SymbolTable.Entry<Key, Value>>  {
+public interface SymbolTable<Key, Value> extends Iterable<SymbolTable.Entry<Key, Value>>  {
     
     /**
      * A classe Entry representa um par chave/valor da tabela de símbolos.
@@ -20,7 +20,7 @@ public interface SymbolTable<Key extends Comparable<Key>, Value> extends Iterabl
      * @param <Key> Tipo da chave.
      * @param <Value> Tipo do valor.
      */
-    public static class Entry<Key extends Comparable<Key>, Value> {
+    public static class Entry<Key, Value> {
         
         private Key key;
         private Value value;
@@ -64,17 +64,17 @@ public interface SymbolTable<Key extends Comparable<Key>, Value> extends Iterabl
     public Value get( Key key ) throws IllegalArgumentException;
     
     /**
-     * Remove uma chave seu valor associado da árvore.
+     * Remove uma chave seu valor associado da tabela de símbolos.
      * 
      * @param key Chave usada na busca.
      */
     public void delete( Key key ) throws IllegalArgumentException;
     
     /**
-     * Verifica se uma chave está contida na árvore.
+     * Verifica se uma chave está contida na tabela de símbolos.
      * @param key Chave usada na busca.
      * 
-     * @return Verdadeiro, caso a chave exista na árvore, falso caso contrário.
+     * @return Verdadeiro, caso a chave exista na tabela de símbolos, falso caso contrário.
      */
     public boolean contains( Key key ) throws IllegalArgumentException;
     
@@ -84,17 +84,24 @@ public interface SymbolTable<Key extends Comparable<Key>, Value> extends Iterabl
     public void clear();
     
     /**
-     * Verifica se a árvore está vazia.
+     * Verifica se a tabela de símbolos está vazia.
      * 
-     * @return Verdadeiro, caso a lista esteja vazia, falso caso contrário.
+     * @return Verdadeiro, caso a tabela de símbolos esteja vazia, falso caso contrário.
      */
     public boolean isEmpty();
     
     /**
-     * Retorna a quantidade de pares chave/valor contidos na árvore.
+     * Retorna a quantidade de pares chave/valor contidos na tabela de símbolos.
      * 
      * @return A quantidade de pares chave/valor.
      */
     public int getSize();
+    
+    /**
+     * Retorna todas as chaves contidas na tabela de símbolos.
+     * 
+     * @return As chaves contidas na tabela de símbolos.
+     */
+    public Iterable<Key> getKeys();
     
 }
