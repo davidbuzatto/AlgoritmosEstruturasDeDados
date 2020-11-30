@@ -9,30 +9,30 @@ package aesd.esdc4.ds.interfaces;
  * Interface para implementação de pilhas.
  * 
  * @author Prof. Dr. David Buzatto
- * @param <Item> Tipo do itens que serão armazenados na pilha.
+ * @param <Type> Tipo do valores que serão armazenados na pilha.
  */
-public interface Stack<Item> extends Iterable<Item> {
+public interface Stack<Type> extends Iterable<Type> {
     
     /**
-     * Empilha um item na pilha.
+     * Empilha um valor na pilha.
      * 
-     * @param item Item a ser empilhado.
+     * @param value Valor a ser empilhado.
      */
-    public void push( Item item );
+    public void push( Type value );
     
     /**
-     * Verifica qual o item está no topo da pilha, sem removê-lo.
+     * Verifica qual o valor está no topo da pilha, sem removê-lo.
      * 
-     * @return O item do topo da pilha.
+     * @return O valor do topo da pilha.
      */
-    public Item peek();
+    public Type peek();
     
     /**
-     * Desempilha um item da pilha.
+     * Desempilha um valor da pilha.
      * 
-     * @return O item do topo da pilha.
+     * @return O valor do topo da pilha.
      */
-    public Item pop();
+    public Type pop();
     
     /**
      * Remove todos os elementos dessa pilha.
@@ -47,9 +47,9 @@ public interface Stack<Item> extends Iterable<Item> {
     public boolean isEmpty();
     
     /**
-     * Retorna a quantidade de itens da pilha.
+     * Retorna a quantidade de valores da pilha.
      * 
-     * @return A quantidade de itens.
+     * @return A quantidade de valores.
      */
     public int getSize();
     

@@ -10,51 +10,51 @@ package aesd.esdc4.ds.interfaces;
  * duplo).
  * 
  * @author Prof. Dr. David Buzatto
- * @param <Item> Tipo do itens que serão armazenados na deque.
+ * @param <Type> Tipo do valores que serão armazenados na deque.
  */
-public interface Deque<Item> extends Iterable<Item> {
+public interface Deque<Type> extends Iterable<Type> {
     
     /**
-     * Insere um item no início da deque.
+     * Insere um valor no início da deque.
      * 
-     * @param item Item a ser inserido no início.
+     * @param value Valor a ser inserido no início.
      */
-    public void addFirst( Item item );
+    public void addFirst( Type value );
     
     /**
-     * Insere um item no fim da deque.
+     * Insere um valor no fim da deque.
      * 
-     * @param item Item a ser inserido no fim.
+     * @param value Valor a ser inserido no fim.
      */
-    public void addLast( Item item );
+    public void addLast( Type value );
     
     /**
-     * Verifica qual o item está no início da deque, sem removê-lo.
+     * Verifica qual o valor está no início da deque, sem removê-lo.
      * 
-     * @return O item do início da deque.
+     * @return O valor do início da deque.
      */
-    public Item peekFirst();
+    public Type peekFirst();
     
     /**
-     * Verifica qual o item está no fim da deque, sem removê-lo.
+     * Verifica qual o valor está no fim da deque, sem removê-lo.
      * 
-     * @return O item do fim da deque.
+     * @return O valor do fim da deque.
      */
-    public Item peekLast();
+    public Type peekLast();
     
     /**
-     * Remove um item do início da deque.
+     * Remove um valor do início da deque.
      * 
-     * @return O item do início da deque.
+     * @return O valor do início da deque.
      */
-    public Item removeFirst();
+    public Type removeFirst();
     
     /**
-     * Remove um item do fim da deque.
+     * Remove um valor do fim da deque.
      * 
-     * @return O item do fim da deque.
+     * @return O valor do fim da deque.
      */
-    public Item removeLast();
+    public Type removeLast();
     
     /**
      * Remove todos os elementos dessa deque.
@@ -69,9 +69,9 @@ public interface Deque<Item> extends Iterable<Item> {
     public boolean isEmpty();
     
     /**
-     * Retorna a quantidade de itens da deque.
+     * Retorna a quantidade de valores da deque.
      * 
-     * @return A quantidade de itens.
+     * @return A quantidade de valores.
      */
     public int getSize();
     

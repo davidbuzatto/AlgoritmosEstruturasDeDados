@@ -12,50 +12,49 @@ import aesd.esdc4.ds.exceptions.ListIndexOutOfBoundsException;
  * Interface para implementação de listas.
  * 
  * @author Prof. Dr. David Buzatto
- * @param <Item> Tipo do itens que serão armazenados na lista.
+ * @param <Type> Tipo do valores que serão armazenados na lista.
  */
-public interface List<Item> extends Iterable<Item> {
+public interface List<Type> extends Iterable<Type> {
     
     /**
-     * Insere um item no fim da lista.
+     * Insere um valor no fim da lista.
      * 
-     * @param item Item a ser inserido no fim.
+     * @param value Valor a ser inserido no fim.
      */
-    public void add( Item item );
+    public void add( Type value );
     
     /**
-     * Insere um item em uma posição da lista.
+     * Insere um valor em uma posição da lista.
      * 
-     * @param index Índice em que o item será inserido.
-     * @param item Item a ser inserido.
+     * @param index Índice em que o valor será inserido.
+     * @param value Item a ser inserido.
      */
-    public void add( int index, Item item ) throws ListIndexOutOfBoundsException;
+    public void add( int index, Type value ) throws ListIndexOutOfBoundsException;
     
     /**
-     * Retorna um item de uma posição específica da lista.
+     * Retorna um valor de uma posição específica da lista.
      * 
-     * @param index Índice em que o item está.
-     * @return O item da lista.
+     * @param index Índice em que o valor está.
+     * @return O value da lista.
      */
-    public Item get( int index ) 
+    public Type get( int index ) 
             throws EmptyListException, ListIndexOutOfBoundsException;
     
     /**
-     * Altera o valor de um item da lista.
+     * Altera o valor de uma posição da lista.
      * 
-     * @param index Índice do item que será alterado.
-     * @return O novo valor do item da lista.
+     * @param index Índice do valor que será alterado.
      */
-    public void set( int index, Item item ) 
+    public void set( int index, Type value ) 
             throws EmptyListException, ListIndexOutOfBoundsException;
     
     /**
-     * Remove um item de uma posição da lista.
+     * Remove um valor de uma posição da lista.
      * 
-     * @param index Índice do item que será removido.
-     * @return O item da lista.
+     * @param index Índice do valor que será removido.
+     * @return O valor da posição.
      */
-    public Item remove( int index ) 
+    public Type remove( int index ) 
             throws EmptyListException, ListIndexOutOfBoundsException;
     
     /**
@@ -71,9 +70,9 @@ public interface List<Item> extends Iterable<Item> {
     public boolean isEmpty();
     
     /**
-     * Retorna a quantidade de itens da lista.
+     * Retorna a quantidade de valores da lista.
      * 
-     * @return A quantidade de itens.
+     * @return A quantidade de valores.
      */
     public int getSize();
 
