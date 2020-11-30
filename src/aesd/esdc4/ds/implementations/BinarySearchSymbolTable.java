@@ -35,7 +35,7 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
     private Value[] values;
 
     // tamanho da tabela de símbolos (quantidade de pares chave/valor)
-    private int size = 0;
+    private int size;
 
     /**
      * Constrói uma tabela de símbolos vazia.
