@@ -25,14 +25,14 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
- * @param <Item> Tipo dos itens armazenados na lista.
+ * @param <Type> Tipo dos valores armazenados na lista.
  *
  * @author Prof. Dr. David Buzatto
  */
-public class ResizingArrayList<Item> implements List<Item> {
+public class ResizingArrayList<Type> implements List<Type> {
 
-    // itens armazenados na lista
-    private Item[] items;
+    // valores armazenados na lista
+    private Type[] values;
     
     // fim da lista
     private int end;
@@ -41,55 +41,55 @@ public class ResizingArrayList<Item> implements List<Item> {
     private int size;
     
     /**
-     * Constrói uma lista que suporta um item.
+     * Constrói uma lista que suporta um valor.
      */
     @SuppressWarnings( "unchecked" )
     public ResizingArrayList() {
-        items = (Item[]) new Object[1];
+        values = (Type[]) new Object[1];
         end = -1;
     }
     
     /**
-     * Redimensiona o array de itens.
+     * Redimensiona o array de valores.
      * 
      * @param max Tamanho a ser redimensionado.
      */
     private void resize( int max ) {
         
         // para ver a mudança de capacidade, descomente a linha abaixo.
-        //System.out.println( "capacity " + items.length + " size " + size );
+        //System.out.println( "capacity " + values.length + " size " + size );
         
         // nova alocação
-        Item[] temp = (Item[]) new Object[max];
+        Type[] temp = (Type[]) new Object[max];
         
         // cópia (pode-se usar o método arraycopy de System)
         for ( int i = 0; i < size; i++ ) {
-            temp[i] = items[i];
+            temp[i] = values[i];
         }
         
-        items = temp;
+        values = temp;
         
         // para ver a mudança de capacidade, descomente a linha abaixo.
-        //System.out.println( "new capacity " + items.length + " size " + size );
+        //System.out.println( "new capacity " + values.length + " size " + size );
         
     }
     
     @Override
-    public void add( Item item ) {
+    public void add( Type value ) {
         
         // dobra o tamanho se chegou no limite da capacidade
-        if ( size == items.length ) {
-            resize( 2 * items.length );
+        if ( size == values.length ) {
+            resize( 2 * values.length );
         }
         
         end++;
-        items[end] = item;
+        values[end] = value;
         size++;
         
     }
     
     @Override
-    public void add( int index, Item item ) 
+    public void add( int index, Type value ) 
             throws ListIndexOutOfBoundsException {
         
         if ( index < 0 || index > size ) {
@@ -100,22 +100,22 @@ public class ResizingArrayList<Item> implements List<Item> {
         // inserção no fim por índice ou se vazia
         if ( isEmpty() || index == size ) {
             
-            add( item );
+            add( value );
             
             // inserção no início ou no meio
         } else { 
             
             // dobra o tamanho se chegou no limite da capacidade
-            if ( size == items.length ) {
-                resize( 2 * items.length );
+            if ( size == values.length ) {
+                resize( 2 * values.length );
             }
             
             // realoca os valores (faz a lista andar para a direita)
             for ( int i = end; i >= index; i-- ) {
-                items[i+1] = items[i];
+                values[i+1] = values[i];
             }
 
-            items[index] = item;
+            values[index] = value;
             end++;
             size++;
             
@@ -124,7 +124,7 @@ public class ResizingArrayList<Item> implements List<Item> {
     }
 
     @Override
-    public Item get( int index ) 
+    public Type get( int index ) 
             throws ListIndexOutOfBoundsException, EmptyListException {
         
         if ( isEmpty() ) {
@@ -136,12 +136,12 @@ public class ResizingArrayList<Item> implements List<Item> {
                     "index must be between 0 and " + size + ", but it's " + index );
         }
         
-        return items[index];
+        return values[index];
         
     }
 
     @Override
-    public void set( int index, Item item ) 
+    public void set( int index, Type value ) 
             throws EmptyListException, ListIndexOutOfBoundsException {
         
         if ( isEmpty() ) {
@@ -153,12 +153,12 @@ public class ResizingArrayList<Item> implements List<Item> {
                     "index must be between 0 and " + size + ", but it's " + index );
         }
         
-        items[index] = item;
+        values[index] = value;
         
     }
     
     @Override
-    public Item remove( int index ) 
+    public Type remove( int index ) 
             throws ListIndexOutOfBoundsException, EmptyListException {
         
         if ( isEmpty() ) {
@@ -170,22 +170,22 @@ public class ResizingArrayList<Item> implements List<Item> {
                     "index must be between 0 and " + size + ", but it's " + index );
         }
         
-        Item item = items[index];
+        Type value = values[index];
         end--;
         size--;
         
         // realoca os valores (faz a lista andar para a esquerda)
         for ( int i = index; i <= end; i++ ) {
-            items[i] = items[i+1];
+            values[i] = values[i+1];
         }
 
         // se o tamanho é igual à um quarto da capacidade
-        if ( size > 0 && size == items.length / 4 ) {
+        if ( size > 0 && size == values.length / 4 ) {
             // diminui a capacidade pela metade
-            resize( items.length / 2 );
+            resize( values.length / 2 );
         }
         
-        return item;
+        return value;
         
     }
 
@@ -208,9 +208,9 @@ public class ResizingArrayList<Item> implements List<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Type> iterator() {
         
-        return new Iterator<Item>() {
+        return new Iterator<Type>() {
             
             private int current = 0;
             
@@ -220,8 +220,8 @@ public class ResizingArrayList<Item> implements List<Item> {
             }
 
             @Override
-            public Item next() {
-                return items[current++];
+            public Type next() {
+                return values[current++];
             }
             
             @Override
@@ -240,11 +240,11 @@ public class ResizingArrayList<Item> implements List<Item> {
         
         if ( !isEmpty()) {
             
-            // percorrendo o array de itens
+            // percorrendo o array de valores
             for ( int i = 0; i <= end; i++ ) {
                 
                 sb.append( String.format( "[%d] - ", i ) )
-                        .append( items[i] );
+                        .append( values[i] );
                          
                 if ( size == 1 ) {
                     sb.append( " <- start/end\n" );

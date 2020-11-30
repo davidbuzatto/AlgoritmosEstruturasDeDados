@@ -22,14 +22,14 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
- * @param <Item> Tipo dos itens armazenados na pilha.
+ * @param <Type> Tipo dos valores armazenados na pilha.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class FixedCapacityStack<Item> implements Stack<Item> {
+public class FixedCapacityStack<Type> implements Stack<Type> {
 
-    // itens armazenados na pilha
-    private Item[] items;
+    // valores armazenados na pilha
+    private Type[] values;
     
     // topo da pilha
     private int top;
@@ -41,7 +41,7 @@ public class FixedCapacityStack<Item> implements Stack<Item> {
     private int maxSize;
     
     /**
-     * Constrói uma pilha vazia que suporta dez itens.
+     * Constrói uma pilha vazia que suporta dez valores.
      */
     public FixedCapacityStack() {
         this( 10 );
@@ -55,16 +55,16 @@ public class FixedCapacityStack<Item> implements Stack<Item> {
     @SuppressWarnings( "unchecked" )
     public FixedCapacityStack( int max ) {
         maxSize = max;
-        items = (Item[]) new Object[maxSize];
+        values = (Type[]) new Object[maxSize];
         top = -1;
     }
     
     @Override
-    public void push( Item item ) throws StackOverflowException {
+    public void push( Type value ) throws StackOverflowException {
         
         if ( size < maxSize ) {
             top++;
-            items[top] = item;
+            values[top] = value;
             size++;
         } else {
             throw new StackOverflowException();
@@ -73,10 +73,10 @@ public class FixedCapacityStack<Item> implements Stack<Item> {
     }
 
     @Override
-    public Item peek() throws EmptyStackException {
+    public Type peek() throws EmptyStackException {
         
         if ( !isEmpty() ) {
-            return items[top];
+            return values[top];
         } else {
             throw new EmptyStackException();
         }
@@ -84,14 +84,14 @@ public class FixedCapacityStack<Item> implements Stack<Item> {
     }
 
     @Override
-    public Item pop() throws EmptyStackException {
+    public Type pop() throws EmptyStackException {
         
         if ( !isEmpty() ) {
-            Item item = items[top];
-            items[top] = null;      // marca como null para coleta de lixo
+            Type value = values[top];
+            values[top] = null;      // marca como null para coleta de lixo
             top--;
             size--;
-            return item;
+            return value;
         } else {
             throw new EmptyStackException();
         }
@@ -118,9 +118,9 @@ public class FixedCapacityStack<Item> implements Stack<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Type> iterator() {
         
-        return new Iterator<Item>() {
+        return new Iterator<Type>() {
             
             private int current = top;
             
@@ -130,8 +130,8 @@ public class FixedCapacityStack<Item> implements Stack<Item> {
             }
 
             @Override
-            public Item next() {
-                return items[current--];
+            public Type next() {
+                return values[current--];
             }
             
             @Override
@@ -150,14 +150,14 @@ public class FixedCapacityStack<Item> implements Stack<Item> {
         
         if ( !isEmpty() ) {
             
-            // percorrendo o array de itens
+            // percorrendo o array de valores
             for ( int i = top; i >= 0; i-- ) {
 
                 if ( i == top ) {
-                    sb.append( items[i] ).append( " <- top" );
+                    sb.append( values[i] ).append( " <- top" );
                 } else {
                     sb.append( "\n" );
-                    sb.append( items[i] );
+                    sb.append( values[i] );
                 }
 
             }

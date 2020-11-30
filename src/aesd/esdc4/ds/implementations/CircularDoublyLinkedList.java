@@ -21,37 +21,37 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
- * @param <Item> Tipo dos itens armazenados na lista.
+ * @param <Type> Tipo dos itens armazenados na lista.
  *
  * @author Prof. Dr. David Buzatto
  */
-public class CircularDoublyLinkedList<Item> implements List<Item> {
+public class CircularDoublyLinkedList<Type> implements List<Type> {
 
     /*
      * Classe interna privada que define os nós da lista.
      * A referência next é direcionada à direita.
      * A referência previous é direcionada à esquerda.
      */
-    private class Node<Item> {
+    private class Node {
         
-        Item item;
-        Node<Item> next;
-        Node<Item> previous;
+        Type value;
+        Node next;
+        Node previous;
 
         // debug
         /*@Override
         public String toString() {
             return String.format( 
                     "%s <- %s -> %s", 
-                    previous == null ? "null" : previous.item, 
-                    item, 
-                    next == null ? "null" : next.item );
+                    previous == null ? "null" : previous.value, 
+                    value, 
+                    next == null ? "null" : next.value );
         }*/
         
     }
     
     // início da lista circular
-    private Node<Item> start;
+    private Node start;
     
     // tamanho da lista circular
     private int size;
@@ -65,10 +65,10 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
     }
     
     @Override
-    public void add( Item item ) {
+    public void add( Type value ) {
         
-        Node<Item> newNode = new Node<>();
-        newNode.item = item;
+        Node newNode = new Node();
+        newNode.value = value;
         newNode.next = null;      // redundante...
         newNode.previous = null;  // redundante...
         
@@ -81,7 +81,7 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
             
         } else {
             
-            Node<Item> last = start.previous;
+            Node last = start.previous;
             
             newNode.next = start;
             start.previous = newNode;
@@ -95,7 +95,7 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
     }
     
     @Override
-    public void add( int index, Item item )
+    public void add( int index, Type value )
             throws ListIndexOutOfBoundsException {
         
         if ( index < 0 || index > size ) {
@@ -103,8 +103,8 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
                     "index must be between 0 and " + size + ", but it's " + index );
         }
         
-        Node<Item> newNode = new Node<>();
-        newNode.item = item;
+        Node newNode = new Node();
+        newNode.value = value;
         newNode.next = null;      // redundante...
         newNode.previous = null;  // redundante...
         
@@ -118,7 +118,7 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
             // inserção no início
         } else if ( index == 0 ) {
 
-            Node<Item> last = start.previous;
+            Node last = start.previous;
             
             newNode.next = start;
             newNode.previous = last;
@@ -129,7 +129,7 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
             // inserção no fim
         } else if ( index == size ) {
             
-            Node<Item> last = start.previous;
+            Node last = start.previous;
             
             newNode.next = start;
             start.previous = newNode;
@@ -140,7 +140,7 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
         } else {
             
             // posiciona onde será mexido (vai girar a lista em sentido horário)
-            Node<Item> temp = start;
+            Node temp = start;
             for ( int i = 0; i < index; i++ ) {
                 temp = temp.next;
             }
@@ -158,26 +158,31 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
     }
 
     @Override
-    public Item get( int index ) throws EmptyListException {
+    public Type get( int index ) throws EmptyListException {
         
         if ( isEmpty() ) {
             throw new EmptyListException();
+        }
+        
+        if ( index < 0 ) {
+            throw new ListIndexOutOfBoundsException( 
+                    "index must be greater or igual to 0, but it's " + index );
         }
         
         // mapeamento!
         index = index % size;
         
-        Node<Item> current = start;
+        Node current = start;
         for ( int i = 0; i < index; i++ ) {
             current = current.next;
         }
         
-        return current.item;
+        return current.value;
         
     }
 
     @Override
-    public void set( int index, Item item ) 
+    public void set( int index, Type value ) 
             throws EmptyListException, ListIndexOutOfBoundsException {
         
         if ( isEmpty() ) {
@@ -189,17 +194,17 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
                     "index must be between 0 and " + size + ", but it's " + index );
         }
         
-        Node<Item> current = start;
+        Node current = start;
         for ( int i = 0; i < index; i++ ) {
             current = current.next;
         }
         
-        current.item = item;
+        current.value = value;
         
     }
     
     @Override
-    public Item remove( int index ) 
+    public Type remove( int index ) 
             throws EmptyListException, ListIndexOutOfBoundsException {
         
         if ( isEmpty() ) {
@@ -211,12 +216,12 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
                     "index must be between 0 and " + size + ", but it's " + index );
         }
         
-        Item item = null;
+        Type value = null;
         
         // a lista tem apenas um elemento
         if ( start == start.next ) {
             
-            item = start.item;
+            value = start.value;
             start = null;
             
         } else {
@@ -224,9 +229,9 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
             // remoção do início
             if ( index == 0 ) {
                 
-                item = start.item;
+                value = start.value;
                 
-                Node<Item> last = start.previous;
+                Node last = start.previous;
                 
                 start = start.next;
                 start.previous.next = null;
@@ -238,9 +243,9 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
                 // remoção do fim
             } else if ( index == size - 1 ) {
                 
-                Node<Item> last = start.previous;
+                Node last = start.previous;
                 
-                item = last.item;
+                value = last.value;
                 
                 last = last.previous;
                 last.next.previous = null;
@@ -253,12 +258,12 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
             } else {
                 
                 // posiciona na posição da remoção
-                Node<Item> current = start;
+                Node current = start;
                 for ( int i = 0; i < index; i++ ) {
                     current = current.next;
                 }
 
-                item = current.item;
+                value = current.value;
                 
                 current.next.previous = current.previous;
                 current.previous.next = current.next;
@@ -271,7 +276,7 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
         }
         
         size--;
-        return item;
+        return value;
         
     }
 
@@ -295,12 +300,12 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Type> iterator() {
         
-        return new Iterator<Item>() {
+        return new Iterator<Type>() {
             
             private int index = 0;
-            private Node<Item> current = start;
+            private Node current = start;
             
             @Override
             public boolean hasNext() {
@@ -308,11 +313,11 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
             }
 
             @Override
-            public Item next() {
-                Item item = current.item;
+            public Type next() {
+                Type value = current.value;
                 current = current.next;
                 index++;
-                return item;
+                return value;
             }
             
             @Override
@@ -332,7 +337,7 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
         if ( !isEmpty()) {
             
             // percorrendo o encadeamento
-            Node<Item> current = start;
+            Node current = start;
             int index = 0;
             
             while ( index < size ) {
@@ -341,7 +346,7 @@ public class CircularDoublyLinkedList<Item> implements List<Item> {
                 //sb.append( String.format( "[%d] - %s\n", index++, current ) );
                 
                 sb.append( String.format( "[%d] - ", index++ ) )
-                        .append( current.item );
+                        .append( current.value );
                 
                 if ( current == start ) {
                     sb.append( " <- start\n" );

@@ -22,26 +22,26 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
- * @param <Item> Tipo dos itens armazenados na deque.
+ * @param <Type> Tipo dos valores armazenados na deque.
  *
  * @author Prof. Dr. David Buzatto
  */
-public class DoublyLinkedDeque<Item> implements Deque<Item> {
+public class DoublyLinkedDeque<Type> implements Deque<Type> {
 
     /*
      * Classe interna privada que define os nós da deque.
      * A referência next é direcionada à direita.
      * A referência previous é direcionada à esquerda.
      */
-    private class Node<Item> {
-        Item item;
-        Node<Item> next;
-        Node<Item> previous;
+    private class Node {
+        Type value;
+        Node next;
+        Node previous;
     }
     
     // início e fim da deque
-    private Node<Item> first;
-    private Node<Item> last;
+    private Node first;
+    private Node last;
     
     // tamanho da deque
     private int size;
@@ -56,10 +56,10 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
     }
     
     @Override
-    public void addFirst( Item item ) {
+    public void addFirst( Type value ) {
         
-        Node<Item> newNode = new Node<>();
-        newNode.item = item;
+        Node newNode = new Node();
+        newNode.value = value;
         newNode.next = null;      // redundante...
         newNode.previous = null;  // redundante...
         
@@ -77,10 +77,10 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
     }
     
     @Override
-    public void addLast( Item item ) {
+    public void addLast( Type value ) {
         
-        Node<Item> newNode = new Node<>();
-        newNode.item = item;
+        Node newNode = new Node();
+        newNode.value = value;
         newNode.next = null;      // redundante...
         newNode.previous = null;  // redundante...
         
@@ -98,10 +98,10 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
     }
 
     @Override
-    public Item peekFirst() throws EmptyDequeException {
+    public Type peekFirst() throws EmptyDequeException {
         
         if ( !isEmpty() ) {
-            return first.item;
+            return first.value;
         } else {
             throw new EmptyDequeException();
         }
@@ -109,10 +109,10 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
     }
     
     @Override
-    public Item peekLast() throws EmptyDequeException {
+    public Type peekLast() throws EmptyDequeException {
         
         if ( !isEmpty() ) {
-            return last.item;
+            return last.value;
         } else {
             throw new EmptyDequeException();
         }
@@ -120,11 +120,11 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
     }
 
     @Override
-    public Item removeFirst() throws EmptyDequeException {
+    public Type removeFirst() throws EmptyDequeException {
         
         if ( !isEmpty() ) {
             
-            Item item = first.item;
+            Type value = first.value;
             
             // início e fim apontam para o mesmo objeto
             if ( first == last ) {
@@ -137,7 +137,7 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
             }
             
             size--;
-            return item;
+            return value;
             
         } else {
             throw new EmptyDequeException();
@@ -146,11 +146,11 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
     }
     
     @Override
-    public Item removeLast() throws EmptyDequeException {
+    public Type removeLast() throws EmptyDequeException {
         
         if ( !isEmpty() ) {
             
-            Item item = last.item;
+            Type value = last.value;
             
             // início e fim apontam para o mesmo objeto
             if ( first == last ) {
@@ -163,7 +163,7 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
             }
             
             size--;
-            return item;
+            return value;
             
         } else {
             throw new EmptyDequeException();
@@ -191,11 +191,11 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Type> iterator() {
         
-        return new Iterator<Item>() {
+        return new Iterator<Type>() {
             
-            private Node<Item> current = first;
+            private Node current = first;
             
             @Override
             public boolean hasNext() {
@@ -203,10 +203,10 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
             }
 
             @Override
-            public Item next() {
-                Item item = current.item;
+            public Type next() {
+                Type value = current.value;
                 current = current.next;
-                return item;
+                return value;
             }
             
             @Override
@@ -226,11 +226,11 @@ public class DoublyLinkedDeque<Item> implements Deque<Item> {
         if ( !isEmpty()) {
             
             // percorrendo o encadeamento
-            Node<Item> current = first;
+            Node current = first;
             
             while ( current != null ) {
                 
-                sb.append( current.item );
+                sb.append( current.value );
                 
                 if ( first == last ) {
                     sb.append( " <- first/last\n" );

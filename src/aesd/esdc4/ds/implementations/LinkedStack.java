@@ -24,22 +24,22 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
- * @param <Item> Tipo dos itens armazenados na pilha.
+ * @param <Type> Tipo dos valores armazenados na pilha.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class LinkedStack<Item> implements Stack<Item> {
+public class LinkedStack<Type> implements Stack<Type> {
 
     /*
      * Classe interna privada que define os nós da pilha.
      */
-    private class Node<Item> {
-        Item item;
-        Node<Item> previous;
+    private class Node {
+        Type value;
+        Node previous;
     }
     
     // topo da pilha
-    private Node<Item> top;
+    private Node top;
     
     // tamanho da pilha
     private int size;
@@ -53,11 +53,11 @@ public class LinkedStack<Item> implements Stack<Item> {
     }
     
     @Override
-    public void push( Item item ) {
+    public void push( Type value ) {
         
-        Node<Item> newNode = new Node<>();
+        Node newNode = new Node();
         
-        newNode.item = item;
+        newNode.value = value;
         newNode.previous = top;
         top = newNode;
         
@@ -66,10 +66,10 @@ public class LinkedStack<Item> implements Stack<Item> {
     }
 
     @Override
-    public Item peek() throws EmptyStackException {
+    public Type peek() throws EmptyStackException {
         
         if ( !isEmpty() ) {
-            return top.item;
+            return top.value;
         } else {
             throw new EmptyStackException();
         }
@@ -77,19 +77,19 @@ public class LinkedStack<Item> implements Stack<Item> {
     }
 
     @Override
-    public Item pop() throws EmptyStackException {
+    public Type pop() throws EmptyStackException {
         
         if ( !isEmpty() ) {
             
-            Item item = top.item;
+            Type value = top.value;
             
-            Node<Item> temp = top;
+            Node temp = top;
             top = top.previous;
             
             temp.previous = null;
             size--;
             
-            return item;
+            return value;
             
         } else {
             throw new EmptyStackException();
@@ -117,11 +117,11 @@ public class LinkedStack<Item> implements Stack<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Type> iterator() {
         
-        return new Iterator<Item>() {
+        return new Iterator<Type>() {
             
-            private Node<Item> current = top;
+            private Node current = top;
             
             @Override
             public boolean hasNext() {
@@ -129,10 +129,10 @@ public class LinkedStack<Item> implements Stack<Item> {
             }
 
             @Override
-            public Item next() {
-                Item item = current.item;
+            public Type next() {
+                Type value = current.value;
                 current = current.previous;
-                return item;
+                return value;
             }
             
             @Override
@@ -152,15 +152,15 @@ public class LinkedStack<Item> implements Stack<Item> {
         if ( !isEmpty() ) {
             
             // percorrendo o encadeamento
-            Node<Item> current = top;
+            Node current = top;
             
             while ( current != null ) {
                 
                 if ( current == top ) {
-                    sb.append( current.item ).append( " <- top" );
+                    sb.append( current.value ).append( " <- top" );
                 } else {
                     sb.append( "\n" );
-                    sb.append( current.item );
+                    sb.append( current.value );
                 }
                 
                 current = current.previous;

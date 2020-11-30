@@ -26,24 +26,24 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
- * @param <Item> Tipo dos itens armazenados na fila.
+ * @param <Type> Tipo dos valores armazenados na fila.
  *
  * @author Prof. Dr. David Buzatto
  */
-public class LinkedQueue<Item> implements Queue<Item> {
+public class LinkedQueue<Type> implements Queue<Type> {
 
     /*
      * Classe interna privada que define os nós da fila.
      * A referência next é direcionada à direita.
      */
-    private class Node<Item> {
-        Item item;
-        Node<Item> next;
+    private class Node {
+        Type value;
+        Node next;
     }
     
     // início e fim da fila
-    private Node<Item> start;
-    private Node<Item> end;
+    private Node start;
+    private Node end;
     
     // tamanho da fila
     private int size;
@@ -58,10 +58,10 @@ public class LinkedQueue<Item> implements Queue<Item> {
     }
     
     @Override
-    public void enqueue( Item item ) {
+    public void enqueue( Type value ) {
         
-        Node<Item> newNode = new Node<>();
-        newNode.item = item;
+        Node newNode = new Node();
+        newNode.value = value;
         newNode.next = null;  // redundante...
         
         if ( isEmpty()) {
@@ -77,10 +77,10 @@ public class LinkedQueue<Item> implements Queue<Item> {
     }
 
     @Override
-    public Item peek() throws EmptyQueueException {
+    public Type peek() throws EmptyQueueException {
         
         if ( !isEmpty() ) {
-            return start.item;
+            return start.value;
         } else {
             throw new EmptyQueueException();
         }
@@ -88,24 +88,24 @@ public class LinkedQueue<Item> implements Queue<Item> {
     }
 
     @Override
-    public Item dequeue() throws EmptyQueueException {
+    public Type dequeue() throws EmptyQueueException {
         
         if ( !isEmpty()) {
             
-            Item item = start.item;
+            Type value = start.value;
             
             // cabeça e cauda apontam para o mesmo objeto
             if ( start == end ) {
                 start = null;
                 end = null;
             } else {
-                Node<Item> temp = start;
+                Node temp = start;
                 start = start.next;
                 temp.next = null;
             }
             
             size--;
-            return item;
+            return value;
             
         } else {
             throw new EmptyQueueException();
@@ -133,11 +133,11 @@ public class LinkedQueue<Item> implements Queue<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Type> iterator() {
         
-        return new Iterator<Item>() {
+        return new Iterator<Type>() {
             
-            private Node<Item> current = start;
+            private Node current = start;
             
             @Override
             public boolean hasNext() {
@@ -145,10 +145,10 @@ public class LinkedQueue<Item> implements Queue<Item> {
             }
 
             @Override
-            public Item next() {
-                Item item = current.item;
+            public Type next() {
+                Type value = current.value;
                 current = current.next;
-                return item;
+                return value;
             }
             
             @Override
@@ -168,11 +168,11 @@ public class LinkedQueue<Item> implements Queue<Item> {
         if ( !isEmpty()) {
             
             // percorrendo o encadeamento
-            Node<Item> current = start;
+            Node current = start;
             
             while ( current != null ) {
                 
-                sb.append( current.item );
+                sb.append( current.value );
                 
                 if ( start == end ) {
                     sb.append( " <- start/end\n" );

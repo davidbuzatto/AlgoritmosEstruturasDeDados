@@ -25,14 +25,14 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
- * @param <Item> Tipo dos itens armazenados na fila.
+ * @param <Type> Tipo dos valores armazenados na fila.
  *
  * @author Prof. Dr. David Buzatto
  */
-public class FixedCapacityQueue<Item> implements Queue<Item> {
+public class FixedCapacityQueue<Type> implements Queue<Type> {
 
-    // itens armazenados na fila
-    private Item[] items;
+    // valores armazenados na fila
+    private Type[] values;
     
     // fim da fila
     private int end;
@@ -44,7 +44,7 @@ public class FixedCapacityQueue<Item> implements Queue<Item> {
     private int maxSize;
     
     /**
-     * Constrói uma fila vazia que suporta dez itens.
+     * Constrói uma fila vazia que suporta dez valores.
      */
     public FixedCapacityQueue() {
         this( 10 );
@@ -58,16 +58,16 @@ public class FixedCapacityQueue<Item> implements Queue<Item> {
     @SuppressWarnings( "unchecked" )
     public FixedCapacityQueue( int max ) {
         maxSize = max;
-        items = (Item[]) new Object[maxSize];
+        values = (Type[]) new Object[maxSize];
         end = -1;
     }
     
     @Override
-    public void enqueue( Item item ) throws QueueOverflowException {
+    public void enqueue( Type value ) throws QueueOverflowException {
         
         if ( size < maxSize ) {
             end++;
-            items[end] = item;
+            values[end] = value;
             size++;
         } else {
             throw new QueueOverflowException();
@@ -76,10 +76,10 @@ public class FixedCapacityQueue<Item> implements Queue<Item> {
     }
 
     @Override
-    public Item peek() throws EmptyQueueException {
+    public Type peek() throws EmptyQueueException {
         
         if ( !isEmpty() ) {
-            return items[0];
+            return values[0];
         } else {
             throw new EmptyQueueException();
         }
@@ -87,20 +87,20 @@ public class FixedCapacityQueue<Item> implements Queue<Item> {
     }
 
     @Override
-    public Item dequeue() throws EmptyQueueException {
+    public Type dequeue() throws EmptyQueueException {
         
         if ( !isEmpty() ) {
             
-            Item item = items[0];
+            Type value = values[0];
             end--;
             size--;
             
             // realoca os valores (faz a fila andar para a esquerda)
             for ( int i = 0; i <= end; i++ ) {
-                items[i] = items[i+1];
+                values[i] = values[i+1];
             }
             
-            return item;
+            return value;
             
         } else {
             throw new EmptyQueueException();
@@ -112,7 +112,7 @@ public class FixedCapacityQueue<Item> implements Queue<Item> {
     public void clear() {
         
         for ( int i = 0; i <= end; i++ ) {
-            items[i] = null;
+            values[i] = null;
         }
         
         end = -1;
@@ -131,9 +131,9 @@ public class FixedCapacityQueue<Item> implements Queue<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Type> iterator() {
         
-        return new Iterator<Item>() {
+        return new Iterator<Type>() {
             
             private int current = 0;
             
@@ -143,8 +143,8 @@ public class FixedCapacityQueue<Item> implements Queue<Item> {
             }
 
             @Override
-            public Item next() {
-                return items[current++];
+            public Type next() {
+                return values[current++];
             }
             
             @Override
@@ -163,10 +163,10 @@ public class FixedCapacityQueue<Item> implements Queue<Item> {
         
         if ( !isEmpty()) {
             
-            // percorrendo o array de itens
+            // percorrendo o array de valores
             for ( int i = 0; i <= end; i++ ) {
                 
-                sb.append( items[i] );
+                sb.append( values[i] );
                          
                 if ( size == 1 ) {
                     sb.append( " <- start/end\n" );

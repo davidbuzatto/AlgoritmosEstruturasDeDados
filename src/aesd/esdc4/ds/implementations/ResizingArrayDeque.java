@@ -24,14 +24,14 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
- * @param <Item> Tipo dos itens armazenados na deque.
+ * @param <Type> Tipo dos valores armazenados na deque.
  *
  * @author Prof. Dr. David Buzatto
  */
-public class ResizingArrayDeque<Item> implements Deque<Item> {
+public class ResizingArrayDeque<Type> implements Deque<Type> {
 
-    // itens armazenados na deque
-    private Item[] items;
+    // valores armazenados na deque
+    private Type[] values;
     
     // fim da deque
     private int last;
@@ -40,77 +40,77 @@ public class ResizingArrayDeque<Item> implements Deque<Item> {
     private int size;
     
     /**
-     * Constrói uma deque que suporta um item.
+     * Constrói uma deque que suporta um valor.
      */
     @SuppressWarnings( "unchecked" )
     public ResizingArrayDeque() {
-        items = (Item[]) new Object[1];
+        values = (Type[]) new Object[1];
         last = -1;
     }
 
     /**
-     * Redimensiona o array de itens.
+     * Redimensiona o array de valores.
      * 
      * @param max Tamanho a ser redimensionado.
      */
     private void resize( int max ) {
         
         // para ver a mudança de capacidade, descomente a linha abaixo.
-        //System.out.println( "capacity " + items.length + " size " + size );
+        //System.out.println( "capacity " + values.length + " size " + size );
         
         // nova alocação
-        Item[] temp = (Item[]) new Object[max];
+        Type[] temp = (Type[]) new Object[max];
         
         // cópia (pode-se usar o método arraycopy de System)
         for ( int i = 0; i < size; i++ ) {
-            temp[i] = items[i];
+            temp[i] = values[i];
         }
         
-        items = temp;
+        values = temp;
         
         // para ver a mudança de capacidade, descomente a linha abaixo.
-        //System.out.println( "new capacity " + items.length + " size " + size );
+        //System.out.println( "new capacity " + values.length + " size " + size );
         
     }
     
     @Override
-    public void addFirst( Item item ) {
+    public void addFirst( Type value ) {
         
         // dobra o tamanho se chegou no limite da capacidade
-        if ( size == items.length ) {
-            resize( 2 * items.length );
+        if ( size == values.length ) {
+            resize( 2 * values.length );
         }
             
         // realoca os valores (faz a deque andar para a direita)
         for ( int i = last; i >= 0; i-- ) {
-            items[i+1] = items[i];
+            values[i+1] = values[i];
         }
 
-        items[0] = item;
+        values[0] = value;
         last++;
         size++;
         
     }
     
     @Override
-    public void addLast( Item item ) {
+    public void addLast( Type value ) {
         
         // dobra o tamanho se chegou no limite da capacidade
-        if ( size == items.length ) {
-            resize( 2 * items.length );
+        if ( size == values.length ) {
+            resize( 2 * values.length );
         }
         
         last++;
-        items[last] = item;
+        values[last] = value;
         size++;
         
     }
 
     @Override
-    public Item peekFirst() throws EmptyDequeException {
+    public Type peekFirst() throws EmptyDequeException {
         
         if ( !isEmpty() ) {
-            return items[0];
+            return values[0];
         } else {
             throw new EmptyDequeException();
         }
@@ -118,10 +118,10 @@ public class ResizingArrayDeque<Item> implements Deque<Item> {
     }
     
     @Override
-    public Item peekLast() throws EmptyDequeException {
+    public Type peekLast() throws EmptyDequeException {
         
         if ( !isEmpty() ) {
-            return items[last];
+            return values[last];
         } else {
             throw new EmptyDequeException();
         }
@@ -129,26 +129,26 @@ public class ResizingArrayDeque<Item> implements Deque<Item> {
     }
 
     @Override
-    public Item removeFirst() throws EmptyDequeException {
+    public Type removeFirst() throws EmptyDequeException {
         
         if ( !isEmpty() ) {
             
-            Item item = items[0];
+            Type value = values[0];
             last--;
             size--;
             
             // realoca os valores (faz a deque andar para a esquerda)
             for ( int i = 0; i <= last; i++ ) {
-                items[i] = items[i+1];
+                values[i] = values[i+1];
             }
             
             // se o tamanho é igual à um quarto da capacidade
-            if ( size > 0 && size == items.length / 4 ) {
+            if ( size > 0 && size == values.length / 4 ) {
                 // diminui a capacidade pela metade
-                resize( items.length / 2 );
+                resize( values.length / 2 );
             }
             
-            return item;
+            return value;
             
         } else {
             throw new EmptyDequeException();
@@ -157,22 +157,22 @@ public class ResizingArrayDeque<Item> implements Deque<Item> {
     }
     
     @Override
-    public Item removeLast() throws EmptyDequeException {
+    public Type removeLast() throws EmptyDequeException {
         
         if ( !isEmpty() ) {
             
-            Item item = items[last];
-            items[last] = null;      // marca como null para coleta de lixo
+            Type value = values[last];
+            values[last] = null;      // marca como null para coleta de lixo
             last--;
             size--;
             
             // se o tamanho é igual à um quarto da capacidade
-            if ( size > 0 && size == items.length / 4 ) {
+            if ( size > 0 && size == values.length / 4 ) {
                 // diminui a capacidade pela metade
-                resize( items.length / 2 );
+                resize( values.length / 2 );
             }
             
-            return item;
+            return value;
             
         } else {
             throw new EmptyDequeException();
@@ -200,9 +200,9 @@ public class ResizingArrayDeque<Item> implements Deque<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Type> iterator() {
         
-        return new Iterator<Item>() {
+        return new Iterator<Type>() {
             
             private int current = 0;
             
@@ -212,8 +212,8 @@ public class ResizingArrayDeque<Item> implements Deque<Item> {
             }
 
             @Override
-            public Item next() {
-                return items[current++];
+            public Type next() {
+                return values[current++];
             }
             
             @Override
@@ -232,10 +232,10 @@ public class ResizingArrayDeque<Item> implements Deque<Item> {
         
         if ( !isEmpty()) {
             
-            // percorrendo o array de itens
+            // percorrendo o array de valores
             for ( int i = 0; i <= last; i++ ) {
                 
-                sb.append( items[i] );
+                sb.append( values[i] );
                          
                 if ( size == 1 ) {
                     sb.append( " <- first/last\n" );

@@ -21,14 +21,14 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
- * @param <Item> Tipo dos itens armazenados na pilha.
+ * @param <Type> Tipo dos valores armazenados na pilha.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class ResizingArrayStack<Item> implements Stack<Item> {
+public class ResizingArrayStack<Type> implements Stack<Type> {
 
-    // itens armazenados na pilha
-    private Item[] items;
+    // valores armazenados na pilha
+    private Type[] values;
     
     // topo da pilha
     private int top;
@@ -37,58 +37,58 @@ public class ResizingArrayStack<Item> implements Stack<Item> {
     private int size;
     
     /**
-     * Constrói uma pilha que suporta um item.
+     * Constrói uma pilha que suporta um valor.
      */
     @SuppressWarnings( "unchecked" )
     public ResizingArrayStack() {
-        items = (Item[]) new Object[1];
+        values = (Type[]) new Object[1];
         top = -1;
     }
     
     /**
-     * Redimensiona o array de itens.
+     * Redimensiona o array de valores.
      * 
      * @param max Tamanho a ser redimensionado.
      */
     private void resize( int max ) {
         
         // para ver a mudança de capacidade, descomente a linha abaixo.
-        //System.out.println( "capacity " + items.length + " size " + size );
+        //System.out.println( "capacity " + values.length + " size " + size );
         
         // nova alocação
-        Item[] temp = (Item[]) new Object[max];
+        Type[] temp = (Type[]) new Object[max];
         
         // cópia (pode-se usar o método arraycopy de System)
         for ( int i = 0; i < size; i++ ) {
-            temp[i] = items[i];
+            temp[i] = values[i];
         }
         
-        items = temp;
+        values = temp;
         
         // para ver a mudança de capacidade, descomente a linha abaixo.
-        //System.out.println( "new capacity " + items.length + " size " + size );
+        //System.out.println( "new capacity " + values.length + " size " + size );
         
     }
     
     @Override
-    public void push( Item item ) {
+    public void push( Type value ) {
         
         // dobra o tamanho se chegou no limite da capacidade
-        if ( size == items.length ) {
-            resize( 2 * items.length );
+        if ( size == values.length ) {
+            resize( 2 * values.length );
         }
         
         top++;
-        items[top] = item;
+        values[top] = value;
         size++;
         
     }
 
     @Override
-    public Item peek() throws EmptyStackException {
+    public Type peek() throws EmptyStackException {
         
         if ( !isEmpty() ) {
-            return items[top];
+            return values[top];
         } else {
             throw new EmptyStackException();
         }
@@ -96,22 +96,22 @@ public class ResizingArrayStack<Item> implements Stack<Item> {
     }
 
     @Override
-    public Item pop() throws EmptyStackException {
+    public Type pop() throws EmptyStackException {
         
         if ( !isEmpty() ) {
             
-            Item item = items[top];
-            items[top] = null;      // marca como null para coleta de lixo
+            Type value = values[top];
+            values[top] = null;      // marca como null para coleta de lixo
             top--;
             size--;
             
             // se o tamanho é igual à um quarto da capacidade
-            if ( size > 0 && size == items.length / 4 ) {
+            if ( size > 0 && size == values.length / 4 ) {
                 // diminui a capacidade pela metade
-                resize( items.length / 2 );
+                resize( values.length / 2 );
             }
             
-            return item;
+            return value;
             
         } else {
             throw new EmptyStackException();
@@ -139,9 +139,9 @@ public class ResizingArrayStack<Item> implements Stack<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Type> iterator() {
         
-        return new Iterator<Item>() {
+        return new Iterator<Type>() {
             
             private int current = top;
             
@@ -151,8 +151,8 @@ public class ResizingArrayStack<Item> implements Stack<Item> {
             }
 
             @Override
-            public Item next() {
-                return items[current--];
+            public Type next() {
+                return values[current--];
             }
             
             @Override
@@ -171,14 +171,14 @@ public class ResizingArrayStack<Item> implements Stack<Item> {
         
         if ( !isEmpty() ) {
             
-            // percorrendo o array de itens
+            // percorrendo o array de valores
             for ( int i = top; i >= 0; i-- ) {
 
                 if ( i == top ) {
-                    sb.append( items[i] ).append( " <- top" );
+                    sb.append( values[i] ).append( " <- top" );
                 } else {
                     sb.append( "\n" );
-                    sb.append( items[i] );
+                    sb.append( values[i] );
                 }
 
             }
