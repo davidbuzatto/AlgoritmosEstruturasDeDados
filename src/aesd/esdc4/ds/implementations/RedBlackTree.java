@@ -17,6 +17,9 @@ import aesd.esdc4.ds.interfaces.Queue;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
+ * @param <Key> Tipo das chaves que serão armazenadas na árvore.
+ * @param <Value> Tipo dos valores associados às chaves armazenadas na árvore.
+ * 
  * @author Prof. Dr. David Buzatto
  */
 public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryTree<Key, Value> {

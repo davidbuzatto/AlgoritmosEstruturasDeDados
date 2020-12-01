@@ -17,6 +17,9 @@ import aesd.esdc4.ds.interfaces.Queue;
  * Implementação baseada na obra: WEISS, M. A. Data Structures and Algorithm
  * Analysis in Java. 3. ed. Pearson Education: New Jersey, 2012. 614 p.
  * 
+ * @param <Key> Tipo das chaves que serão armazenadas na árvore.
+ * @param <Value> Tipo dos valores associados às chaves armazenadas na árvore.
+ * 
  * @author Prof. Dr. David Buzatto
  */
 public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<Key, Value> {

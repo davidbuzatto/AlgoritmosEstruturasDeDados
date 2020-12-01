@@ -17,10 +17,11 @@ import java.util.Iterator;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
- * @author Prof. Dr. David Buzatto
  * @param <Key> Tipo das chaves que serão armazenadas na tabela de símbolos.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na tabela de
  * símbolos.
+ * 
+ * @author Prof. Dr. David Buzatto
  */
 public class SequentialSearchSymbolTable<Key, Value> implements SymbolTable<Key, Value> {
 
