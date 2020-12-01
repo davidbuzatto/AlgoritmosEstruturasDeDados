@@ -317,7 +317,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
     }
     
     /*
-     * Método privado para a remoção recursiva (Hibbard Deletion).
+     * Método privado para a remoção recursiva.
      */
     private Node<Key, Value> delete( Node<Key, Value> node, Key key ) {
         
@@ -430,13 +430,13 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
     
     @Override
     public Iterator<BinaryTree.Entry<Key, Value>> iterator() {
-        return traverse( TraversalTypes.IN_ORDER ).iterator();
+        return traverse(TraversalTypes.INORDER ).iterator();
     }
     
     @Override
     public Iterable<Key> getKeys() {
         Queue<Key> keys = new LinkedQueue<>();
-        for ( BinaryTree.Entry<Key, Value> e : traverse( TraversalTypes.IN_ORDER ) ) {
+        for ( BinaryTree.Entry<Key, Value> e : traverse(TraversalTypes.INORDER ) ) {
             keys.enqueue( e.getKey() );
         }
         return keys;
@@ -453,7 +453,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
         
         if ( !isEmpty() ) {
             
-            for ( BinaryTree.Entry<Key, Value> e : TreeTraversals.traverse( root, TraversalTypes.IN_ORDER ) ) {
+            for ( BinaryTree.Entry<Key, Value> e : TreeTraversals.traverse(root, TraversalTypes.INORDER ) ) {
                 
                 if ( e.getKey().equals( root.key ) ) {
                     sb.append( e ).append( " <- root\n" );

@@ -36,25 +36,25 @@ public class TreeTraversals {
         List<BinaryTree.Entry<Key, Value>> entries = new ResizingArrayList<>();
         
         switch ( type ) {
-            case PRE_ORDER:
+            case PREORDER:
                 preOrder( node, entries );
                 break;
-            case IN_ORDER:
+            case INORDER:
                 inOrder( node, entries );
                 break;
-            case POST_ORDER:
+            case POSTORDER:
                 postOrder( node, entries );
                 break;
             case LEVEL_ORDER:
                 levelOrder( node, entries );
                 break;
-            case INVERSE_PRE_ORDER:
+            case INVERSE_PREORDER:
                 inversePreOrder( node, entries );
                 break;
-            case INVERSE_IN_ORDER:
+            case INVERSE_INORDER:
                 inverseInOrder( node, entries );
                 break;
-            case INVERSE_POST_ORDER:
+            case INVERSE_POSTORDER:
                 inversePostOrder( node, entries );
                 break;
             case INVERSE_LEVEL_ORDER:

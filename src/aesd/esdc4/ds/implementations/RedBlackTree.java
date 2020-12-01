@@ -428,13 +428,13 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     
     @Override
     public Iterator<BinaryTree.Entry<Key, Value>> iterator() {
-        return traverse( TraversalTypes.IN_ORDER ).iterator();
+        return traverse(TraversalTypes.INORDER ).iterator();
     }
     
     @Override
     public Iterable<Key> getKeys() {
         Queue<Key> keys = new LinkedQueue<>();
-        for ( BinaryTree.Entry<Key, Value> e : traverse( TraversalTypes.IN_ORDER ) ) {
+        for ( BinaryTree.Entry<Key, Value> e : traverse(TraversalTypes.INORDER ) ) {
             keys.enqueue( e.getKey() );
         }
         return keys;
@@ -447,7 +447,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
         
         if ( !isEmpty() ) {
             
-            for ( BinaryTree.Entry<Key, Value> e : TreeTraversals.traverse( root, TraversalTypes.IN_ORDER ) ) {
+            for ( BinaryTree.Entry<Key, Value> e : TreeTraversals.traverse(root, TraversalTypes.INORDER ) ) {
                 
                 if ( e.getKey().equals( root.key ) ) {
                     sb.append( e ).append( " <- root\n" );

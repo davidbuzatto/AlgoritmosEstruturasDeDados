@@ -48,19 +48,19 @@ public class TestRedBlackTree {
         
         System.out.println( "----- Percursos -----" );
         System.out.print( "Pré-Ordem: " );
-        for ( BinaryTree.Entry<Integer, String> e : avp.traverse( TraversalTypes.PRE_ORDER ) ) {
+        for ( BinaryTree.Entry<Integer, String> e : avp.traverse(TraversalTypes.PREORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Em Ordem: " );
-        for ( BinaryTree.Entry<Integer, String> e : avp.traverse( TraversalTypes.IN_ORDER ) ) {
+        for ( BinaryTree.Entry<Integer, String> e : avp.traverse(TraversalTypes.INORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Pós-Ordem: " );
-        for ( BinaryTree.Entry<Integer, String> e : avp.traverse( TraversalTypes.POST_ORDER ) ) {
+        for ( BinaryTree.Entry<Integer, String> e : avp.traverse(TraversalTypes.POSTORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
@@ -72,19 +72,19 @@ public class TestRedBlackTree {
         System.out.println();
         
         System.out.print( "Pré-Ordem Inverso: " );
-        for ( BinaryTree.Entry<Integer, String> e : avp.traverse( TraversalTypes.INVERSE_PRE_ORDER ) ) {
+        for ( BinaryTree.Entry<Integer, String> e : avp.traverse(TraversalTypes.INVERSE_PREORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Em Ordem Inverso: " );
-        for ( BinaryTree.Entry<Integer, String> e : avp.traverse( TraversalTypes.INVERSE_IN_ORDER ) ) {
+        for ( BinaryTree.Entry<Integer, String> e : avp.traverse(TraversalTypes.INVERSE_INORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Pós-Ordem Inverso: " );
-        for ( BinaryTree.Entry<Integer, String> e : avp.traverse( TraversalTypes.INVERSE_POST_ORDER ) ) {
+        for ( BinaryTree.Entry<Integer, String> e : avp.traverse(TraversalTypes.INVERSE_POSTORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
@@ -98,7 +98,7 @@ public class TestRedBlackTree {
         // consultas
         System.out.println( "\n----- Consultas -----" );
         List<BinaryTree.Entry<Integer, String>> elementos = new ResizingArrayList<>();
-        for ( BinaryTree.Entry<Integer, String> e : avp.traverse( TraversalTypes.IN_ORDER ) ) {
+        for ( BinaryTree.Entry<Integer, String> e : avp.traverse(TraversalTypes.INORDER ) ) {
             elementos.add( e );
         }
         elementos.add( new BinaryTree.Entry<>( 15, "Snoopy" ) );

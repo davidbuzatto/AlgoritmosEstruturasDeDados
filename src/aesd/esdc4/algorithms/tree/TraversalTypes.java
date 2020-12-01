@@ -13,13 +13,13 @@ package aesd.esdc4.algorithms.tree;
  */
 public enum TraversalTypes {
     
-    PRE_ORDER,
-    IN_ORDER,
-    POST_ORDER,
+    PREORDER,
+    INORDER,
+    POSTORDER,
     LEVEL_ORDER,
-    INVERSE_PRE_ORDER,
-    INVERSE_IN_ORDER,
-    INVERSE_POST_ORDER,
+    INVERSE_PREORDER,
+    INVERSE_INORDER,
+    INVERSE_POSTORDER,
     INVERSE_LEVEL_ORDER;
     
 }
