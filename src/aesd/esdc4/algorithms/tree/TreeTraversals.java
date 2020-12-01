@@ -22,8 +22,8 @@ import aesd.esdc4.ds.interfaces.BinaryTree;
 public class TreeTraversals {
     
     /**
-     * Retorna um iterável contendo os ítens das árvores na ordem do percurso
-     * especificado.
+     * Retorna um iterável contendo os pares chave/valor das árvores na ordem do
+     * percurso especificado.
      * 
      * @param <Key> Tipo da chave do par chave/valor da árvore
      * @param <Value> Tipo do valor do par chave/valor da árvore
@@ -70,12 +70,12 @@ public class TreeTraversals {
     /*
      * Métodos privados para os percursos.
      */
-    private static <Key extends Comparable<Key>, Value> void preOrder( BinaryTree.Node<Key, Value> no, List<BinaryTree.Entry<Key, Value>> entries ) {
+    private static <Key extends Comparable<Key>, Value> void preOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
-        if ( no != null ) {
-            entries.add( new BinaryTree.Entry<Key, Value>( no.key, no.value ) );
-            preOrder( no.left, entries );
-            preOrder( no.right, entries );
+        if ( node != null ) {
+            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
+            preOrder( node.left, entries );
+            preOrder( node.right, entries );
         }
         
     }

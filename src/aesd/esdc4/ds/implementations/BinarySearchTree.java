@@ -15,9 +15,6 @@ import aesd.esdc4.ds.interfaces.Queue;
 /**
  * Implementação de uma árvore binária de busca fundamental (Binary Search Tree).
  * 
- * É importante frisar que essa árvore não aceita valores duplicados.
- * Caso tente-se inserir um valor que já existe, ele será ignorado.
- * 
  * Algumas modificações de acesso foram feitas na classe, permitindo que alguns
  * detalhes internos dela sejam acessíveis externamente. Essa mudança
  * teve como objetivo permitir que os detalhes estruturais da árvore possam ser
