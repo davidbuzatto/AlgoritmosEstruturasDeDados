@@ -60,13 +60,13 @@ public class LinearProbingHashTable<Key, Value> implements SymbolTable<Key, Valu
     }
 
     @Override
-    public void put( Key key, Value val ) throws IllegalArgumentException {
+    public void put( Key key, Value value ) throws IllegalArgumentException {
         
         if ( key == null ) {
             throw new IllegalArgumentException( "first argument to put() is null" );
         }
 
-        if ( val == null ) {
+        if ( value == null ) {
             delete( key );
             return;
         }
@@ -80,13 +80,13 @@ public class LinearProbingHashTable<Key, Value> implements SymbolTable<Key, Valu
         
         for ( i = hash( key ); keys[i] != null; i = ( i + 1 ) % lptSize ) {
             if ( keys[i].equals( key ) ) {
-                values[i] = val;
+                values[i] = value;
                 return;
             }
         }
         
         keys[i] = key;
-        values[i] = val;
+        values[i] = value;
         size++;
         
     }

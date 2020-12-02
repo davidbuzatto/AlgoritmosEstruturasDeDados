@@ -62,13 +62,13 @@ public class SeparateChainingHashTable<Key, Value> implements SymbolTable<Key, V
     }
 
     @Override
-    public void put( Key key, Value val ) throws IllegalArgumentException {
+    public void put( Key key, Value value ) throws IllegalArgumentException {
 
         if ( key == null ) {
             throw new IllegalArgumentException( "first argument to put() is null" );
         }
 
-        if ( val == null ) {
+        if ( value == null ) {
             delete( key );
             return;
         }
@@ -85,7 +85,7 @@ public class SeparateChainingHashTable<Key, Value> implements SymbolTable<Key, V
             size++;
         }
 
-        st[i].put( key, val );
+        st[i].put( key, value );
 
     }
 

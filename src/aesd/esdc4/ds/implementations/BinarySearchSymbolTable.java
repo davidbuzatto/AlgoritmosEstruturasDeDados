@@ -56,13 +56,13 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
     }
 
     @Override
-    public void put( Key key, Value val ) throws IllegalArgumentException {
+    public void put( Key key, Value value ) throws IllegalArgumentException {
 
         if ( key == null ) {
             throw new IllegalArgumentException( "first argument to put() is null" );
         }
 
-        if ( val == null ) {
+        if ( value == null ) {
             delete( key );
             return;
         }
@@ -72,7 +72,7 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
 
         // a chave já está na tabela
         if ( i < size && keys[i].compareTo( key ) == 0 ) {
-            values[i] = val;
+            values[i] = value;
             return;
         }
 
@@ -90,7 +90,7 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
 
         // insere um novo par chave/valor
         keys[i] = key;
-        values[i] = val;
+        values[i] = value;
         size++;
 
     }
