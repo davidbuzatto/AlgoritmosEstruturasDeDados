@@ -34,12 +34,6 @@ public class SequentialSearchSymbolTable<Key, Value> implements SymbolTable<Key,
         private Value value;
         private Node next;
 
-        public Node( Key key, Value value, Node next ) {
-            this.key = key;
-            this.value = value;
-            this.next = next;
-        }
-
         @Override
         public String toString() {
             return key + " -> " + value;
@@ -84,7 +78,12 @@ public class SequentialSearchSymbolTable<Key, Value> implements SymbolTable<Key,
 
         }
 
-        first = new Node( key, value, first );
+        Node newNode = new Node();
+        newNode.key = key;
+        newNode.value = value;
+        newNode.next = first;
+        
+        first = newNode;
 
         size++;
 
@@ -215,7 +214,7 @@ public class SequentialSearchSymbolTable<Key, Value> implements SymbolTable<Key,
             while ( current != null ) {
 
                 if ( current.key.equals( first.key ) ) {
-                    sb.append( current ).append( " <- root\n" );
+                    sb.append( current ).append( " <- first\n" );
                 } else {
                     sb.append( current ).append( "\n" );
                 }

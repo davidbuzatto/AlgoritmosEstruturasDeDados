@@ -67,6 +67,7 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
             return;
         }
 
+        // computa o ranque da chave
         int i = rank( key );
 
         // a chave já está na tabela
@@ -75,16 +76,19 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
             return;
         }
 
-        // insere um novo par chave/valor
+        // dobra o tamanho se chegou no limite da capacidade
         if ( size == keys.length ) {
             resize( 2 * keys.length );
         }
 
+        // move os elementos com base no ranque para liberar
+        // espaço para inserção
         for ( int j = size; j > i; j-- ) {
-            keys[j] = keys[j - 1];
-            values[j] = values[j - 1];
+            keys[j] = keys[j-1];
+            values[j] = values[j-1];
         }
 
+        // insere um novo par chave/valor
         keys[i] = key;
         values[i] = val;
         size++;
@@ -102,6 +106,7 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
             return null;
         }
 
+        // computa o ranque da chave
         int i = rank( key );
 
         if ( i < size && keys[i].compareTo( key ) == 0 ) {
@@ -122,7 +127,7 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
             return;
         }
 
-        // computa o ranque
+        // computa o ranque da chave
         int i = rank( key );
 
         // a chave não está na tabela
@@ -130,14 +135,16 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
             return;
         }
 
+        // move os elementos com base no ranque para ocupar a posição
+        // que era ocupada
         for ( int j = i; j < size - 1; j++ ) {
-            keys[j] = keys[j + 1];
-            values[j] = values[j + 1];
+            keys[j] = keys[j+1];
+            values[j] = values[j+1];
         }
 
         size--;
         keys[size] = null;   // marca para coleta de lixo!
-        values[size] = null;
+        values[size] = null; // idem
 
         // redimensiona para a metade caso o tamanho seja um quarto do total
         if ( size > 0 && size == keys.length / 4 ) {
@@ -177,6 +184,7 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
 
     }
 
+    // calcula o ranque da chave realizando uma busca binária
     public int rank( Key key ) throws IllegalArgumentException {
 
         if ( key == null ) {
@@ -188,7 +196,7 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
 
         while ( lower <= higher ) {
 
-            int mid = lower + ( higher - lower ) / 2;
+            int mid = lower + ( higher - lower ) / 2; // ou ( lower + higher ) / 2
             int comp = key.compareTo( keys[mid] );
 
             if ( comp < 0 ) {
