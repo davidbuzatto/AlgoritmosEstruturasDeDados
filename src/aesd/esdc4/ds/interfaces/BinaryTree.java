@@ -10,9 +10,10 @@ import aesd.esdc4.algorithms.tree.TraversalTypes;
 /**
  * Interface para implementação de árvores binárias.
  * 
- * @author Prof. Dr. David Buzatto
  * @param <Key> Tipo das chaves que serão armazenadas na árvore binária.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na árvore binária.
+ * 
+ * @author Prof. Dr. David Buzatto
  */
 public interface BinaryTree<Key extends Comparable<Key>, Value> extends SymbolTable<Key, Value> {
     

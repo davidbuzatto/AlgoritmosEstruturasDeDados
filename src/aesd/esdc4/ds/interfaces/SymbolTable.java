@@ -8,9 +8,10 @@ package aesd.esdc4.ds.interfaces;
 /**
  * Interface para implementação de tabelas de símbolos.
  * 
- * @author Prof. Dr. David Buzatto
  * @param <Key> Tipo das chaves que serão armazenadas na tabela.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na tabela.
+ * 
+ * @author Prof. Dr. David Buzatto
  */
 public interface SymbolTable<Key, Value> extends Iterable<SymbolTable.Entry<Key, Value>>  {
     

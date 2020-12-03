@@ -178,6 +178,8 @@ public class ResizingArrayList<Type> implements List<Type> {
         for ( int i = index; i <= end; i++ ) {
             values[i] = values[i+1];
         }
+        
+        values[end+1] = null;      // marca como null para coleta de lixo
 
         // se o tamanho é igual à um quarto da capacidade
         if ( size > 0 && size == values.length / 4 ) {

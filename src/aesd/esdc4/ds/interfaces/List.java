@@ -11,8 +11,9 @@ import aesd.esdc4.ds.exceptions.ListIndexOutOfBoundsException;
 /**
  * Interface para implementação de listas.
  * 
+ * @param <Type> Tipo dos valores que serão armazenados na lista.
+ * 
  * @author Prof. Dr. David Buzatto
- * @param <Type> Tipo do valores que serão armazenados na lista.
  */
 public interface List<Type> extends Iterable<Type> {
     

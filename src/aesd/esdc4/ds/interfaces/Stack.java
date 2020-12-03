@@ -8,8 +8,9 @@ package aesd.esdc4.ds.interfaces;
 /**
  * Interface para implementação de pilhas.
  * 
+ * @param <Type> Tipo dos valores que serão armazenados na pilha.
+ * 
  * @author Prof. Dr. David Buzatto
- * @param <Type> Tipo do valores que serão armazenados na pilha.
  */
 public interface Stack<Type> extends Iterable<Type> {
     

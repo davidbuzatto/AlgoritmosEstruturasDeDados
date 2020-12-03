@@ -100,6 +100,8 @@ public class FixedCapacityQueue<Type> implements Queue<Type> {
                 values[i] = values[i+1];
             }
             
+            values[end+1] = null;      // marca como null para coleta de lixo
+            
             return value;
             
         } else {

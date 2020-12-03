@@ -9,8 +9,9 @@ package aesd.esdc4.ds.interfaces;
  * Interface para implementação de deques (double ended queues, filas de fim
  * duplo).
  * 
+ * @param <Type> Tipo dos valores que serão armazenados na deque.
+ * 
  * @author Prof. Dr. David Buzatto
- * @param <Type> Tipo do valores que serão armazenados na deque.
  */
 public interface Deque<Type> extends Iterable<Type> {
     

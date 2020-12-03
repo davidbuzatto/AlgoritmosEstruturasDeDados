@@ -131,6 +131,8 @@ public class FixedCapacityDeque<Type> implements Deque<Type> {
                 values[i] = values[i+1];
             }
             
+            values[last+1] = null;      // marca como null para coleta de lixo
+            
             return value;
             
         } else {

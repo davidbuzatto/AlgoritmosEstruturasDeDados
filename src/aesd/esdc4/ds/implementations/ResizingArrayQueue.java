@@ -112,6 +112,8 @@ public class ResizingArrayQueue<Type> implements Queue<Type> {
                 values[i] = values[i+1];
             }
             
+            values[end+1] = null;      // marca como null para coleta de lixo
+            
             // se o tamanho é igual à um quarto da capacidade
             if ( size > 0 && size == values.length / 4 ) {
                 // diminui a capacidade pela metade
