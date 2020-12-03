@@ -73,7 +73,7 @@ public class TreeTraversals {
     private static <Key extends Comparable<Key>, Value> void preOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( node != null ) {
-            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<>( node.key, node.value ) );
             preOrder( node.left, entries );
             preOrder( node.right, entries );
         }
@@ -84,7 +84,7 @@ public class TreeTraversals {
         
         if ( node != null ) {
             inOrder( node.left, entries );
-            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<>( node.key, node.value ) );
             inOrder( node.right, entries );
         }
         
@@ -95,7 +95,7 @@ public class TreeTraversals {
         if ( node != null ) {
             postOrder( node.left, entries );
             postOrder( node.right, entries );
-            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<>( node.key, node.value ) );
         }
         
     }
@@ -110,7 +110,7 @@ public class TreeTraversals {
             while ( !queue.isEmpty() ) {
 
                 BinaryTree.Node<Key, Value> current = queue.dequeue();
-                entries.add( new BinaryTree.Entry<Key, Value>( current.key, current.value ) );
+                entries.add( new BinaryTree.Entry<>( current.key, current.value ) );
 
                 if ( current.left != null ) {
                     queue.enqueue( current.left );
@@ -129,7 +129,7 @@ public class TreeTraversals {
     private static <Key extends Comparable<Key>, Value> void inversePreOrder( BinaryTree.Node<Key, Value> node, List<BinaryTree.Entry<Key, Value>> entries ) {
         
         if ( node != null ) {
-            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<>( node.key, node.value ) );
             inversePreOrder( node.right, entries );
             inversePreOrder( node.left, entries );
         }
@@ -140,7 +140,7 @@ public class TreeTraversals {
         
         if ( node != null ) {
             inverseInOrder( node.right, entries );
-            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<>( node.key, node.value ) );
             inverseInOrder( node.left, entries );
         }
         
@@ -151,7 +151,7 @@ public class TreeTraversals {
         if ( node != null ) {
             inversePostOrder( node.right, entries );
             inversePostOrder( node.left, entries );
-            entries.add( new BinaryTree.Entry<Key, Value>( node.key, node.value ) );
+            entries.add( new BinaryTree.Entry<>( node.key, node.value ) );
         }
         
     }
@@ -167,7 +167,7 @@ public class TreeTraversals {
             while ( !queue.isEmpty() ) {
 
                 BinaryTree.Node<Key, Value> current = queue.dequeue();
-                stack.push( new BinaryTree.Entry<Key, Value>( current.key, current.value ) );
+                stack.push( new BinaryTree.Entry<>( current.key, current.value ) );
 
                 if ( current.left != null ) {
                     queue.enqueue( current.left );
