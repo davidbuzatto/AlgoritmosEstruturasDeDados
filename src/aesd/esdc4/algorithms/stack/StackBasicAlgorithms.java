@@ -6,7 +6,7 @@
 package aesd.esdc4.algorithms.stack;
 
 import aesd.esdc4.ds.exceptions.EmptyStackException;
-import aesd.esdc4.ds.implementations.LinkedStack;
+import aesd.esdc4.ds.implementations.linear.LinkedStack;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**

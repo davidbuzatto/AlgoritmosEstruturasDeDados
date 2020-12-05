@@ -25,7 +25,7 @@ public interface PriorityQueue<Key extends Comparable<Key>> extends Iterable<Key
     
     /**
      * Retorna a chave que tem maior prioridade definida de acordo com a 
-     * invariante da fila de prioridades implemnetada, sem removê-la.
+     * invariante da fila de prioridades implementada, sem removê-la.
      *
      * @return a chave com maior prioridade da fila de prioridades
      * @throws NoSuchElementException se essa fila de prioridades estiver vazia
@@ -34,7 +34,7 @@ public interface PriorityQueue<Key extends Comparable<Key>> extends Iterable<Key
     
     /**
      * Remove e retorna a chave que tem maior prioridade definida de acordo com a 
-     * invariante da fila de prioridades implemnetada.
+     * invariante da fila de prioridades implementada.
      *
      * @return a chave com maior prioridade da fila de prioridades
      * @throws NoSuchElementException se essa fila de prioridades estiver vazia

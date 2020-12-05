@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class Utils {
     
-     @SuppressWarnings( "unchecked" )
+    @SuppressWarnings( "unchecked" )
     public static void shuffle( List list ) {
         
         Random r = new Random();

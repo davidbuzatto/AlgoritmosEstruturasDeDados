@@ -6,9 +6,9 @@
 
 package aesd.esdc4.algorithms.tree;
 
-import aesd.esdc4.ds.implementations.LinkedQueue;
-import aesd.esdc4.ds.implementations.ResizingArrayList;
-import aesd.esdc4.ds.implementations.ResizingArrayStack;
+import aesd.esdc4.ds.implementations.linear.LinkedQueue;
+import aesd.esdc4.ds.implementations.linear.ResizingArrayList;
+import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
 import aesd.esdc4.ds.interfaces.List;
 import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;

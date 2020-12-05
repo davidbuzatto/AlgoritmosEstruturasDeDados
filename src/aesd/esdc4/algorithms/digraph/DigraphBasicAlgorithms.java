@@ -6,11 +6,14 @@
 
 package aesd.esdc4.algorithms.digraph;
 
-import aesd.esdc4.ds.implementations.working.Digraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Digraph;
 
 /**
  * Classe com alguns algoritmos básicos para digrafos.
- *
+ * 
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
+ * Boston: Pearson Education, 2011. 955 p.
+ * 
  * @author Prof. Dr. David Buzatto
  */
 public class DigraphBasicAlgorithms {
@@ -18,41 +21,41 @@ public class DigraphBasicAlgorithms {
     /**
      * Calcula o grau de saída de um vértice de um digrafo.
      * 
-     * @param dg Digraph
+     * @param dg Digrafo
      * @param v Vértice
      * @return Grau de saída vértice do grafo.
      */
-    public static <Tipo> int grauSaida( Digraph<Tipo> dg, Tipo v ) {
+    public static int grauSaida( Digraph dg, int v ) {
         
-        int grauEntrada = 0;
+        int grauSaida = 0;
         
-        for ( Tipo w : dg.getAdjacentes( v ) ) {
-            grauEntrada++;
+        for ( int w : dg.adj( v ) ) {
+            grauSaida++;
         }
         
-        return grauEntrada;
+        return grauSaida;
         
     }
     
     /**
      * Calcula o grau de saída de um vértice de um digrafo.
      * 
-     * @param dg Digraph
+     * @param dg Digrafo
      * @param v Vértice
      * @return Grau de saída vértice do grafo.
      */
-    public static <Tipo> int grauEntrada( Digraph<Tipo> dg, Tipo v ) {
+    public static int grauEntrada( Digraph dg, int v ) {
         
-        int grauSaida = 0;
+        int grauEntrada = 0;
         
-        for ( Tipo w : dg.getVertices() ) {
+        for ( int w = 0; w < dg.getNumberOfVertices(); w++ ) {
             
             // se não é o nó de origem
-            if ( !w.equals( v ) ) {
+            if ( w != v ) {
                 
-                for ( Tipo k : dg.getAdjacentes( w ) ) {
-                    if ( k.equals( v ) ) {
-                        grauSaida++;
+                for ( int k : dg.adj( w ) ) {
+                    if ( k == v ) {
+                        grauEntrada++;
                     }
                 }
                 
@@ -60,23 +63,22 @@ public class DigraphBasicAlgorithms {
             
         }
         
-        return grauSaida;
+        return grauEntrada;
         
     }
 
     /**
      * Calcula o maior grau de saída do digrafo.
      * 
-     * @param dg Digraph
+     * @param dg Digrafo
      * @return O maior grau de saída do grafo.
      */
-    public static <Tipo> int grauMaximoSaida( Digraph<Tipo> dg ) {
+    public static int grauMaximoSaida( Digraph dg ) {
         
         int max = 0;
-        int grauSaida;
         
-        for ( Tipo v : dg.getVertices() ) {
-            grauSaida = grauSaida( dg, v );
+        for ( int v = 0; v < dg.getNumberOfVertices(); v++ ) {
+            int grauSaida = grauSaida( dg, v );
             if ( grauSaida > max ) {
                 max = grauSaida;
             }
@@ -89,15 +91,15 @@ public class DigraphBasicAlgorithms {
     /**
      * Calcula o maior grau de entrada do digrafo.
      * 
-     * @param dg Digraph
+     * @param dg Digrafo
      * @return O maior grau de entrada do grafo.
      */
-    public static <Tipo> int grauMaximoEntrada( Digraph<Tipo> dg ) {
+    public static int grauMaximoEntrada( Digraph dg ) {
         
         int max = 0;
         int grauEntrada;
         
-        for ( Tipo v : dg.getVertices() ) {
+        for ( int v = 0; v < dg.getNumberOfVertices(); v++ ) {
             grauEntrada = grauEntrada( dg, v );
             if ( grauEntrada > max ) {
                 max = grauEntrada;
@@ -111,26 +113,26 @@ public class DigraphBasicAlgorithms {
     /**
      * Calcula o grauSaida médio do grafo.
      * 
-     * @param dg Digraph
+     * @param dg Digrafo
      * @return Grau médio do grafo.
      */
     public static double grauMedio( Digraph dg ) {
-        return dg.getQuantidadeArestas() / (double) dg.getQuantidadeVertices();
+        return dg.getNumberOfEdges()/ (double) dg.getNumberOfVertices();
     }
 
     /**
      * Calcula a quantidade de laços dentro de um grafo.
      * 
-     * @param dg Digraph
+     * @param dg Digrafo
      * @return Quantidade de laços.
      */
-    public static <Tipo> int quantidadeLacos( Digraph<Tipo> dg ) {
+    public static int quantidadeLacos( Digraph dg ) {
         
         int cont = 0;
         
-        for ( Tipo v : dg.getVertices() ) {
-            for ( Tipo w : dg.getAdjacentes( v ) ) {
-                if ( v.equals( w ) ) {
+        for ( int v = 0; v < dg.getNumberOfVertices(); v++ ) {
+            for ( int w : dg.adj( v ) ) {
+                if ( v == w ) {
                     cont++;
                 }
             }
