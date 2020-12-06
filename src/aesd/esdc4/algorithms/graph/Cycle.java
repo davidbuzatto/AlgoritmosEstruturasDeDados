@@ -10,7 +10,8 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.Graph;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- *
+ * Determina se um grafo possui algum ciclo e caso tenha o armazena.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
@@ -18,37 +19,47 @@ import aesd.esdc4.ds.interfaces.Stack;
  */
 public class Cycle {
 
+    // marked[v] = v foi visitado?
     private boolean[] marked;
+    
+    // edgeTo[v] = última aresta no caminho
     private int[] edgeTo;
+    
+    // ciclo, caso exista
     private Stack<Integer> cycle;
 
     /**
-     * Determines whether the undirected graph {@code G} has a cycle and, if so,
-     * finds such a cycle.
+     * Determina se um grafo possui ciclo e, caso tenha, encontra o mesmo.
      *
-     * @param G the undirected graph
+     * @param graph the undirected graph
      */
-    public Cycle( Graph G ) {
-        if ( hasSelfLoop( G ) ) {
+    public Cycle( Graph graph ) {
+        
+        if ( hasSelfLoop( graph ) ) {
             return;
         }
-        if ( hasParallelEdges( G ) ) {
+        
+        if ( hasParallelEdges( graph ) ) {
             return;
         }
-        marked = new boolean[G.getNumberOfVertices()];
-        edgeTo = new int[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+        
+        marked = new boolean[graph.getNumberOfVertices()];
+        edgeTo = new int[graph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
             if ( !marked[v] ) {
-                dfs( G, -1, v );
+                dfs( graph, -1, v );
             }
         }
+        
     }
 
-    // does this graph have a self loop?
-    // side effect: initialize cycle to be self loop
-    private boolean hasSelfLoop( Graph G ) {
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-            for ( int w : G.adj( v ) ) {
+    // esse grafo tem loop?
+    // efeito colateral: inicializa o ciclo para ser o loop
+    private boolean hasSelfLoop( Graph graph ) {
+        
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
+            for ( int w : graph.adj( v ) ) {
                 if ( v == w ) {
                     cycle = new ResizingArrayStack<>();
                     cycle.push( v );
@@ -57,18 +68,21 @@ public class Cycle {
                 }
             }
         }
+        
         return false;
+        
     }
 
-    // does this graph have two parallel edges?
-    // side effect: initialize cycle to be two parallel edges
-    private boolean hasParallelEdges( Graph G ) {
-        marked = new boolean[G.getNumberOfVertices()];
+    // esse grafo tem arestas paralelas?
+    // efeito colateral: inicializa o ciclo para ser as arestas paralelas
+    private boolean hasParallelEdges( Graph graph ) {
+        
+        marked = new boolean[graph.getNumberOfVertices()];
 
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
 
-            // check for parallel edges incident to v
-            for ( int w : G.adj( v ) ) {
+            // procura por arestas paralelas que entram em v
+            for ( int w : graph.adj( v ) ) {
                 if ( marked[w] ) {
                     cycle = new ResizingArrayStack<>();
                     cycle.push( v );
@@ -79,55 +93,70 @@ public class Cycle {
                 marked[w] = true;
             }
 
-            // reset so marked[v] = false for all v
-            for ( int w : G.adj( v ) ) {
+            // reinicia, setando false em marked[v] para todos os v's
+            for ( int w : graph.adj( v ) ) {
                 marked[w] = false;
             }
+            
         }
+        
         return false;
+        
     }
 
     /**
-     * Returns true if the graph {@code G} has a cycle.
+     * retorna verdadeiro se o grafo possui ciclo.
      *
-     * @return {@code true} if the graph has a cycle; {@code false} otherwise
+     * @return verdadeiro se o grado possui ciclo, falso caso contrário
      */
     public boolean hasCycle() {
         return cycle != null;
     }
 
     /**
-     * Returns a cycle in the graph {@code G}.
+     * Retorna o ciclo do grafo.
      *
-     * @return a cycle if the graph {@code G} has a cycle, and {@code null}
-     * otherwise
+     * @return um ciclo do grafo caso exista, como iterável, ou null caso não
+     * haja ciclo.
      */
     public Iterable<Integer> cycle() {
         return cycle;
     }
 
-    private void dfs( Graph G, int u, int v ) {
+    // busca em profundidade
+    private void dfs( Graph graph, int u, int v ) {
+        
         marked[v] = true;
-        for ( int w : G.adj( v ) ) {
+        
+        for ( int w : graph.adj( v ) ) {
 
-            // short circuit if cycle already found
+            // para se já encontrou um ciclo
             if ( cycle != null ) {
                 return;
             }
 
             if ( !marked[w] ) {
+                
                 edgeTo[w] = v;
-                dfs( G, v, w );
-            } // check for cycle (but disregard reverse of edge leading to v)
-            else if ( w != u ) {
+                dfs( graph, v, w );
+                
+                // verifica se há algum ciclo, desconsiderando o reverso da
+                // aresta que leva a v
+            } else if ( w != u ) {
+                
                 cycle = new ResizingArrayStack<>();
-                for ( int x = v; x != w; x = edgeTo[x] ) {
-                    cycle.push( x );
+                
+                for ( int current = v; current != w; current = edgeTo[current] ) {
+                    cycle.push( current );
                 }
+                
                 cycle.push( w );
                 cycle.push( v );
+                
             }
+            
         }
+        
     }
 
 }

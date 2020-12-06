@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package aesd.esdc4.algorithms.graph;
 
 import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
@@ -11,100 +10,122 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Graph;
 
 /**
+ * Computa os componentes conexos de um grafo ou de um grafo ponderado.
  *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class ConnectedComponents {
-    
-    private boolean[] marked;   // marked[v] = has vertex v been marked?
-    private int[] id;           // id[v] = id of connected component containing v
-    private int[] size;         // size[id] = number of vertices in given component
-    private int count;          // number of connected components
+
+    // marked[v] = o vértice v foi visitado?
+    private boolean[] marked;
+
+    // id[v] = identificador do componente conexto que contém v
+    private int[] id;
+
+    // size[id] = quantidade de vértices no componente conexo identificado por id
+    private int[] size;
+
+    // quantidade de componentes conexos
+    private int count;
 
     /**
-     * Computes the connected components of the undirected graph {@code G}.
+     * Computa os componentes conexos do grafo.
      *
-     * @param G the undirected graph
+     * @param grafo o grafo
      */
-    public ConnectedComponents(Graph G) {
-        marked = new boolean[G.getNumberOfVertices()];
-        id = new int[G.getNumberOfVertices()];
-        size = new int[G.getNumberOfVertices()];
-        for (int v = 0; v < G.getNumberOfVertices(); v++) {
-            if (!marked[v]) {
-                dfs(G, v);
+    public ConnectedComponents( Graph grafo ) {
+        
+        marked = new boolean[grafo.getNumberOfVertices()];
+        id = new int[grafo.getNumberOfVertices()];
+        size = new int[grafo.getNumberOfVertices()];
+        
+        for ( int v = 0; v < grafo.getNumberOfVertices(); v++ ) {
+            if ( !marked[v] ) {
+                dfs( grafo, v );
                 count++;
             }
         }
+        
     }
 
     /**
-     * Computes the connected components of the edge-weighted graph {@code G}.
+     * Computa os componentes conexos do grafo ponderado.
      *
-     * @param G the edge-weighted graph
+     * @param graph o grafo ponderado
      */
-    public ConnectedComponents(EdgeWeightedGraph G) {
-        marked = new boolean[G.getNumberOfVertices()];
-        id = new int[G.getNumberOfVertices()];
-        size = new int[G.getNumberOfVertices()];
-        for (int v = 0; v < G.getNumberOfVertices(); v++) {
-            if (!marked[v]) {
-                dfs(G, v);
+    public ConnectedComponents( EdgeWeightedGraph graph ) {
+        
+        marked = new boolean[graph.getNumberOfVertices()];
+        id = new int[graph.getNumberOfVertices()];
+        size = new int[graph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
+            if ( !marked[v] ) {
+                dfs( graph, v );
                 count++;
             }
         }
+        
     }
 
-    // depth-first search for a Graph
-    private void dfs(Graph G, int v) {
+    // implementação da busca em profundidade a partir de v para um grafo
+    private void dfs( Graph graph, int v ) {
+        
         marked[v] = true;
         id[v] = count;
         size[count]++;
-        for (int w : G.adj(v)) {
-            if (!marked[w]) {
-                dfs(G, w);
+        
+        for ( int w : graph.adj( v ) ) {
+            if ( !marked[w] ) {
+                dfs( graph, w );
             }
         }
+        
     }
 
-    // depth-first search for an EdgeWeightedGraph
-    private void dfs(EdgeWeightedGraph G, int v) {
+    // implementação da busca em profundidade a partir de v para um grafo
+    // ponderado
+    private void dfs( EdgeWeightedGraph graph, int v ) {
+        
         marked[v] = true;
         id[v] = count;
         size[count]++;
-        for (Edge e : G.adj(v)) {
-            int w = e.other(v);
-            if (!marked[w]) {
-                dfs(G, w);
+        
+        for ( Edge e : graph.adj( v ) ) {
+            int w = e.other( v );
+            if ( !marked[w] ) {
+                dfs( graph, w );
             }
         }
+        
     }
-
 
     /**
-     * Returns the component id of the connected component containing vertex {@code v}.
+     * Retorna o identificador do componente conexo que contém v.
      *
-     * @param  v the vertex
-     * @return the component id of the connected component containing vertex {@code v}
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice
+     * @return o identificador do componente conexo que contém v
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public int id(int v) {
-        validateVertex(v);
+    public int id( int v ) throws IllegalArgumentException {
+        validateVertex( v );
         return id[v];
     }
 
     /**
-     * Returns the number of vertices in the connected component containing vertex {@code v}.
+     * Returns the number of vertices in the connected component containing
+     * vertex {@code v}.
      *
-     * @param  v the vertex
-     * @return the number of vertices in the connected component containing vertex {@code v}
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice
+     * @return a quantidade de vértices contidos no componente conexo em que v
+     * está contido
+     * @throws IllegalArgumentException se o vértice for inválido.
      */
-    public int size(int v) {
-        validateVertex(v);
+    public int size( int v ) throws IllegalArgumentException {
+        validateVertex( v );
         return size[id[v]];
     }
 
@@ -118,46 +139,27 @@ public class ConnectedComponents {
     }
 
     /**
-     * Returns true if vertices {@code v} and {@code w} are in the same
-     * connected component.
+     * Verifica se há um caminho entre v e w, ou seja, se ambos estão conectados.
      *
-     * @param  v one vertex
-     * @param  w the other vertex
-     * @return {@code true} if vertices {@code v} and {@code w} are in the same
-     *         connected component; {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
-     * @throws IllegalArgumentException unless {@code 0 <= w < V}
+     * @param v um vértice
+     * @param w outro vértice
+     * @return verdadeiro se v estiver conectado a w, falso caso contrário
+     * @throws IllegalArgumentException se qualquer um dos vértices for inválido
      */
-    public boolean connected(int v, int w) {
-        validateVertex(v);
-        validateVertex(w);
-        return id(v) == id(w);
+    public boolean connected( int v, int w ) throws IllegalArgumentException {
+        
+        validateVertex( v );
+        validateVertex( w );
+        
+        return id( v ) == id( w );
+        
     }
 
-    /**
-     * Returns true if vertices {@code v} and {@code w} are in the same
-     * connected component.
-     *
-     * @param  v one vertex
-     * @param  w the other vertex
-     * @return {@code true} if vertices {@code v} and {@code w} are in the same
-     *         connected component; {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
-     * @throws IllegalArgumentException unless {@code 0 <= w < V}
-     * @deprecated Replaced by {@link #connected(int, int)}.
-     */
-    @Deprecated
-    public boolean areConnected(int v, int w) {
-        validateVertex(v);
-        validateVertex(w);
-        return id(v) == id(w);
-    }
-
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
-    private void validateVertex(int v) {
+    private void validateVertex( int v ) throws IllegalArgumentException {
         int V = marked.length;
-        if (v < 0 || v >= V)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
+        if ( v < 0 || v >= V ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+        }
     }
-    
+
 }

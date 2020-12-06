@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package aesd.esdc4.algorithms.graph;
 
 import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
@@ -11,97 +10,131 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.Graph;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
+ * Realiza a busca em profundida para computar os caminhos entre o vértice fonte
+ * e todos os outros vértices do grafo.
+ *
+ * s é o vértice fonte (source).
  *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class DepthFirstSearch {
 
-    private boolean[] marked;    // marked[v] = is there an s-v path?
-    private int[] edgeTo;        // edgeTo[v] = last edge on s-v path
-    private final int s;         // source vertex
-    private final Graph g;
+    // marked[v] = há um caminho s-v?
+    // ou v foi visitado?
+    private boolean[] marked;
+
+    // edgeTo[v] = última aresta no caminho s-v
+    private int[] edgeTo;
+
+    // vértice fonte
+    private final int source;
+
+    // o grafo
+    private final Graph graph;
 
     /**
-     * Computes a path between {@code s} and every other vertex in graph {@code G}.
-     * @param G the graph
-     * @param s the source vertex
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
+     * Computa o caminho entre o vértice fonte s e todos os outros vértices do
+     * grafo.
+     *
+     * @param graph o grafo
+     * @param source o vértice fonte
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public DepthFirstSearch(Graph G, int s) {
-        this.s = s;
-        this.g = G;
-        edgeTo = new int[G.getNumberOfVertices()];
-        marked = new boolean[G.getNumberOfVertices()];
-        validateVertex(s);
-        dfs(G, s);
+    public DepthFirstSearch( Graph graph, int source )  throws IllegalArgumentException {
+        
+        validateVertex( source );
+        
+        this.source = source;
+        this.graph = graph;
+        
+        edgeTo = new int[graph.getNumberOfVertices()];
+        marked = new boolean[graph.getNumberOfVertices()];
+        
+        dfs( graph, source );
+        
     }
 
-    // depth first search from v
-    private void dfs(Graph G, int v) {
+    // implementação da busca em profundidade a partir de v
+    private void dfs( Graph graph, int v ) {
+        
         marked[v] = true;
-        for (int w : G.adj(v)) {
-            if (!marked[w]) {
+        
+        for ( int w : graph.adj( v ) ) {
+            if ( !marked[w] ) {
                 edgeTo[w] = v;
-                dfs(G, w);
+                dfs( graph, w );
             }
         }
+        
     }
 
     /**
-     * Is there a path between the source vertex {@code s} and vertex {@code v}?
-     * @param v the vertex
-     * @return {@code true} if there is a path, {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * Há um caminho entre o vértice fonte e v?
+     *
+     * @param v o vértice
+     * @return verdadeiro se houver um caminho, falso caso contrário
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public boolean hasPathTo(int v) {
-        validateVertex(v);
+    public boolean hasPathTo( int v ) throws IllegalArgumentException {
+        validateVertex( v );
         return marked[v];
     }
 
     /**
-     * Returns a path between the source vertex {@code s} and vertex {@code v}, or
-     * {@code null} if no such path.
-     * @param  v the vertex
-     * @return the sequence of vertices on a path between the source vertex
-     *         {@code s} and vertex {@code v}, as an Iterable
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * Retorna o caminho entre o vértice fonte e o vértice passado ou null caso
+     * não exista tal caminho.
+     *
+     * @param v o vértice
+     * @return a sequência de vértices do caminho como um iterável
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public Iterable<Integer> pathTo(int v) {
-        validateVertex(v);
-        if (!hasPathTo(v)) return null;
+    public Iterable<Integer> pathTo( int v ) throws IllegalArgumentException {
+        
+        validateVertex( v );
+        
+        if ( !hasPathTo( v ) ) {
+            return null;
+        }
+        
         Stack<Integer> path = new ResizingArrayStack<>();
-        for (int x = v; x != s; x = edgeTo[x])
-            path.push(x);
-        path.push(s);
+        
+        for ( int current = v; current != source; current = edgeTo[current] ) {
+            path.push( current );
+        }
+        path.push( source );
+        
         return path;
+        
+        
     }
 
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
-    private void validateVertex(int v) {
-        int V = marked.length;
-        if (v < 0 || v >= V)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
+    private void validateVertex( int v ) throws IllegalArgumentException {
+        int length = marked.length;
+        if ( v < 0 || v >= length ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( length - 1 ) );
+        }
     }
 
     @Override
     public String toString() {
-        
+
         StringBuilder sb = new StringBuilder();
+
+        sb.append( "Depth-First Search (source: vertex " ).append( source ).append( ")\n" );
+        sb.append( "v\tmarked[v]\tedgeTo[v]\n" );
         
-        sb.append( "Busca em Profunidade (fonte: vértice " ).append( s ).append( ")\n" );
-        sb.append( "v\tmarcado[v]\tarestaAte[v]\n" );
-        for ( int v = 0; v < g.getNumberOfVertices(); v++ ) {
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
             sb.append( String.format( "%d\t%s\t\t%s\n",
-                    v, 
-                    marked[v] ? "T" : "F", 
+                    v,
+                    marked[v] ? "T" : "F",
                     edgeTo[v] == -1 ? "-" : edgeTo[v] ) );
         }
-        
+
         return sb.toString();
-        
+
     }
-    
+
 }

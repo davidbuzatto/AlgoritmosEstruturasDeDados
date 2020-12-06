@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package aesd.esdc4.algorithms.graph;
 
 import aesd.esdc4.ds.implementations.linear.LinkedQueue;
@@ -13,127 +12,167 @@ import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
+ * Realiza a busca em largura para computar o menor caminho entre o vértice
+ * fonte e todos os outros vértices do grafo.
+ * 
+ * s é o vértice fonte (source).
  *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class BreadthFirstSearch {
 
+    // maior valor possível do tipo inteiro
     private static final int INFINITY = Integer.MAX_VALUE;
-    private boolean[] marked;  // marked[v] = is there an s-v path
-    private int[] edgeTo;      // edgeTo[v] = previous edge on shortest s-v path
-    private int[] distTo;      // distTo[v] = number of edges shortest s-v path
-    private final int s;         // source vertex
-    private final Graph g;
+
+    // marked[v] = há um caminho s-v?
+    // ou v foi visitado?
+    private boolean[] marked;
+
+    // edgeTo[v] = última aresta no menor caminho s-v
+    private int[] edgeTo;
+
+    // distTo[v] = número de arestas no menor caminho s-v
+    private int[] distTo;
+
+    // vértice fonte
+    private final int source;
+
+    // o grafo
+    private final Graph graph;
 
     /**
-     * Computes the shortest path between the source vertex {@code s}
-     * and every other vertex in the graph {@code G}.
-     * @param G the graph
-     * @param s the source vertex
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
+     * Computa o menor caminho entre o vértice fonte s e todos os outros
+     * vértices do grafo.
+     *
+     * @param graph o grafo
+     * @param source o vértice fonte
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public BreadthFirstSearch(Graph G, int s) {
-        marked = new boolean[G.getNumberOfVertices()];
-        distTo = new int[G.getNumberOfVertices()];
-        edgeTo = new int[G.getNumberOfVertices()];
-        this.s = s;
-        this.g = G;
-        validateVertex(s);
-        bfs(G, s);
+    public BreadthFirstSearch( Graph graph, int source ) throws IllegalArgumentException {
+        
+        validateVertex( source );
+        
+        marked = new boolean[graph.getNumberOfVertices()];
+        distTo = new int[graph.getNumberOfVertices()];
+        edgeTo = new int[graph.getNumberOfVertices()];
+        
+        this.source = source;
+        this.graph = graph;
+        
+        bfs( graph, source );
+        
     }
 
-
-    // breadth-first search from a single source
-    private void bfs(Graph G, int s) {
+    // implementação da busca em largura para uma fonte
+    private void bfs( Graph graph, int source ) {
+        
         Queue<Integer> q = new LinkedQueue<>();
-        for (int v = 0; v < G.getNumberOfVertices(); v++)
+        
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
             distTo[v] = INFINITY;
-        distTo[s] = 0;
-        marked[s] = true;
-        q.enqueue(s);
+        }
+        distTo[source] = 0;
+        marked[source] = true;
+        q.enqueue( source );
 
-        while (!q.isEmpty()) {
+        while ( !q.isEmpty() ) {
+            
             int v = q.dequeue();
-            for (int w : G.adj(v)) {
-                if (!marked[w]) {
+            
+            for ( int w : graph.adj( v ) ) {
+                if ( !marked[w] ) {
                     edgeTo[w] = v;
                     distTo[w] = distTo[v] + 1;
                     marked[w] = true;
-                    q.enqueue(w);
+                    q.enqueue( w );
                 }
             }
+            
         }
+        
     }
 
     /**
-     * Is there a path between the source vertex {@code s} (or sources) and vertex {@code v}?
-     * @param v the vertex
-     * @return {@code true} if there is a path, and {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * Há um caminho entre o vértice fonte e v?
+     *
+     * @param v o vértice
+     * @return verdadeiro se houver um caminho entre s-v, falso caso contrário
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public boolean hasPathTo(int v) {
-        validateVertex(v);
+    public boolean hasPathTo( int v ) throws IllegalArgumentException {
+        validateVertex( v );
         return marked[v];
     }
 
     /**
-     * Returns the number of edges in a shortest path between the source vertex {@code s}
-     * (or sources) and vertex {@code v}?
-     * @param v the vertex
-     * @return the number of edges in a shortest path
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * Retorna a quantidade de arestas do menor caminho entre o vértice fonte e
+     * o vértice passado.
+     *
+     * @param v o vértice
+     * @return a quantidade de aretas no caminho
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public int distTo(int v) {
-        validateVertex(v);
+    public int distTo( int v ) throws IllegalArgumentException {
+        validateVertex( v );
         return distTo[v];
     }
 
     /**
-     * Returns a shortest path between the source vertex {@code s} (or sources)
-     * and {@code v}, or {@code null} if no such path.
-     * @param  v the vertex
-     * @return the sequence of vertices on a shortest path, as an Iterable
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * Retorna o menor caminho entre o vértice fonte e o vértice passado ou 
+     * null caso não exista tal caminho.
+     *
+     * @param v o vértice
+     * @return a sequência de vértices do menor caminho como um iterável
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public Iterable<Integer> pathTo(int v) {
-        validateVertex(v);
-        if (!hasPathTo(v)) return null;
+    public Iterable<Integer> pathTo( int v ) {
+        
+        validateVertex( v );
+        
+        if ( !hasPathTo( v ) ) {
+            return null;
+        }
+        
         Stack<Integer> path = new ResizingArrayStack<>();
-        int x;
-        for (x = v; distTo[x] != 0; x = edgeTo[x])
-            path.push(x);
-        path.push(x);
+        int current;
+        
+        for ( current = v; distTo[current] != 0; current = edgeTo[current] ) {
+            path.push( current );
+        }
+        path.push( current );
+        
         return path;
+        
     }
 
-
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
-    private void validateVertex(int v) {
+    private void validateVertex( int v ) throws IllegalArgumentException {
         int V = marked.length;
-        if (v < 0 || v >= V)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
+        if ( v < 0 || v >= V ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+        }
     }
 
     @Override
     public String toString() {
-        
+
         StringBuilder sb = new StringBuilder();
+
+        sb.append( "Breadth-First Search (source: vertex" ).append( source ).append( ")\n" );
+        sb.append( "v\tmarked[v]\tedgeTo[v]\tdistTo[v]\n" );
         
-        sb.append( "Busca em Largura (fonte: vértice " ).append( s ).append( ")\n" );
-        sb.append( "v\tmarcado[v]\tarestaAte[v]\tdistanciaAte[v]\n" );
-        for ( int v = 0; v < g.getNumberOfVertices(); v++ ) {
-            sb.append( String.format( "%d\t%s\t\t%s\t\t%s\n", 
-                    v, 
-                    marked[v] ? "T" : "F", 
-                    edgeTo[v] == -1 ? "-" : edgeTo[v],  
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
+            sb.append( String.format( "%d\t%s\t\t%s\t\t%s\n",
+                    v,
+                    marked[v] ? "T" : "F",
+                    edgeTo[v] == -1 ? "-" : edgeTo[v],
                     distTo[v] == -1 ? "-" : distTo[v] ) );
         }
-        
+
         return sb.toString();
-        
+
     }
-    
+
 }

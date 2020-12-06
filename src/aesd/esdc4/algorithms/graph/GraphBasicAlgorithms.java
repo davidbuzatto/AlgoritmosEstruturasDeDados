@@ -9,7 +9,9 @@ package aesd.esdc4.algorithms.graph;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Graph;
 
 /**
- *
+ * Implementação de algoritmos básicos para grafos, principalmente para extração
+ * de propriedades.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -20,35 +22,35 @@ public class GraphBasicAlgorithms {
     /**
      * Calcula o grau de um vértice de um grafo.
      * 
-     * @param g o grafo
+     * @param graph o grafo
      * @param v Vértice
      * @return Grau do vértice do grafo.
      */
-    public static int grau( Graph g, int v ) {
+    public static int degree( Graph graph, int v ) {
         
-        int grau = 0;
+        int degree = 0;
         
-        for ( int w : g.adj( v ) ) {
-            grau++;
+        for ( int w : graph.adj( v ) ) {
+            degree++;
         }
         
-        return grau;
+        return degree;
         
     }
 
     /**
      * Calcula o maior grau do grafo.
      * 
-     * @param g o grafo
+     * @param graph o grafo
      * @return O maior grau do grafo.
      */
-    public static int grauMaximo( Graph g ) {
+    public static int maxDegree( Graph graph ) {
         
         int max = 0;
         int grau;
         
-        for ( int v = 0; v < g.getNumberOfVertices(); v++ ) {
-            grau = grau( g, v );
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
+            grau = degree( graph, v );
             if ( grau > max ) {
                 max = grau;
             }
@@ -61,11 +63,11 @@ public class GraphBasicAlgorithms {
     /**
      * Calcula o grau médio do grafo.
      * 
-     * @param g o grafo
+     * @param graph o grafo
      * @return Grau médio do grafo.
      */
-    public static double grauMedio( Graph g ) {
-        return 2.0 * g.getNumberOfEdges() / (double) g.getNumberOfVertices();
+    public static double mediumDegree( Graph graph ) {
+        return 2.0 * graph.getNumberOfEdges() / (double) graph.getNumberOfVertices();
     }
 
     /**
@@ -74,20 +76,20 @@ public class GraphBasicAlgorithms {
      * @param g o grafo
      * @return Quantidade de laços.
      */
-    public static int quantidadeLacos( Graph g ) {
+    public static int loopQuantity( Graph g ) {
         
-        int cont = 0;
+        int count = 0;
         
         for ( int v = 0; v < g.getNumberOfVertices(); v++ ) {
             for ( int w : g.adj( v ) ) {
                 if ( v == w ) {
-                    cont++;
+                    count++;
                 }
             }
         }
         
-        // para laços, 2 iguais (implementação)
-        return cont / 2;
+        // para laços, 2 iguais (implementação da lista de adjacências)
+        return count / 2;
         
     }
 
