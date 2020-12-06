@@ -8,8 +8,8 @@ package aesd.esdc4.algorithms.digraph;
 import aesd.esdc4.ds.implementations.linear.LinkedQueue;
 import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Digraph;
-import aesd.esdc4.ds.implementations.working.DirectedEdge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedDigraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;
 
@@ -55,12 +55,12 @@ public class DepthFirstOrder {
      * @param G the edge-weighted digraph
      */
     public DepthFirstOrder( EdgeWeightedDigraph G ) {
-        pre = new int[G.V()];
-        post = new int[G.V()];
+        pre = new int[G.getNumberOfVertices()];
+        post = new int[G.getNumberOfVertices()];
         postorder = new LinkedQueue<>();
         preorder = new LinkedQueue<>();
-        marked = new boolean[G.V()];
-        for ( int v = 0; v < G.V(); v++ ) {
+        marked = new boolean[G.getNumberOfVertices()];
+        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
             if ( !marked[v] ) {
                 dfs( G, v );
             }
@@ -86,7 +86,7 @@ public class DepthFirstOrder {
         marked[v] = true;
         pre[v] = preCounter++;
         preorder.enqueue( v );
-        for ( DirectedEdge e : G.adj( v ) ) {
+        for ( Edge e : G.adj( v ) ) {
             int w = e.to();
             if ( !marked[w] ) {
                 dfs( G, w );

@@ -7,9 +7,9 @@ package aesd.esdc4.algorithms.graph.edgeweighted;
 
 import aesd.esdc4.ds.implementations.linear.LinkedQueue;
 import aesd.esdc4.ds.implementations.nonlinear.pq.MinPriorityQueue;
-import aesd.esdc4.ds.implementations.working.Edge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedGraph;
-import aesd.esdc4.ds.implementations.working.UF;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
+import aesd.esdc4.ds.implementations.nonlinear.uf.UF;
 import aesd.esdc4.ds.interfaces.Queue;
 
 /**
@@ -39,8 +39,8 @@ public class KruskalMST {
         }
 
         // run greedy algorithm
-        UF uf = new UF( G.V() );
-        while ( !pq.isEmpty() && mst.getSize()< G.V() - 1 ) {
+        UF uf = new UF( G.getNumberOfVertices() );
+        while ( !pq.isEmpty() && mst.getSize()< G.getNumberOfVertices() - 1 ) {
             Edge e = pq.delete();
             int v = e.either();
             int w = e.other( v );
@@ -90,7 +90,7 @@ public class KruskalMST {
         }
 
         // check that it is acyclic
-        UF uf = new UF( G.V() );
+        UF uf = new UF( G.getNumberOfVertices() );
         for ( Edge e : edges() ) {
             int v = e.either(), w = e.other( v );
             if ( uf.find( v ) == uf.find( w ) ) {
@@ -113,7 +113,7 @@ public class KruskalMST {
         for ( Edge e : edges() ) {
 
             // all edges in MST except e
-            uf = new UF( G.V() );
+            uf = new UF( G.getNumberOfVertices() );
             for ( Edge f : mst ) {
                 int x = f.either(), y = f.other( x );
                 if ( f != e ) {

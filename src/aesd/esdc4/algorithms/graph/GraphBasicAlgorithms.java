@@ -20,7 +20,7 @@ public class GraphBasicAlgorithms {
     /**
      * Calcula o grau de um vértice de um grafo.
      * 
-     * @param g BasicGraph
+     * @param g o grafo
      * @param v Vértice
      * @return Grau do vértice do grafo.
      */
@@ -39,7 +39,7 @@ public class GraphBasicAlgorithms {
     /**
      * Calcula o maior grau do grafo.
      * 
-     * @param g BasicGraph
+     * @param g o grafo
      * @return O maior grau do grafo.
      */
     public static int grauMaximo( Graph g ) {
@@ -61,7 +61,7 @@ public class GraphBasicAlgorithms {
     /**
      * Calcula o grau médio do grafo.
      * 
-     * @param g BasicGraph
+     * @param g o grafo
      * @return Grau médio do grafo.
      */
     public static double grauMedio( Graph g ) {
@@ -71,7 +71,7 @@ public class GraphBasicAlgorithms {
     /**
      * Calcula a quantidade de laços dentro de um grafo.
      * 
-     * @param g BasicGraph
+     * @param g o grafo
      * @return Quantidade de laços.
      */
     public static int quantidadeLacos( Graph g ) {

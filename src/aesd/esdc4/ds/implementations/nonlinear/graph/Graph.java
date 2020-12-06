@@ -37,7 +37,7 @@ public class Graph {
      * que zero
      */
     @SuppressWarnings( "unchecked" )
-    public Graph( int vertices ) {
+    public Graph( int vertices ) throws IllegalArgumentException {
         
         if ( vertices < 0 ) {
             throw new IllegalArgumentException( "Number of vertices must be nonnegative" );
@@ -60,14 +60,14 @@ public class Graph {
      * @throws IllegalArgumentException se o grafo passado for null
      */
     @SuppressWarnings( "unchecked" )
-    public Graph( Graph graph ) {
+    public Graph( Graph graph ) throws IllegalArgumentException {
+        
+        if ( graph == null ) {
+            throw new IllegalArgumentException( "argument is null" );
+        }
         
         this.vertices = graph.getNumberOfVertices();
         this.edges = graph.getNumberOfEdges();
-        
-        if ( vertices < 0 ) {
-            throw new IllegalArgumentException( "Number of vertices must be nonnegative" );
-        }
 
         // atualiza a lista de adjacências
         adj = new ResizingArrayList[vertices];
@@ -110,7 +110,7 @@ public class Graph {
         return edges;
     }
 
-    private void validateVertex( int v ) {
+    private void validateVertex( int v ) throws IllegalArgumentException {
         
         if ( v < 0 || v >= vertices ) {
             throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( vertices - 1 ) );
@@ -125,7 +125,7 @@ public class Graph {
      * @param w o outro vértice
      * @throws IllegalArgumentException se os vértices forem inválidos
      */
-    public void addEdge( int v, int w ) {
+    public void addEdge( int v, int w ) throws IllegalArgumentException {
         
         validateVertex( v );
         validateVertex( w );
@@ -144,7 +144,7 @@ public class Graph {
      * @return os vértices adjacentes ao vértice v
      * @throws IllegalArgumentException se for um vértice inválido
      */
-    public Iterable<Integer> adj( int v ) {
+    public Iterable<Integer> adj( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return adj[v];
     }
@@ -156,7 +156,7 @@ public class Graph {
      * @return o grafu do vértice v
      * @throws IllegalArgumentException se for um vértice inválido
      */
-    public int degree( int v ) {
+    public int degree( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return adj[v].getSize();
     }

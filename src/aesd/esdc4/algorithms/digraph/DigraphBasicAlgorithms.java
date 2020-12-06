@@ -21,32 +21,32 @@ public class DigraphBasicAlgorithms {
     /**
      * Calcula o grau de saída de um vértice de um digrafo.
      * 
-     * @param dg Digrafo
+     * @param dg o digrafo
      * @param v Vértice
      * @return Grau de saída vértice do grafo.
      */
-    public static int grauSaida( Digraph dg, int v ) {
+    public static int outDegree( Digraph dg, int v ) {
         
-        int grauSaida = 0;
+        int outDegree = 0;
         
         for ( int w : dg.adj( v ) ) {
-            grauSaida++;
+            outDegree++;
         }
         
-        return grauSaida;
+        return outDegree;
         
     }
     
     /**
      * Calcula o grau de saída de um vértice de um digrafo.
      * 
-     * @param dg Digrafo
+     * @param dg o digrafo
      * @param v Vértice
      * @return Grau de saída vértice do grafo.
      */
-    public static int grauEntrada( Digraph dg, int v ) {
+    public static int inDegree( Digraph dg, int v ) {
         
-        int grauEntrada = 0;
+        int inDegree = 0;
         
         for ( int w = 0; w < dg.getNumberOfVertices(); w++ ) {
             
@@ -55,7 +55,7 @@ public class DigraphBasicAlgorithms {
                 
                 for ( int k : dg.adj( w ) ) {
                     if ( k == v ) {
-                        grauEntrada++;
+                        inDegree++;
                     }
                 }
                 
@@ -63,24 +63,24 @@ public class DigraphBasicAlgorithms {
             
         }
         
-        return grauEntrada;
+        return inDegree;
         
     }
 
     /**
      * Calcula o maior grau de saída do digrafo.
      * 
-     * @param dg Digrafo
+     * @param dg o digrafo
      * @return O maior grau de saída do grafo.
      */
-    public static int grauMaximoSaida( Digraph dg ) {
+    public static int maxOutDegree( Digraph dg ) {
         
         int max = 0;
         
         for ( int v = 0; v < dg.getNumberOfVertices(); v++ ) {
-            int grauSaida = grauSaida( dg, v );
-            if ( grauSaida > max ) {
-                max = grauSaida;
+            int outDegree = outDegree( dg, v );
+            if ( outDegree > max ) {
+                max = outDegree;
             }
         }
         
@@ -91,18 +91,18 @@ public class DigraphBasicAlgorithms {
     /**
      * Calcula o maior grau de entrada do digrafo.
      * 
-     * @param dg Digrafo
+     * @param dg o digrafo
      * @return O maior grau de entrada do grafo.
      */
-    public static int grauMaximoEntrada( Digraph dg ) {
+    public static int maxInDegree( Digraph dg ) {
         
         int max = 0;
-        int grauEntrada;
+        int inDegree;
         
         for ( int v = 0; v < dg.getNumberOfVertices(); v++ ) {
-            grauEntrada = grauEntrada( dg, v );
-            if ( grauEntrada > max ) {
-                max = grauEntrada;
+            inDegree = inDegree( dg, v );
+            if ( inDegree > max ) {
+                max = inDegree;
             }
         }
         
@@ -113,32 +113,32 @@ public class DigraphBasicAlgorithms {
     /**
      * Calcula o grauSaida médio do grafo.
      * 
-     * @param dg Digrafo
+     * @param dg o digrafo
      * @return Grau médio do grafo.
      */
-    public static double grauMedio( Digraph dg ) {
+    public static double mediumDegree( Digraph dg ) {
         return dg.getNumberOfEdges()/ (double) dg.getNumberOfVertices();
     }
 
     /**
      * Calcula a quantidade de laços dentro de um grafo.
      * 
-     * @param dg Digrafo
+     * @param dg o digrafo
      * @return Quantidade de laços.
      */
-    public static int quantidadeLacos( Digraph dg ) {
+    public static int loopQuantity( Digraph dg ) {
         
-        int cont = 0;
+        int count = 0;
         
         for ( int v = 0; v < dg.getNumberOfVertices(); v++ ) {
             for ( int w : dg.adj( v ) ) {
                 if ( v == w ) {
-                    cont++;
+                    count++;
                 }
             }
         }
         
-        return cont;
+        return count;
         
     }
 

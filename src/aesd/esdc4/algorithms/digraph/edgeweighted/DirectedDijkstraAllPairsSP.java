@@ -5,8 +5,8 @@
  */
 package aesd.esdc4.algorithms.digraph.edgeweighted;
 
-import aesd.esdc4.ds.implementations.working.DirectedEdge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedDigraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 
 /**
  *
@@ -28,8 +28,8 @@ public class DirectedDijkstraAllPairsSP {
      * @throws IllegalArgumentException unless {@code 0 <= s < V}
      */
     public DirectedDijkstraAllPairsSP( EdgeWeightedDigraph G ) {
-        all = new DirectedDijkstraSP[G.V()];
-        for ( int v = 0; v < G.V(); v++ ) {
+        all = new DirectedDijkstraSP[G.getNumberOfVertices()];
+        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
             all[v] = new DirectedDijkstraSP( G, v );
         }
     }
@@ -44,7 +44,7 @@ public class DirectedDijkstraAllPairsSP {
      * @throws IllegalArgumentException unless {@code 0 <= s < V}
      * @throws IllegalArgumentException unless {@code 0 <= t < V}
      */
-    public Iterable<DirectedEdge> path( int s, int t ) {
+    public Iterable<Edge> path( int s, int t ) {
         validateVertex( s );
         validateVertex( t );
         return all[s].pathTo( t );

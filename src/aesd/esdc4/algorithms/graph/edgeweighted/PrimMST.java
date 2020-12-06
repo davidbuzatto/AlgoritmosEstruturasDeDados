@@ -6,8 +6,8 @@
 package aesd.esdc4.algorithms.graph.edgeweighted;
 
 import aesd.esdc4.ds.implementations.linear.LinkedQueue;
-import aesd.esdc4.ds.implementations.working.Edge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedGraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 import aesd.esdc4.ds.implementations.nonlinear.pq.IndexedMinPriorityQueue;
 import aesd.esdc4.ds.interfaces.Queue;
 
@@ -33,15 +33,15 @@ public class PrimMST {
      * @param G the edge-weighted graph
      */
     public PrimMST( EdgeWeightedGraph G ) {
-        edgeTo = new Edge[G.V()];
-        distTo = new double[G.V()];
-        marked = new boolean[G.V()];
-        pq = new IndexedMinPriorityQueue<>( G.V() );
-        for ( int v = 0; v < G.V(); v++ ) {
+        edgeTo = new Edge[G.getNumberOfVertices()];
+        distTo = new double[G.getNumberOfVertices()];
+        marked = new boolean[G.getNumberOfVertices()];
+        pq = new IndexedMinPriorityQueue<>( G.getNumberOfVertices() );
+        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
             distTo[v] = Double.POSITIVE_INFINITY;
         }
 
-        for ( int v = 0; v < G.V(); v++ ) // run from each vertex to find
+        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) // run from each vertex to find
         {
             if ( !marked[v] ) {
                 prim( G, v );      // minimum spanning forest

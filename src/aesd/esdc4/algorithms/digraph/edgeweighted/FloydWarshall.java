@@ -6,9 +6,9 @@
 package aesd.esdc4.algorithms.digraph.edgeweighted;
 
 import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
-import aesd.esdc4.ds.implementations.working.AdjMatrixEdgeWeightedDigraph;
-import aesd.esdc4.ds.implementations.working.DirectedEdge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedDigraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.AdjMatrixEdgeWeightedDigraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
@@ -22,7 +22,7 @@ public class FloydWarshall {
 
     private boolean hasNegativeCycle;  // is there a negative cycle?
     private double[][] distTo;         // distTo[v][w] = length of shortest v->w path
-    private DirectedEdge[][] edgeTo;   // edgeTo[v][w] = last edge on shortest v->w path
+    private Edge[][] edgeTo;   // edgeTo[v][w] = last edge on shortest v->w path
 
     /**
      * Computes a shortest paths tree from each vertex to to every other vertex
@@ -32,9 +32,9 @@ public class FloydWarshall {
      * @param G the edge-weighted digraph
      */
     public FloydWarshall( AdjMatrixEdgeWeightedDigraph G ) {
-        int V = G.V();
+        int V = G.getNumberOfVertices();
         distTo = new double[V][V];
-        edgeTo = new DirectedEdge[V][V];
+        edgeTo = new Edge[V][V];
 
         // initialize distances to infinity
         for ( int v = 0; v < V; v++ ) {
@@ -44,8 +44,8 @@ public class FloydWarshall {
         }
 
         // initialize distances using edge-weighted digraph's
-        for ( int v = 0; v < G.V(); v++ ) {
-            for ( DirectedEdge e : G.adj( v ) ) {
+        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+            for ( Edge e : G.adj( v ) ) {
                 distTo[e.from()][e.to()] = e.weight();
                 edgeTo[e.from()][e.to()] = e;
             }
@@ -95,7 +95,7 @@ public class FloydWarshall {
      * @return a negative cycle as an iterable of edges, or {@code null} if
      * there is no such cycle
      */
-    public Iterable<DirectedEdge> negativeCycle() {
+    public Iterable<Edge> negativeCycle() {
         for ( int v = 0; v < distTo.length; v++ ) {
             // negative cycle in v's predecessor graph
             if ( distTo[v][v] < 0.0 ) {
@@ -103,7 +103,7 @@ public class FloydWarshall {
                 EdgeWeightedDigraph spt = new EdgeWeightedDigraph( V );
                 for ( int w = 0; w < V; w++ ) {
                     if ( edgeTo[v][w] != null ) {
-                        spt.addEdge( edgeTo[v][w] );
+                        spt.addEdge( edgeTo[v][w].from(), edgeTo[v][w].to(), edgeTo[v][w].weight() );
                     }
                 }
                 EdgeWeightedDirectedCycle finder = new EdgeWeightedDirectedCycle( spt );
@@ -160,7 +160,7 @@ public class FloydWarshall {
      * @throws UnsupportedOperationException if there is a negative cost cycle
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
-    public Iterable<DirectedEdge> path( int s, int t ) {
+    public Iterable<Edge> path( int s, int t ) {
         validateVertex( s );
         validateVertex( t );
         if ( hasNegativeCycle() ) {
@@ -169,8 +169,8 @@ public class FloydWarshall {
         if ( !hasPath( s, t ) ) {
             return null;
         }
-        Stack<DirectedEdge> path = new ResizingArrayStack<>();
-        for ( DirectedEdge e = edgeTo[s][t]; e != null; e = edgeTo[s][e.from()] ) {
+        Stack<Edge> path = new ResizingArrayStack<>();
+        for ( Edge e = edgeTo[s][t]; e != null; e = edgeTo[s][e.from()] ) {
             path.push( e );
         }
         return path;
@@ -181,10 +181,10 @@ public class FloydWarshall {
 
         // no negative cycle
         if ( !hasNegativeCycle() ) {
-            for ( int v = 0; v < G.V(); v++ ) {
-                for ( DirectedEdge e : G.adj( v ) ) {
+            for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+                for ( Edge e : G.adj( v ) ) {
                     int w = e.to();
-                    for ( int i = 0; i < G.V(); i++ ) {
+                    for ( int i = 0; i < G.getNumberOfVertices(); i++ ) {
                         if ( distTo[i][w] > distTo[i][v] + e.weight() ) {
                             System.err.println( "edge " + e + " is eligible" );
                             return false;

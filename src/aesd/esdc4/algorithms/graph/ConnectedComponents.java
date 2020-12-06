@@ -6,8 +6,8 @@
 
 package aesd.esdc4.algorithms.graph;
 
-import aesd.esdc4.ds.implementations.working.Edge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedGraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Graph;
 
 /**
@@ -47,10 +47,10 @@ public class ConnectedComponents {
      * @param G the edge-weighted graph
      */
     public ConnectedComponents(EdgeWeightedGraph G) {
-        marked = new boolean[G.V()];
-        id = new int[G.V()];
-        size = new int[G.V()];
-        for (int v = 0; v < G.V(); v++) {
+        marked = new boolean[G.getNumberOfVertices()];
+        id = new int[G.getNumberOfVertices()];
+        size = new int[G.getNumberOfVertices()];
+        for (int v = 0; v < G.getNumberOfVertices(); v++) {
             if (!marked[v]) {
                 dfs(G, v);
                 count++;

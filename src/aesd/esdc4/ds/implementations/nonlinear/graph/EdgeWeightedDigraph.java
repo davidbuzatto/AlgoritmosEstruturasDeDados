@@ -11,14 +11,15 @@ import aesd.esdc4.ds.interfaces.List;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- * Implementação de um digrafo (grafo direcionado) com lista de adjacências.
+ * Implementação de um digrafo (grafo direcionado) ponderado com lista de
+ * adjacências.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class Digraph {
+public class EdgeWeightedDigraph {
 
     // quantidade de vértices
     private final int vertices;
@@ -27,29 +28,28 @@ public class Digraph {
     private int edges;
     
     // lista de adjacências - adj[v] = vértices adjacentes à v
-    private List<Integer>[] adj;
+    private List<Edge>[] adj;
     
     // grau de entrada dos vértices - indegree[v] = grau de entrada do vértice v
     private int[] indegree;
 
     /**
-     * Cria um digrafo com uma quantidade específica de vértices.
+     * Cria um digrafo ponderado com uma quantidade específica de vértices.
      *
      * @param vertices quantidade de vértices
      * @throws IllegalArgumentException se a quantidade de vértices for menor
      * que zero
      */
     @SuppressWarnings( "unchecked" )
-    public Digraph( int vertices ) throws IllegalArgumentException {
+    public EdgeWeightedDigraph( int vertices ) throws IllegalArgumentException {
         
         if ( vertices < 0 ) {
-            throw new IllegalArgumentException( "Number of vertices must be nonnegative" );
+            throw new IllegalArgumentException( "Number of vertices in a Digraph must be nonnegative" );
         }
         
         this.vertices = vertices;
         this.edges = 0;
-        
-        indegree = new int[vertices];
+        this.indegree = new int[vertices];
         
         adj = new ResizingArrayList[vertices];
         for ( int v = 0; v < vertices; v++ ) {
@@ -59,44 +59,45 @@ public class Digraph {
     }
 
     /**
-     * Cria um digrafo que é a cópia profunda do digrafo passado como parâmetro.
+     * Cria um digrafo ponderado que é a cópia profunda do digrafo ponderado 
+     * passado como parâmetro.
      *
      * @param digraph O digrafo que será copiado
      * @throws IllegalArgumentException se o digrafo passado for null
      */
     @SuppressWarnings( "unchecked" )
-    public Digraph( Digraph digraph ) throws IllegalArgumentException {
+    public EdgeWeightedDigraph( EdgeWeightedDigraph digraph ) throws IllegalArgumentException {
         
         if ( digraph == null ) {
             throw new IllegalArgumentException( "argument is null" );
         }
-
+        
         this.vertices = digraph.getNumberOfVertices();
         this.edges = digraph.getNumberOfEdges();
-
+        
         // atualiza os graus de entrada
-        indegree = new int[vertices];
-        for ( int v = 0; v < vertices; v++ ) {
+        this.indegree = new int[vertices];
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             this.indegree[v] = digraph.indegree( v );
         }
-
+        
         // atualiza a lista de adjacências
         adj = new ResizingArrayList[vertices];
         for ( int v = 0; v < vertices; v++ ) {
             adj[v] = new ResizingArrayList<>();
         }
-
+        
         for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             
             // inverte a lista de adjacências para ficar igual à original
-            Stack<Integer> reverse = new ResizingArrayStack<>();
+            Stack<Edge> reverse = new ResizingArrayStack<>();
             
-            for ( int w : digraph.adj[v] ) {
-                reverse.push( w );
+            for ( Edge e : digraph.adj[v] ) {
+                reverse.push( e );
             }
             
-            for ( int w : reverse ) {
-                adj[v].add( w );
+            for ( Edge e : reverse ) {
+                adj[v].add( e );
             }
             
         }
@@ -134,16 +135,16 @@ public class Digraph {
      *
      * @param v o vértice de calda/origem
      * @param w O vértice de cabeça/destino
+     * @param weight O peso da aresta
      * @throws IllegalArgumentException se os vértices forem inválidos
      */
-    public void addEdge( int v, int w ) throws IllegalArgumentException {
+    public void addEdge( int v, int w, double weight ) throws IllegalArgumentException {
         
         validateVertex( v );
         validateVertex( w );
         
-        adj[v].add( w );
+        adj[v].add( new Edge( v, w, weight ) );
         indegree[w]++;
-        
         edges++;
         
     }
@@ -155,7 +156,7 @@ public class Digraph {
      * @return os vértices adjacentes ao vértice v
      * @throws IllegalArgumentException se for um vértice inválido
      */
-    public Iterable<Integer> adj( int v ) throws IllegalArgumentException {
+    public Iterable<Edge> adj( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return adj[v];
     }
@@ -187,34 +188,30 @@ public class Digraph {
     }
 
     /**
-     * Retorna o digrafo inverso do digrafo atual.
+     * Retorna todas as arestas do digrafo ponderado.
      *
-     * @return o digrafo inverso
+     * @return todas as aretas como um iterável.
      */
-    public Digraph reverse() {
-        
-        Digraph reverse = new Digraph( vertices );
-        
+    public Iterable<Edge> edges() {
+        List<Edge> list = new ResizingArrayList<>();
         for ( int v = 0; v < vertices; v++ ) {
-            for ( int w : adj( v ) ) {
-                reverse.addEdge( w, v );
+            for ( Edge e : adj( v ) ) {
+                list.add( e );
             }
         }
-        
-        return reverse;
-        
+        return list;
     }
 
     @Override
     public String toString() {
         
         StringBuilder s = new StringBuilder();
-        s.append( vertices ).append( " vertices, " ).append( edges ).append(" edges \n");
+        s.append( vertices + " " + edges + "\n" );
         
         for ( int v = 0; v < vertices; v++ ) {
-            s.append( String.format( "%d: ", v ) );
-            for ( int w : adj[v] ) {
-                s.append( String.format( "%d ", w ) );
+            s.append( v + ": " );
+            for ( Edge e : adj[v] ) {
+                s.append( e + "  " );
             }
             s.append( "\n" );
         }

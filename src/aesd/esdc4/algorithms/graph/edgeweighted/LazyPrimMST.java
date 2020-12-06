@@ -7,8 +7,8 @@ package aesd.esdc4.algorithms.graph.edgeweighted;
 
 import aesd.esdc4.ds.implementations.linear.LinkedQueue;
 import aesd.esdc4.ds.implementations.nonlinear.pq.MinPriorityQueue;
-import aesd.esdc4.ds.implementations.working.Edge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedGraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 import aesd.esdc4.ds.interfaces.Queue;
 
 /**
@@ -35,8 +35,8 @@ public class LazyPrimMST {
     public LazyPrimMST( EdgeWeightedGraph G ) {
         mst = new LinkedQueue<Edge>();
         pq = new MinPriorityQueue<Edge>();
-        marked = new boolean[G.V()];
-        for ( int v = 0; v < G.V(); v++ ) // run Prim from all vertices to
+        marked = new boolean[G.getNumberOfVertices()];
+        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) // run Prim from all vertices to
         {
             if ( !marked[v] ) {
                 prim( G, v );     // get a minimum spanning forest

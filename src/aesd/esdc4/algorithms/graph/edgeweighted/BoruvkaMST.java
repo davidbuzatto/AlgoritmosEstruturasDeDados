@@ -6,9 +6,9 @@
 package aesd.esdc4.algorithms.graph.edgeweighted;
 
 import aesd.esdc4.ds.implementations.linear.ResizingArrayList;
-import aesd.esdc4.ds.implementations.working.Edge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedGraph;
-import aesd.esdc4.ds.implementations.working.UF;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
+import aesd.esdc4.ds.implementations.nonlinear.uf.UF;
 import aesd.esdc4.ds.interfaces.List;
 
 /**
@@ -31,14 +31,14 @@ public class BoruvkaMST {
      * @param G the edge-weighted graph
      */
     public BoruvkaMST( EdgeWeightedGraph G ) {
-        UF uf = new UF( G.V() );
+        UF uf = new UF( G.getNumberOfVertices() );
 
         // repeat at most log V times or until we have V-1 edges
-        for ( int t = 1; t < G.V() && mst.getSize()< G.V() - 1; t = t + t ) {
+        for ( int t = 1; t < G.getNumberOfVertices() && mst.getSize()< G.getNumberOfVertices() - 1; t = t + t ) {
 
             // foreach tree in forest, find closest edge
             // if edge weights are equal, ties are broken in favor of first edge in G.edges()
-            Edge[] closest = new Edge[G.V()];
+            Edge[] closest = new Edge[G.getNumberOfVertices()];
             for ( Edge e : G.edges() ) {
                 int v = e.either(), w = e.other( v );
                 int i = uf.find( v ), j = uf.find( w );
@@ -54,7 +54,7 @@ public class BoruvkaMST {
             }
 
             // add newly discovered edges to MST
-            for ( int i = 0; i < G.V(); i++ ) {
+            for ( int i = 0; i < G.getNumberOfVertices(); i++ ) {
                 Edge e = closest[i];
                 if ( e != null ) {
                     int v = e.either(), w = e.other( v );
@@ -112,7 +112,7 @@ public class BoruvkaMST {
         }
 
         // check that it is acyclic
-        UF uf = new UF( G.V() );
+        UF uf = new UF( G.getNumberOfVertices() );
         for ( Edge e : edges() ) {
             int v = e.either(), w = e.other( v );
             if ( uf.find( v ) == uf.find( w ) ) {
@@ -135,7 +135,7 @@ public class BoruvkaMST {
         for ( Edge e : edges() ) {
 
             // all edges in MST except e
-            uf = new UF( G.V() );
+            uf = new UF( G.getNumberOfVertices() );
             for ( Edge f : mst ) {
                 int x = f.either(), y = f.other( x );
                 if ( f != e ) {

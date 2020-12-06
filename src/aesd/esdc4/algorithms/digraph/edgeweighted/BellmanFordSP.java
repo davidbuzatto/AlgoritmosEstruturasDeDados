@@ -7,8 +7,8 @@ package aesd.esdc4.algorithms.digraph.edgeweighted;
 
 import aesd.esdc4.ds.implementations.linear.LinkedQueue;
 import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
-import aesd.esdc4.ds.implementations.working.DirectedEdge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedDigraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;
 
@@ -25,11 +25,11 @@ public class BellmanFordSP {
     private static final double EPSILON = 1E-14;
 
     private double[] distTo;               // distTo[v] = distance  of shortest s->v path
-    private DirectedEdge[] edgeTo;         // edgeTo[v] = last edge on shortest s->v path
+    private Edge[] edgeTo;         // edgeTo[v] = last edge on shortest s->v path
     private boolean[] onQueue;             // onQueue[v] = is v currently on the queue?
     private Queue<Integer> queue;          // queue of vertices to relax
     private int cost;                      // number of calls to relax()
-    private Iterable<DirectedEdge> cycle;  // negative cycle (or null if no such cycle)
+    private Iterable<Edge> cycle;  // negative cycle (or null if no such cycle)
 
     /**
      * Computes a shortest paths tree from {@code s} to every other vertex in
@@ -40,10 +40,10 @@ public class BellmanFordSP {
      * @throws IllegalArgumentException unless {@code 0 <= s < V}
      */
     public BellmanFordSP( EdgeWeightedDigraph G, int s ) {
-        distTo = new double[G.V()];
-        edgeTo = new DirectedEdge[G.V()];
-        onQueue = new boolean[G.V()];
-        for ( int v = 0; v < G.V(); v++ ) {
+        distTo = new double[G.getNumberOfVertices()];
+        edgeTo = new Edge[G.getNumberOfVertices()];
+        onQueue = new boolean[G.getNumberOfVertices()];
+        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
             distTo[v] = Double.POSITIVE_INFINITY;
         }
         distTo[s] = 0.0;
@@ -62,7 +62,7 @@ public class BellmanFordSP {
 
     // relax vertex v and put other endpoints on queue if changed
     private void relax( EdgeWeightedDigraph G, int v ) {
-        for ( DirectedEdge e : G.adj( v ) ) {
+        for ( Edge e : G.adj( v ) ) {
             int w = e.to();
             if ( distTo[w] > distTo[v] + e.weight() + EPSILON ) {
                 distTo[w] = distTo[v] + e.weight();
@@ -72,7 +72,7 @@ public class BellmanFordSP {
                     onQueue[w] = true;
                 }
             }
-            if ( ++cost % G.V() == 0 ) {
+            if ( ++cost % G.getNumberOfVertices() == 0 ) {
                 findNegativeCycle();
                 if ( hasNegativeCycle() ) {
                     return;  // found a negative cycle
@@ -98,7 +98,7 @@ public class BellmanFordSP {
      * @return a negative cycle reachable from the soruce vertex {@code s} as an
      * iterable of edges, and {@code null} if there is no such cycle
      */
-    public Iterable<DirectedEdge> negativeCycle() {
+    public Iterable<Edge> negativeCycle() {
         return cycle;
     }
 
@@ -108,7 +108,7 @@ public class BellmanFordSP {
         EdgeWeightedDigraph spt = new EdgeWeightedDigraph( V );
         for ( int v = 0; v < V; v++ ) {
             if ( edgeTo[v] != null ) {
-                spt.addEdge( edgeTo[v] );
+                spt.addEdge( edgeTo[v].from(), edgeTo[v].to(), edgeTo[v].weight() );
             }
         }
 
@@ -158,7 +158,7 @@ public class BellmanFordSP {
      * reachable from the source vertex {@code s}
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
-    public Iterable<DirectedEdge> pathTo( int v ) {
+    public Iterable<Edge> pathTo( int v ) {
         validateVertex( v );
         if ( hasNegativeCycle() ) {
             throw new UnsupportedOperationException( "Negative cost cycle exists" );
@@ -166,8 +166,8 @@ public class BellmanFordSP {
         if ( !hasPathTo( v ) ) {
             return null;
         }
-        Stack<DirectedEdge> path = new ResizingArrayStack<DirectedEdge>();
-        for ( DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()] ) {
+        Stack<Edge> path = new ResizingArrayStack<Edge>();
+        for ( Edge e = edgeTo[v]; e != null; e = edgeTo[e.from()] ) {
             path.push( e );
         }
         return path;

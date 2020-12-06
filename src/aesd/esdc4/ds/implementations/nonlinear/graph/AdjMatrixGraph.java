@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.ds.implementations.working;
+package aesd.esdc4.ds.implementations.nonlinear.graph;
 
 import aesd.esdc4.ds.implementations.linear.ResizingArrayList;
 import aesd.esdc4.ds.interfaces.List;
@@ -34,8 +34,7 @@ public class AdjMatrixGraph {
      * @throws IllegalArgumentException se a quantidade de vértices for menor
      * que zero
      */
-    @SuppressWarnings( "unchecked" )
-    public AdjMatrixGraph( int vertices ) {
+    public AdjMatrixGraph( int vertices ) throws IllegalArgumentException {
         
         if ( vertices < 0 ) {
             throw new IllegalArgumentException( "Number of vertices must be nonnegative" );
@@ -55,7 +54,7 @@ public class AdjMatrixGraph {
      * @throws IllegalArgumentException se o grafo passado for null
      */
     @SuppressWarnings( "unchecked" )
-    public AdjMatrixGraph( AdjMatrixGraph graph ) {
+    public AdjMatrixGraph( AdjMatrixGraph graph ) throws IllegalArgumentException {
         
         this.vertices = graph.getNumberOfVertices();
         this.edges = graph.getNumberOfEdges();
@@ -66,8 +65,8 @@ public class AdjMatrixGraph {
 
         adj = new boolean[vertices][vertices];
 
-        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
-            for ( int w = 0; w < graph.getNumberOfVertices(); w++ ) {
+        for ( int v = 0; v < vertices; v++ ) {
+            for ( int w = 0; w < vertices; w++ ) {
                 adj[v][w] = graph.adj[v][w];
             }
         }
@@ -92,7 +91,7 @@ public class AdjMatrixGraph {
         return edges;
     }
 
-    private void validateVertex( int v ) {
+    private void validateVertex( int v ) throws IllegalArgumentException {
         
         if ( v < 0 || v >= vertices ) {
             throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( vertices - 1 ) );
@@ -107,7 +106,7 @@ public class AdjMatrixGraph {
      * @param w o outro vértice
      * @throws IllegalArgumentException se os vértices forem inválidos
      */
-    public void addEdge( int v, int w ) {
+    public void addEdge( int v, int w ) throws IllegalArgumentException {
         
         validateVertex( v );
         validateVertex( w );
@@ -130,7 +129,7 @@ public class AdjMatrixGraph {
      * @return os vértices adjacentes ao vértice v
      * @throws IllegalArgumentException se for um vértice inválido
      */
-    public Iterable<Integer> adj( int v ) {
+    public Iterable<Integer> adj( int v ) throws IllegalArgumentException {
         
         validateVertex( v );
         List<Integer> adjOfV = new ResizingArrayList<>();
@@ -154,7 +153,7 @@ public class AdjMatrixGraph {
      * @return o grafu do vértice v
      * @throws IllegalArgumentException se for um vértice inválido
      */
-    public int degree( int v ) {
+    public int degree( int v ) throws IllegalArgumentException {
         
         validateVertex( v );
         

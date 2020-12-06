@@ -6,8 +6,8 @@
 package aesd.esdc4.algorithms.graph.edgeweighted;
 
 import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
-import aesd.esdc4.ds.implementations.working.Edge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedGraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 import aesd.esdc4.ds.implementations.nonlinear.pq.IndexedMinPriorityQueue;
 import aesd.esdc4.ds.interfaces.Stack;
 
@@ -40,18 +40,18 @@ public class DijkstraSP {
             }
         }
 
-        distTo = new double[G.V()];
-        edgeTo = new Edge[G.V()];
+        distTo = new double[G.getNumberOfVertices()];
+        edgeTo = new Edge[G.getNumberOfVertices()];
 
         validateVertex( s );
 
-        for ( int v = 0; v < G.V(); v++ ) {
+        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
             distTo[v] = Double.POSITIVE_INFINITY;
         }
         distTo[s] = 0.0;
 
         // relax vertices in order of distance from s
-        pq = new IndexedMinPriorityQueue<Double>( G.V() );
+        pq = new IndexedMinPriorityQueue<Double>( G.getNumberOfVertices() );
         pq.insert( s, distTo[s] );
         while ( !pq.isEmpty() ) {
             int v = pq.delete();

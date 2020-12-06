@@ -6,8 +6,8 @@
 package aesd.esdc4.algorithms.digraph.edgeweighted;
 
 import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
-import aesd.esdc4.ds.implementations.working.DirectedEdge;
-import aesd.esdc4.ds.implementations.working.EdgeWeightedDigraph;
+import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
+import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 import aesd.esdc4.ds.implementations.nonlinear.pq.IndexedMinPriorityQueue;
 import aesd.esdc4.ds.interfaces.Stack;
 
@@ -21,7 +21,7 @@ import aesd.esdc4.ds.interfaces.Stack;
 public class DirectedDijkstraSP {
 
     private double[] distTo;          // distTo[v] = distance  of shortest s->v path
-    private DirectedEdge[] edgeTo;    // edgeTo[v] = last edge on shortest s->v path
+    private Edge[] edgeTo;    // edgeTo[v] = last edge on shortest s->v path
     private IndexedMinPriorityQueue<Double> pq;    // priority queue of vertices
 
     /**
@@ -34,28 +34,28 @@ public class DirectedDijkstraSP {
      * @throws IllegalArgumentException unless {@code 0 <= s < V}
      */
     public DirectedDijkstraSP( EdgeWeightedDigraph G, int s ) {
-        for ( DirectedEdge e : G.edges() ) {
+        for ( Edge e : G.edges() ) {
             if ( e.weight() < 0 ) {
                 throw new IllegalArgumentException( "edge " + e + " has negative weight" );
             }
         }
 
-        distTo = new double[G.V()];
-        edgeTo = new DirectedEdge[G.V()];
+        distTo = new double[G.getNumberOfVertices()];
+        edgeTo = new Edge[G.getNumberOfVertices()];
 
         validateVertex( s );
 
-        for ( int v = 0; v < G.V(); v++ ) {
+        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
             distTo[v] = Double.POSITIVE_INFINITY;
         }
         distTo[s] = 0.0;
 
         // relax vertices in order of distance from s
-        pq = new IndexedMinPriorityQueue<Double>( G.V() );
+        pq = new IndexedMinPriorityQueue<Double>( G.getNumberOfVertices() );
         pq.insert( s, distTo[s] );
         while ( !pq.isEmpty() ) {
             int v = pq.delete();
-            for ( DirectedEdge e : G.adj( v ) ) {
+            for ( Edge e : G.adj( v ) ) {
                 relax( e );
             }
         }
@@ -63,7 +63,7 @@ public class DirectedDijkstraSP {
     }
 
     // relax edge e and update pq if changed
-    private void relax( DirectedEdge e ) {
+    private void relax( Edge e ) {
         int v = e.from(), w = e.to();
         if ( distTo[w] > distTo[v] + e.weight() ) {
             distTo[w] = distTo[v] + e.weight();
@@ -113,13 +113,13 @@ public class DirectedDijkstraSP {
      * {@code v} as an iterable of edges, and {@code null} if no such path
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
-    public Iterable<DirectedEdge> pathTo( int v ) {
+    public Iterable<Edge> pathTo( int v ) {
         validateVertex( v );
         if ( !hasPathTo( v ) ) {
             return null;
         }
-        Stack<DirectedEdge> path = new ResizingArrayStack<DirectedEdge>();
-        for ( DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()] ) {
+        Stack<Edge> path = new ResizingArrayStack<Edge>();
+        for ( Edge e = edgeTo[v]; e != null; e = edgeTo[e.from()] ) {
             path.push( e );
         }
         return path;
