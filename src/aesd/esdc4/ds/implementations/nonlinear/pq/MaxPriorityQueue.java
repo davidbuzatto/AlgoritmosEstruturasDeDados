@@ -335,7 +335,7 @@ public class MaxPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
             }
             
             sb.append( rootIdent );
-            sb.append(  pq[i] );
+            sb.append( pq[i] );
             if ( i == 1 ) {
                 sb.append(  " <- max (root)" );
             }

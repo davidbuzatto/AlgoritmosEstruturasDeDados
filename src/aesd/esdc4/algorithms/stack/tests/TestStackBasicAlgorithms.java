@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc4.algorithms.stack;
+package aesd.esdc4.algorithms.stack.tests;
 
 import static aesd.esdc4.algorithms.stack.StackBasicAlgorithms.evalueatePostfixExpression;
 import static aesd.esdc4.algorithms.stack.StackBasicAlgorithms.isBalancedParentheses;

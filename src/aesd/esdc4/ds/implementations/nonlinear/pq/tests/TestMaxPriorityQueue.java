@@ -57,7 +57,7 @@ public class TestMaxPriorityQueue {
         System.out.println( "Removeu máximo: " + maxpq.delete() );
         System.out.println( maxpq );
         
-        // fila de prioridades mínima vazia vazia!
+        // fila de prioridades máxima vazia vazia!
         //System.out.println( "Removeu máximo: " + maxpq.delete() ); 
         
     }

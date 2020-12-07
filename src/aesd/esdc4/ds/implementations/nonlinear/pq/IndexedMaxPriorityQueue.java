@@ -5,9 +5,9 @@
  */
 package aesd.esdc4.ds.implementations.nonlinear.pq;
 
+import aesd.esdc4.ds.interfaces.IndexedPriorityQueue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import aesd.esdc4.ds.interfaces.IndexedPriorityQueue;
 
 /**
  * Implementação de uma fila de prioridades máxima indexada usando um heap
@@ -331,6 +331,50 @@ public class IndexedMaxPriorityQueue<Key extends Comparable<Key>> implements Ind
 
         public void remove() {
             throw new UnsupportedOperationException();
+        }
+        
+    }
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder sb = new StringBuilder();
+        
+        if ( !isEmpty()) {
+            
+            preOrder( 1, "", sb );
+            
+        } else {
+            sb.append( "empty indexed max priority queue!\n" );
+        }
+        
+        return sb.toString();
+        
+    }
+    
+    private void preOrder( int i, String ident, StringBuilder sb ) {
+        
+        if ( i <= n ) {
+            
+            String rootIdent = "";
+            String leafIdent = "";
+            
+            if ( i != 1 ) {
+                rootIdent = ident + "|--";
+                leafIdent = ident + "|  ";
+            }
+            
+            sb.append( rootIdent );
+            sb.append( "(" ).append( pq[i] ).append( ") " ).append( keys[pq[i]] );
+            
+            if ( i == 1 ) {
+                sb.append(  " <- max (root)" );
+            }
+            sb.append( "\n" );
+            
+            preOrder( i * 2, leafIdent, sb );
+            preOrder( i * 2 + 1, leafIdent, sb );
+            
         }
         
     }

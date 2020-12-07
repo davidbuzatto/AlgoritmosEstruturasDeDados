@@ -334,5 +334,49 @@ public class IndexedMinPriorityQueue<Key extends Comparable<Key>> implements Ind
         }
         
     }
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder sb = new StringBuilder();
+        
+        if ( !isEmpty()) {
+            
+            preOrder( 1, "", sb );
+            
+        } else {
+            sb.append( "empty indexed min priority queue!\n" );
+        }
+        
+        return sb.toString();
+        
+    }
+    
+    private void preOrder( int i, String ident, StringBuilder sb ) {
+        
+        if ( i <= n ) {
+            
+            String rootIdent = "";
+            String leafIdent = "";
+            
+            if ( i != 1 ) {
+                rootIdent = ident + "|--";
+                leafIdent = ident + "|  ";
+            }
+            
+            sb.append( rootIdent );
+            sb.append( "(" ).append( pq[i] ).append( ") " ).append( keys[pq[i]] );
+            
+            if ( i == 1 ) {
+                sb.append(  " <- min (root)" );
+            }
+            sb.append( "\n" );
+            
+            preOrder( i * 2, leafIdent, sb );
+            preOrder( i * 2 + 1, leafIdent, sb );
+            
+        }
+        
+    }
 
 }
