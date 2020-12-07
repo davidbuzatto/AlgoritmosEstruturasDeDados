@@ -12,7 +12,9 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 import aesd.esdc4.ds.interfaces.Queue;
 
 /**
- *
+ * Implementação do algoritmo de Prim (lazy) para computação de árvore geradora
+ * mínima -Minimum Spanning Tree (MST)- em grafos ponderados.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -20,80 +22,111 @@ import aesd.esdc4.ds.interfaces.Queue;
  */
 public class LazyPrimMST {
 
-    private static final double FLOATING_POINT_EPSILON = 1E-12;
-
-    private double weight;       // total weight of MST
-    private Queue<Edge> mst;     // edges in the MST
-    private boolean[] marked;    // marked[v] = true iff v on tree
-    private MinPriorityQueue<Edge> pq;      // edges with one endpoint in tree
+    // peso total da MST
+    private double weight;
+    
+    // arestas na MST
+    private Queue<Edge> mst;
+    
+    // marked[v] = true se e somente se v está na árvore
+    private boolean[] marked;
+    
+    // arestas com um vértice na árvore
+    private MinPriorityQueue<Edge> pq;
 
     /**
-     * Compute a minimum spanning tree (or forest) of an edge-weighted graph.
+     * Comoputa uma árvore geradora mínima (ou floresta) de um grafo ponderado.
      *
-     * @param G the edge-weighted graph
+     * @param graph o grafo ponderado
      */
-    public LazyPrimMST( EdgeWeightedGraph G ) {
-        mst = new LinkedQueue<Edge>();
-        pq = new MinPriorityQueue<Edge>();
-        marked = new boolean[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) // run Prim from all vertices to
-        {
+    public LazyPrimMST( EdgeWeightedGraph graph ) {
+        
+        mst = new LinkedQueue<>();
+        pq = new MinPriorityQueue<>();
+        marked = new boolean[graph.getNumberOfVertices()];
+        
+        // executa o algoritmo de Prim em todos os vértices para que se
+        // obténha uma floresta geradora mínima (minimum spanning forest)
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
             if ( !marked[v] ) {
-                prim( G, v );     // get a minimum spanning forest
+                prim( graph, v );    
             }
         }
+        
     }
 
-    // run Prim's algorithm
-    private void prim( EdgeWeightedGraph G, int s ) {
-        scan( G, s );
-        while ( !pq.isEmpty() ) {                        // better to stop when mst has V-1 edges
-            Edge e = pq.delete();                      // smallest edge on pq
-            int v = e.either(), w = e.other( v );        // two endpoints
-            assert marked[v] || marked[w];
+    // implementação do algoritmo de Prim iniciando no vértice source
+    private void prim( EdgeWeightedGraph graph, int source ) {
+        
+        scan( graph, source );
+        
+        // melhor parar quando a MST tiver a quantidade de arestas igual à
+        // quantidade de vértices - 1
+        while ( !pq.isEmpty() ) {
+            
+            // menor aresta na fila de prioridades
+            Edge e = pq.delete();
+            
+            // obtém os dois vértices da aresta
+            int v = e.either();
+            int w = e.other( v );
+            
             if ( marked[v] && marked[w] ) {
-                continue;      // lazy, both v and w already scanned
+                continue;      // forma preguiçosa (lazy), tanto v quanto w
+                               // já foram escaneados
             }
-            mst.enqueue( e );                            // add e to MST
+            
+            // insere a aresta na MST
+            mst.enqueue( e );
             weight += e.weight();
+            
+            // v se torna parte da árvore
             if ( !marked[v] ) {
-                scan( G, v );               // v becomes part of tree
+                scan( graph, v );
             }
+            
+            // w se torna parte da árvore
             if ( !marked[w] ) {
-                scan( G, w );               // w becomes part of tree
+                scan( graph, w );
             }
+            
         }
+        
     }
 
-    // add all edges e incident to v onto pq if the other endpoint has not yet been scanned
-    private void scan( EdgeWeightedGraph G, int v ) {
-        assert !marked[v];
+    // todos os vértices que incidem em v são inseridos na fila de prioridades
+    // se o outro vértice da aresta ainda não foi escaneado
+    private void scan( EdgeWeightedGraph graph, int v ) {
+        
         marked[v] = true;
-        for ( Edge e : G.adj( v ) ) {
+        
+        for ( Edge e : graph.adj( v ) ) {
             if ( !marked[e.other( v )] ) {
                 pq.insert( e );
             }
         }
+        
     }
 
     /**
-     * Returns the edges in a minimum spanning tree (or forest).
+     * Retorna as aretas da árvore/floresta geradora mínima.
      *
-     * @return the edges in a minimum spanning tree (or forest) as an iterable
-     * of edges
+     * @return as arestas da árvore/floresta geradora mínima como um
+     * iterável
      */
     public Iterable<Edge> edges() {
         return mst;
     }
 
     /**
-     * Returns the sum of the edge weights in a minimum spanning tree (or
-     * forest).
+     * Retorna a soma dos pesos de todas as areas da árvore/floresta geradora
+     * mínima.
      *
-     * @return the sum of the edge weights in a minimum spanning tree (or
-     * forest)
+     * @return a soma dos pesos de todas as areas da árvore/floresta geradora
+     * mínima.
      */
     public double weight() {
         return weight;
     }
+    
 }

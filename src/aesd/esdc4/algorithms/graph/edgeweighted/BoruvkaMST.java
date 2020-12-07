@@ -12,7 +12,9 @@ import aesd.esdc4.ds.implementations.nonlinear.uf.UF;
 import aesd.esdc4.ds.interfaces.List;
 
 /**
- *
+ * Implementação do algoritmo de Boruvka para computação de árvore geradora
+ * mínima -Minimum Spanning Tree (MST)- em grafos ponderados.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -20,143 +22,100 @@ import aesd.esdc4.ds.interfaces.List;
  */
 public class BoruvkaMST {
 
-    private static final double FLOATING_POINT_EPSILON = 1E-12;
-
-    private List<Edge> mst = new ResizingArrayList<>();    // edges in MST
-    private double weight;                      // weight of MST
+    // peso da MST
+    private double weight;
+    
+    // arestas da MST
+    private List<Edge> mst;
 
     /**
-     * Compute a minimum spanning tree (or forest) of an edge-weighted graph.
+     * Comoputa uma árvore geradora mínima (ou floresta) de um grafo ponderado.
      *
-     * @param G the edge-weighted graph
+     * @param graph o grafo ponderado
      */
-    public BoruvkaMST( EdgeWeightedGraph G ) {
-        UF uf = new UF( G.getNumberOfVertices() );
+    public BoruvkaMST( EdgeWeightedGraph graph ) {
+        
+        mst = new ResizingArrayList<>();
+        UF uf = new UF( graph.getNumberOfVertices() );
 
-        // repeat at most log V times or until we have V-1 edges
-        for ( int t = 1; t < G.getNumberOfVertices() && mst.getSize()< G.getNumberOfVertices() - 1; t = t + t ) {
+        // para V = quantidade de vértices
+        // repete no máximo lg V vezes o até possuir V-1 arestas
+        for ( int t = 1; t < graph.getNumberOfVertices() && mst.getSize()< graph.getNumberOfVertices() - 1; t = t + t ) {
 
-            // foreach tree in forest, find closest edge
-            // if edge weights are equal, ties are broken in favor of first edge in G.edges()
-            Edge[] closest = new Edge[G.getNumberOfVertices()];
-            for ( Edge e : G.edges() ) {
-                int v = e.either(), w = e.other( v );
-                int i = uf.find( v ), j = uf.find( w );
+            // para cada árvore na floresta, busca pela aresta mais próxima
+            // se o os pesos das arestas são iguais, desempata escolhendo a primeira aresta
+            // encontrada no grafo (graph.edges()).
+            Edge[] closest = new Edge[graph.getNumberOfVertices()];
+            
+            for ( Edge e : graph.edges() ) {
+                
+                int v = e.either();
+                int w = e.other( v );
+                int i = uf.find( v );
+                int j = uf.find( w );
+                
                 if ( i == j ) {
-                    continue;   // same tree
+                    continue;   // mesma árvore
                 }
+                
                 if ( closest[i] == null || less( e, closest[i] ) ) {
                     closest[i] = e;
                 }
+                
                 if ( closest[j] == null || less( e, closest[j] ) ) {
                     closest[j] = e;
                 }
+                
             }
 
-            // add newly discovered edges to MST
-            for ( int i = 0; i < G.getNumberOfVertices(); i++ ) {
+            // aidicona as novas arestas encontradas à MST
+            for ( int i = 0; i < graph.getNumberOfVertices(); i++ ) {
+                
                 Edge e = closest[i];
+                
                 if ( e != null ) {
+                    
                     int v = e.either(), w = e.other( v );
-                    // don't add the same edge twice
+                    
+                    // previne adicioanr a mesma aresta duas vezes
                     if ( uf.find( v ) != uf.find( w ) ) {
                         mst.add( e );
                         weight += e.weight();
                         uf.union( v, w );
                     }
+                    
                 }
+                
             }
+            
         }
-
-        // check optimality conditions
-        assert check( G );
+        
     }
 
+    // o peso da aresta é estritamente menor que o da aresta f?
+    private static boolean less( Edge e, Edge f ) {
+        return e.compareTo( f ) < 0;
+    }
+    
     /**
-     * Returns the edges in a minimum spanning tree (or forest).
+     * Retorna as aretas da árvore/floresta geradora mínima.
      *
-     * @return the edges in a minimum spanning tree (or forest) as an iterable
-     * of edges
+     * @return as arestas da árvore/floresta geradora mínima como um
+     * iterável
      */
     public Iterable<Edge> edges() {
         return mst;
     }
 
     /**
-     * Returns the sum of the edge weights in a minimum spanning tree (or
-     * forest).
+     * Retorna a soma dos pesos de todas as areas da árvore/floresta geradora
+     * mínima.
      *
-     * @return the sum of the edge weights in a minimum spanning tree (or
-     * forest)
+     * @return a soma dos pesos de todas as areas da árvore/floresta geradora
+     * mínima.
      */
     public double weight() {
         return weight;
-    }
-
-    // is the weight of edge e strictly less than that of edge f?
-    private static boolean less( Edge e, Edge f ) {
-        return e.compareTo( f ) < 0;
-    }
-
-    // check optimality conditions (takes time proportional to E V lg* V)
-    private boolean check( EdgeWeightedGraph G ) {
-
-        // check weight
-        double totalWeight = 0.0;
-        for ( Edge e : edges() ) {
-            totalWeight += e.weight();
-        }
-        if ( Math.abs( totalWeight - weight() ) > FLOATING_POINT_EPSILON ) {
-            System.err.printf( "Weight of edges does not equal weight(): %f vs. %f\n", totalWeight, weight() );
-            return false;
-        }
-
-        // check that it is acyclic
-        UF uf = new UF( G.getNumberOfVertices() );
-        for ( Edge e : edges() ) {
-            int v = e.either(), w = e.other( v );
-            if ( uf.find( v ) == uf.find( w ) ) {
-                System.err.println( "Not a forest" );
-                return false;
-            }
-            uf.union( v, w );
-        }
-
-        // check that it is a spanning forest
-        for ( Edge e : G.edges() ) {
-            int v = e.either(), w = e.other( v );
-            if ( uf.find( v ) != uf.find( w ) ) {
-                System.err.println( "Not a spanning forest" );
-                return false;
-            }
-        }
-
-        // check that it is a minimal spanning forest (cut optimality conditions)
-        for ( Edge e : edges() ) {
-
-            // all edges in MST except e
-            uf = new UF( G.getNumberOfVertices() );
-            for ( Edge f : mst ) {
-                int x = f.either(), y = f.other( x );
-                if ( f != e ) {
-                    uf.union( x, y );
-                }
-            }
-
-            // check that e is min weight edge in crossing cut
-            for ( Edge f : G.edges() ) {
-                int x = f.either(), y = f.other( x );
-                if ( uf.find( x ) != uf.find( y ) ) {
-                    if ( f.weight() < e.weight() ) {
-                        System.err.println( "Edge " + f + " violates cut optimality conditions" );
-                        return false;
-                    }
-                }
-            }
-
-        }
-
-        return true;
     }
 
 }

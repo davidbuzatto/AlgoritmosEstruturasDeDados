@@ -12,7 +12,9 @@ import aesd.esdc4.ds.implementations.nonlinear.pq.IndexedMinPriorityQueue;
 import aesd.esdc4.ds.interfaces.Queue;
 
 /**
- *
+ * Implementação do algoritmo de Prim para computação de árvore geradora
+ * mínima -Minimum Spanning Tree (MST)- em grafos ponderados.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -20,53 +22,70 @@ import aesd.esdc4.ds.interfaces.Queue;
  */
 public class PrimMST {
 
-    private static final double FLOATING_POINT_EPSILON = 1E-12;
-
-    private Edge[] edgeTo;        // edgeTo[v] = shortest edge from tree vertex to non-tree vertex
-    private double[] distTo;      // distTo[v] = weight of shortest such edge
-    private boolean[] marked;     // marked[v] = true if v on tree, false otherwise
+    // edgeTo[v] = menor aresta do vértice da árvore para o vértice que não está
+    // na árvore
+    private Edge[] edgeTo;
+    
+    // distTo[v] = peso da menor aresta
+    private double[] distTo;
+    
+    // marked[v] = true se v está na árvore, falso caso contrário
+    private boolean[] marked;
+    
+    // fila de de prioridades indexada
     private IndexedMinPriorityQueue<Double> pq;
 
     /**
-     * Compute a minimum spanning tree (or forest) of an edge-weighted graph.
+     * Comoputa uma árvore geradora mínima (ou floresta) de um grafo ponderado.
      *
-     * @param G the edge-weighted graph
+     * @param graph o grafo ponderado
      */
-    public PrimMST( EdgeWeightedGraph G ) {
-        edgeTo = new Edge[G.getNumberOfVertices()];
-        distTo = new double[G.getNumberOfVertices()];
-        marked = new boolean[G.getNumberOfVertices()];
-        pq = new IndexedMinPriorityQueue<>( G.getNumberOfVertices() );
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+    public PrimMST( EdgeWeightedGraph graph ) {
+        
+        edgeTo = new Edge[graph.getNumberOfVertices()];
+        distTo = new double[graph.getNumberOfVertices()];
+        marked = new boolean[graph.getNumberOfVertices()];
+        pq = new IndexedMinPriorityQueue<>( graph.getNumberOfVertices() );
+        
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
             distTo[v] = Double.POSITIVE_INFINITY;
         }
 
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) // run from each vertex to find
-        {
+        // executa o algoritmo de Prim em todos os vértices para que se
+        // obténha uma floresta geradora mínima (minimum spanning forest)
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
             if ( !marked[v] ) {
-                prim( G, v );      // minimum spanning forest
+                prim( graph, v );
             }
         }
+        
     }
 
-    // run Prim's algorithm in graph G, starting from vertex s
-    private void prim( EdgeWeightedGraph G, int s ) {
-        distTo[s] = 0.0;
-        pq.insert( s, distTo[s] );
+    // implementação do algoritmo de Prim iniciando no vértice source
+    private void prim( EdgeWeightedGraph graph, int source ) {
+        
+        distTo[source] = 0.0;
+        pq.insert( source, distTo[source] );
+        
         while ( !pq.isEmpty() ) {
             int v = pq.delete();
-            scan( G, v );
+            scan( graph, v );
         }
+        
     }
 
-    // scan vertex v
-    private void scan( EdgeWeightedGraph G, int v ) {
+    // escaneia o vértice v
+    private void scan( EdgeWeightedGraph graph, int v ) {
+        
         marked[v] = true;
-        for ( Edge e : G.adj( v ) ) {
+        
+        for ( Edge e : graph.adj( v ) ) {
+            
             int w = e.other( v );
             if ( marked[w] ) {
-                continue;         // v-w is obsolete edge
+                continue;         // v-w é uma aresta obsoleta
             }
+            
             if ( e.weight() < distTo[w] ) {
                 distTo[w] = e.weight();
                 edgeTo[w] = e;
@@ -76,39 +95,49 @@ public class PrimMST {
                     pq.insert( w, distTo[w] );
                 }
             }
+            
         }
+        
     }
 
     /**
-     * Returns the edges in a minimum spanning tree (or forest).
+     * Retorna as aretas da árvore/floresta geradora mínima.
      *
-     * @return the edges in a minimum spanning tree (or forest) as an iterable
-     * of edges
+     * @return as arestas da árvore/floresta geradora mínima como um
+     * iterável
      */
     public Iterable<Edge> edges() {
+        
         Queue<Edge> mst = new LinkedQueue<>();
+        
         for ( int v = 0; v < edgeTo.length; v++ ) {
             Edge e = edgeTo[v];
             if ( e != null ) {
                 mst.enqueue( e );
             }
         }
+        
         return mst;
+        
     }
 
     /**
-     * Returns the sum of the edge weights in a minimum spanning tree (or
-     * forest).
+     * Retorna a soma dos pesos de todas as areas da árvore/floresta geradora
+     * mínima.
      *
-     * @return the sum of the edge weights in a minimum spanning tree (or
-     * forest)
+     * @return a soma dos pesos de todas as areas da árvore/floresta geradora
+     * mínima.
      */
     public double weight() {
+        
         double weight = 0.0;
+        
         for ( Edge e : edges() ) {
             weight += e.weight();
         }
+        
         return weight;
+        
     }
 
 }
