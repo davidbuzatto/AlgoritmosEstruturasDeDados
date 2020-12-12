@@ -35,7 +35,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
         
         @Override
         public String toString() {
-            return key + " -> " + value + " (" + ( color == NodeColor.RED ? "V" : "P" ) + ")";
+            return key + " -> " + value + " (" + ( color == NodeColor.RED ? "R" : "B" ) + ")";
         }
         
     }
@@ -441,7 +441,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
         return keys;
     }
     
-    @Override
+    /*@Override
     public String toString() {
         
         StringBuilder sb = new StringBuilder();
@@ -459,10 +459,54 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
             }
             
         } else {
-            sb.append( "empty tree!\n" );
+            sb.append( "empty red-black tree!\n" );
         }
         
         return sb.toString();
+        
+    }*/
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder sb = new StringBuilder();
+        
+        if ( !isEmpty()) {
+            preOrder( root, "", null, sb );
+        } else {
+            sb.append( "empty red-black tree!\n" );
+        }
+        
+        return sb.toString();
+        
+    }
+    
+    private void preOrder( Node<Key, Value> node, String ident, String leftRight, StringBuilder sb ) {
+        
+        if ( node != null ) {
+            
+            String rootIdent = "";
+            String leafIdent = "";
+            
+            if ( node != root ) {
+                rootIdent = ident + "|--";
+                leafIdent = ident + "|  ";
+            }
+            
+            sb.append( rootIdent );
+            if ( leftRight != null ) {
+                sb.append( "(" ).append( leftRight ).append( ") " );
+            }
+            sb.append( node );
+            if ( node == root ) {
+                sb.append(  " <- root" );
+            }
+            sb.append( "\n" );
+            
+            preOrder( node.left, leafIdent, "L", sb );
+            preOrder( node.right, leafIdent, "R", sb );
+            
+        }
         
     }
     

@@ -21,29 +21,35 @@ public class TestBinarySearchTree {
     
     public static void main( String[] args ) {
         
-        BinarySearchTree<Integer, String> abb = new BinarySearchTree<>();
+        BinarySearchTree<Character, String> abb = new BinarySearchTree<>();
         
-        abb.put( 6, "João" );
+        abb.put( 'H', "Helena" );
         System.out.println( abb );
-        abb.put( 8, "Maria" );
+        abb.put( 'I', "Ingrid" );
         System.out.println( abb );
-        abb.put( 7, "David" );
+        abb.put( 'J', "João" );
         System.out.println( abb );
-        abb.put( 4, "Fernanda" );
+        abb.put( 'B', "Brendo" );
         System.out.println( abb );
-        abb.put( 5, "Aurora" );
+        abb.put( 'A', "Aurora" );
         System.out.println( abb );
-        abb.put( 9, "Marcelo" );
+        abb.put( 'E', "Ernesto" );
         System.out.println( abb );
-        abb.put( 3, "Ronaldinho" );
+        abb.put( 'C', "Camila" );
         System.out.println( abb );
-        abb.put( 9, "Matilda" );
+        abb.put( 'F', "Fernanda" );
         System.out.println( abb );
-        abb.put( 3, null );
+        abb.put( 'D', "David" );
+        System.out.println( abb );
+        abb.put( 'G', "Giovana" );
+        System.out.println( abb );
+        abb.put( 'K', "Karen" );
+        System.out.println( abb );
+        abb.put( 'L', "Leonardo" );
         System.out.println( abb );
         
         System.out.println( "Dados da árvore através do iterador:" );
-        for ( BinaryTree.Entry<Integer, String> e : abb ) {
+        for ( BinaryTree.Entry<Character, String> e : abb ) {
             System.out.print( e.getKey() );
             System.out.print( " " );
         }
@@ -52,72 +58,72 @@ public class TestBinarySearchTree {
         
         System.out.println( "----- Percursos -----" );
         System.out.print( "Pré-Ordem: " );
-        for ( BinaryTree.Entry<Integer, String> e : abb.traverse(TraversalTypes.PREORDER ) ) {
+        for ( BinaryTree.Entry<Character, String> e : abb.traverse(TraversalTypes.PREORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Em Ordem: " );
-        for ( BinaryTree.Entry<Integer, String> e : abb.traverse(TraversalTypes.INORDER ) ) {
+        for ( BinaryTree.Entry<Character, String> e : abb.traverse(TraversalTypes.INORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Pós-Ordem: " );
-        for ( BinaryTree.Entry<Integer, String> e : abb.traverse(TraversalTypes.POSTORDER ) ) {
+        for ( BinaryTree.Entry<Character, String> e : abb.traverse(TraversalTypes.POSTORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Em Nível: " );
-        for ( BinaryTree.Entry<Integer, String> e : abb.traverse( TraversalTypes.LEVEL_ORDER ) ) {
+        for ( BinaryTree.Entry<Character, String> e : abb.traverse( TraversalTypes.LEVEL_ORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Pré-Ordem Inverso: " );
-        for ( BinaryTree.Entry<Integer, String> e : abb.traverse(TraversalTypes.INVERSE_PREORDER ) ) {
+        for ( BinaryTree.Entry<Character, String> e : abb.traverse(TraversalTypes.INVERSE_PREORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Em Ordem Inverso: " );
-        for ( BinaryTree.Entry<Integer, String> e : abb.traverse(TraversalTypes.INVERSE_INORDER ) ) {
+        for ( BinaryTree.Entry<Character, String> e : abb.traverse(TraversalTypes.INVERSE_INORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Pós-Ordem Inverso: " );
-        for ( BinaryTree.Entry<Integer, String> e : abb.traverse(TraversalTypes.INVERSE_POSTORDER ) ) {
+        for ( BinaryTree.Entry<Character, String> e : abb.traverse(TraversalTypes.INVERSE_POSTORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         System.out.print( "Em Nível Inverso: " );
-        for ( BinaryTree.Entry<Integer, String> e : abb.traverse( TraversalTypes.INVERSE_LEVEL_ORDER ) ) {
+        for ( BinaryTree.Entry<Character, String> e : abb.traverse( TraversalTypes.INVERSE_LEVEL_ORDER ) ) {
             System.out.print( "(" + e.getKey() + ") " );
         }
         System.out.println();
         
         // consultas
         System.out.println( "\n----- Consultas -----" );
-        List<BinaryTree.Entry<Integer, String>> elementos = new ResizingArrayList<>();
-        for ( BinaryTree.Entry<Integer, String> e : abb.traverse(TraversalTypes.INORDER ) ) {
+        List<BinaryTree.Entry<Character, String>> elementos = new ResizingArrayList<>();
+        for ( BinaryTree.Entry<Character, String> e : abb.traverse(TraversalTypes.INORDER ) ) {
             elementos.add( e );
         }
-        elementos.add( new BinaryTree.Entry<>( 15, "Snoopy" ) );
-        elementos.add( new BinaryTree.Entry<>( 19, "Papai Noel" ) );
-        elementos.add( new BinaryTree.Entry<>( -4, "Garfield" ) );
+        elementos.add(new BinaryTree.Entry<>( 'S', "Snoopy" ) );
+        elementos.add(new BinaryTree.Entry<>( 'P', "Papai Noel" ) );
+        elementos.add(new BinaryTree.Entry<>( 'M', "Mario" ) );
         Utils.shuffle( elementos );
-        for ( BinaryTree.Entry<Integer, String> e : elementos ) {
-            System.out.printf( "%4d está na árvore? => %s\n", e.getKey(),
+        for ( BinaryTree.Entry<Character, String> e : elementos ) {
+            System.out.printf( "%c está na árvore? => %s\n", e.getKey(),
                     abb.contains( e.getKey() ) ? "SIM" : "NÃO" );
         }
         
         System.out.println( "\n----- Remoção -----" );
         System.out.println( abb );
-        for ( BinaryTree.Entry<Integer, String> e : elementos ) {
-            System.out.printf( "Removendo o par chave/valor com chave %d...\n", e.getKey() );
+        for ( BinaryTree.Entry<Character, String> e : elementos ) {
+            System.out.printf( "Removendo o par chave/valor com chave %c...\n", e.getKey() );
             abb.delete( e.getKey() );
             System.out.println( abb );
         }

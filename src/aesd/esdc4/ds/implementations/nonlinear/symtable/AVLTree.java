@@ -45,6 +45,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
     // tamanho da árvore (quantidade de pares chave/valor)
     private int size;
     
+    // fator de balanceamento
     // valor máximo na diferença de alturas de duas subárvores
     private static final int ALLOWED_IMBALANCE = 1;
     
@@ -378,7 +379,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
         return keys;
     }
     
-    @Override
+    /*@Override
     public String toString() {
         
         StringBuilder sb = new StringBuilder();
@@ -396,10 +397,54 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
             }
             
         } else {
-            sb.append( "empty tree!\n" );
+            sb.append( "empty AVL tree!\n" );
         }
         
         return sb.toString();
+        
+    }*/
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder sb = new StringBuilder();
+        
+        if ( !isEmpty()) {
+            preOrder( root, "", null, sb );
+        } else {
+            sb.append( "empty AVL tree!\n" );
+        }
+        
+        return sb.toString();
+        
+    }
+    
+    private void preOrder( Node<Key, Value> node, String ident, String leftRight, StringBuilder sb ) {
+        
+        if ( node != null ) {
+            
+            String rootIdent = "";
+            String leafIdent = "";
+            
+            if ( node != root ) {
+                rootIdent = ident + "|--";
+                leafIdent = ident + "|  ";
+            }
+            
+            sb.append( rootIdent );
+            if ( leftRight != null ) {
+                sb.append( "(" ).append( leftRight ).append( ") " );
+            }
+            sb.append( node );
+            if ( node == root ) {
+                sb.append(  " <- root" );
+            }
+            sb.append( "\n" );
+            
+            preOrder( node.left, leafIdent, "L", sb );
+            preOrder( node.right, leafIdent, "R", sb );
+            
+        }
         
     }
 

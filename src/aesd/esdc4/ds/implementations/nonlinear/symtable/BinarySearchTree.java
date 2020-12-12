@@ -444,7 +444,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
      * Cria uma representação em String da árvore.
      * Esta representação apresenta os elementos na ordem do percurso em ordem.
      */
-    @Override
+    /*@Override
     public String toString() {
         
         StringBuilder sb = new StringBuilder();
@@ -462,10 +462,54 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
             }
             
         } else {
-            sb.append( "empty tree!\n" );
+            sb.append( "empty binary search tree!\n" );
         }
         
         return sb.toString();
+        
+    }*/
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder sb = new StringBuilder();
+        
+        if ( !isEmpty()) {
+            preOrder( root, "", null, sb );
+        } else {
+            sb.append( "empty binary search tree!\n" );
+        }
+        
+        return sb.toString();
+        
+    }
+    
+    private void preOrder( Node<Key, Value> node, String ident, String leftRight, StringBuilder sb ) {
+        
+        if ( node != null ) {
+            
+            String rootIdent = "";
+            String leafIdent = "";
+            
+            if ( node != root ) {
+                rootIdent = ident + "|--";
+                leafIdent = ident + "|  ";
+            }
+            
+            sb.append( rootIdent );
+            if ( leftRight != null ) {
+                sb.append( "(" ).append( leftRight ).append( ") " );
+            }
+            sb.append( node );
+            if ( node == root ) {
+                sb.append(  " <- root" );
+            }
+            sb.append( "\n" );
+            
+            preOrder( node.left, leafIdent, "L", sb );
+            preOrder( node.right, leafIdent, "R", sb );
+            
+        }
         
     }
     
