@@ -160,25 +160,9 @@ public class SeparateChainingHashTable<Key, Value> implements SymbolTable<Key, V
         this.st = temp.st;
 
     }
-
-    /**
-     * Função de dispersão/espalhamento/hash para as chaves. Retorna um valor
-     * entre 0 e htSize-1, assumindo que htSize é potência de 2.
-     *
-     * Cópia da implementação do Java 7, protegendo contra implementações mal
-     * feitas do método hashCode()
-     *
-     * @param key Chave a ser calculada.
-     * @return índice obtido a partir da chave.
-     */
+    
     private int hash( Key key ) {
-
-        int h = key.hashCode();
-
-        h ^= ( h >>> 20 ) ^ ( h >>> 12 ) ^ ( h >>> 7 ) ^ ( h >>> 4 );
-
-        return h & ( htSize - 1 );
-
+        return ( key.hashCode() & 0x7fffffff ) % htSize;
     }
 
     @Override
