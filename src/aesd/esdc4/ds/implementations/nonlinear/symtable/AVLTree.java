@@ -87,16 +87,18 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
             
             size++;
             
-        }
-
-        int comp = key.compareTo( node.key );
-
-        if ( comp < 0 ) {
-            node.left = put( node.left, key, value );
-        } else if ( comp > 0 ) {
-            node.right = put( node.right, key, value );
         } else {
-            node.value = value;
+
+            int comp = key.compareTo( node.key );
+
+            if ( comp < 0 ) {
+                node.left = put( node.left, key, value );
+            } else if ( comp > 0 ) {
+                node.right = put( node.right, key, value );
+            } else {
+                node.value = value;
+            }
+        
         }
         
         // balanceia a árvore
