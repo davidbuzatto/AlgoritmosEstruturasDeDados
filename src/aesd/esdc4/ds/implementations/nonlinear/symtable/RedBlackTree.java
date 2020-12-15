@@ -13,7 +13,7 @@ import aesd.esdc4.ds.interfaces.BinaryTree;
 import aesd.esdc4.ds.interfaces.Queue;
 
 /**
- * Implementação de uma árvore vermelho-preto (Red Black Tree).
+ * Implementação de uma árvore vermelho-preto (Red-Black Tree).
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
