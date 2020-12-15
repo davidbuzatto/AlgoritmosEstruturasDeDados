@@ -123,18 +123,16 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
             
             return node;
             
-        } else {
+        }
 
-            int comp = key.compareTo( node.key );
-
-            if ( comp < 0 ) {
-                node.left = put( node.left, key, value );
-            } else if ( comp > 0 ) {
-                node.right = put( node.right, key, value );
-            } else {
-                node.value = value;
-            }
+        int comp = key.compareTo( node.key );
         
+        if ( comp < 0 ) {
+            node.left = put( node.left, key, value );
+        } else if ( comp > 0 ) {
+            node.right = put( node.right, key, value );
+        } else {
+            node.value = value;
         }
             
         // consertando os links inclinados à right
