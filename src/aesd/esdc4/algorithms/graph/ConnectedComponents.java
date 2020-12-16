@@ -34,17 +34,17 @@ public class ConnectedComponents {
     /**
      * Computa os componentes conexos do grafo.
      *
-     * @param grafo o grafo
+     * @param graph o grafo
      */
-    public ConnectedComponents( Graph grafo ) {
+    public ConnectedComponents( Graph graph ) {
         
-        marked = new boolean[grafo.getNumberOfVertices()];
-        id = new int[grafo.getNumberOfVertices()];
-        size = new int[grafo.getNumberOfVertices()];
+        marked = new boolean[graph.getNumberOfVertices()];
+        id = new int[graph.getNumberOfVertices()];
+        size = new int[graph.getNumberOfVertices()];
         
-        for ( int v = 0; v < grafo.getNumberOfVertices(); v++ ) {
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
             if ( !marked[v] ) {
-                dfs( grafo, v );
+                dfs( graph, v );
                 count++;
             }
         }

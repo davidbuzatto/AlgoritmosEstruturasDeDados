@@ -67,21 +67,21 @@ public class GraphBasicAlgorithms {
      * @return Grau médio do grafo.
      */
     public static double mediumDegree( Graph graph ) {
-        return 2.0 * graph.getNumberOfEdges() / (double) graph.getNumberOfVertices();
+        return 2.0 * ( graph.getNumberOfEdges() / (double) graph.getNumberOfVertices() );
     }
 
     /**
      * Calcula a quantidade de laços dentro de um grafo.
      * 
-     * @param g o grafo
+     * @param graph o grafo
      * @return Quantidade de laços.
      */
-    public static int loopQuantity( Graph g ) {
+    public static int loopQuantity( Graph graph ) {
         
         int count = 0;
         
-        for ( int v = 0; v < g.getNumberOfVertices(); v++ ) {
-            for ( int w : g.adj( v ) ) {
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
+            for ( int w : graph.adj( v ) ) {
                 if ( v == w ) {
                     count++;
                 }

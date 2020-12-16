@@ -164,10 +164,10 @@ public class EulerianCycle {
     }
 
     // retorna qualquer vértice não isolado ou -1 caso não exista nenhum
-    private static int nonIsolatedVertex( Graph grafo ) {
+    private static int nonIsolatedVertex( Graph graph ) {
         
-        for ( int v = 0; v < grafo.getNumberOfVertices(); v++ ) {
-            if ( grafo.degree( v ) > 0 ) {
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
+            if ( graph.degree( v ) > 0 ) {
                 return v;
             }
         }
