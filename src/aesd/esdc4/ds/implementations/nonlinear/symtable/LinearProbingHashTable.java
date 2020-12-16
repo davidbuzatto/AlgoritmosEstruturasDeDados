@@ -33,7 +33,7 @@ public class LinearProbingHashTable<Key, Value> implements SymbolTable<Key, Valu
     // tamanho da tabela de dispersão (quantidade de pares chave/valor)
     private int size;
 
-    // tamanho da tabela de sondagen linear
+    // tamanho da tabela de sondagem linear
     private int lptSize;
 
     // array de chaves
