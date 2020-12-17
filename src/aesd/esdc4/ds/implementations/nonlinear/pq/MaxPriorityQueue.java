@@ -191,7 +191,11 @@ public class MaxPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
         }
         
         Key max = pq[1];
+        
+        // troca a raiz com o último
         exchange( 1, n-- );
+        
+        // afunda a nova raiz, mantendo a invariante do heap máximo
         sink( 1 );
         
         pq[n + 1] = null;     // marca como null para coleta de lixo

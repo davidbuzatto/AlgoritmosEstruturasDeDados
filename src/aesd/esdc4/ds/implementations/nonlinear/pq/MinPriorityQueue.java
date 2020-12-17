@@ -187,7 +187,11 @@ public class MinPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
         }
         
         Key min = pq[1];
+        
+        // troca a raiz com o último
         exchange( 1, n-- );
+        
+        // afunda a nova raiz, mantendo a invariante do heap mínimo
         sink( 1 );
         
         pq[n + 1] = null;     // marca como null para coleta de lixo
