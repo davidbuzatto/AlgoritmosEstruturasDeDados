@@ -152,7 +152,7 @@ public class MinPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
 
         // insere a chave e a flutua, mantendo a invariante do heap mínimo
         pq[++n] = key;
-        swim(n );
+        swim( n );
         
     }
 
@@ -187,7 +187,7 @@ public class MinPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
         }
         
         Key min = pq[1];
-        exchange(1, n-- );
+        exchange( 1, n-- );
         sink( 1 );
         
         pq[n + 1] = null;     // marca como null para coleta de lixo

@@ -156,7 +156,7 @@ public class MaxPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
 
         // insere a chave e a flutua, mantendo a invariante do heap máximo
         pq[++n] = key;
-        swim(n );
+        swim( n );
         
     }
 
@@ -191,7 +191,7 @@ public class MaxPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
         }
         
         Key max = pq[1];
-        exchange(1, n-- );
+        exchange( 1, n-- );
         sink( 1 );
         
         pq[n + 1] = null;     // marca como null para coleta de lixo
