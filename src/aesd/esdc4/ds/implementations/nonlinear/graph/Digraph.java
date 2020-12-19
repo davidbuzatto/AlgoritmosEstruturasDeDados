@@ -11,7 +11,7 @@ import aesd.esdc4.ds.interfaces.List;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- * Implementação de um digrafo (grafo direcionado) com lista de adjacências.
+ * Implementação de um digrafo (grafo direcionado) com listas de adjacências.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
@@ -26,7 +26,7 @@ public class Digraph {
     // quantidade de arestas
     private int edges;
     
-    // lista de adjacências - adj[v] = vértices adjacentes à v
+    // listas de adjacências - adj[v] = vértices adjacentes à v
     private List<Integer>[] adj;
     
     // grau de entrada dos vértices - indegree[v] = grau de entrada do vértice v
@@ -80,7 +80,7 @@ public class Digraph {
             this.indegree[v] = digraph.indegree( v );
         }
 
-        // atualiza a lista de adjacências
+        // atualiza as listas de adjacências
         adj = new ResizingArrayList[vertices];
         for ( int v = 0; v < vertices; v++ ) {
             adj[v] = new ResizingArrayList<>();
@@ -88,7 +88,7 @@ public class Digraph {
 
         for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             
-            // inverte a lista de adjacências para ficar igual à original
+            // inverte as listas de adjacências para ficarem iguais às originais
             Stack<Integer> reverse = new ResizingArrayStack<>();
             
             for ( int w : digraph.adj[v] ) {

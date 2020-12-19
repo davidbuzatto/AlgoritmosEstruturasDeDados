@@ -88,7 +88,7 @@ public class GraphBasicAlgorithms {
             }
         }
         
-        // para laços, 2 iguais (implementação da lista de adjacências)
+        // para laços, 2 iguais (implementação das listas de adjacências)
         return count / 2;
         
     }

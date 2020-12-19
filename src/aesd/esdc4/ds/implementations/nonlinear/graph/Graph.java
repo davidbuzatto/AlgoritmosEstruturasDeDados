@@ -11,7 +11,7 @@ import aesd.esdc4.ds.interfaces.List;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- * Implementação de um grafo não direcionado com lista de adjacências.
+ * Implementação de um grafo não direcionado com listas de adjacências.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
@@ -26,7 +26,7 @@ public class Graph {
     // quantidade de arestas
     private int edges;
     
-    // lista de adjacências
+    // listas de adjacências
     private List<Integer>[] adj;
 
     /**
@@ -69,7 +69,7 @@ public class Graph {
         this.vertices = graph.getNumberOfVertices();
         this.edges = graph.getNumberOfEdges();
 
-        // atualiza a lista de adjacências
+        // atualiza as listas de adjacências
         adj = new ResizingArrayList[vertices];
         for ( int v = 0; v < vertices; v++ ) {
             adj[v] = new ResizingArrayList<>();
@@ -77,8 +77,8 @@ public class Graph {
 
         for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
             
-            // inverte a lista de adjacências para ficar igual à original
-            Stack<Integer> reverse = new ResizingArrayStack<Integer>();
+            // inverte as listas de adjacências para ficarem iguais às originais
+            Stack<Integer> reverse = new ResizingArrayStack<>();
             
             for ( int w : graph.adj[v] ) {
                 reverse.push( w );

@@ -42,8 +42,8 @@ public class DirectedDepthFirstSearch {
         marked[v] = true;
         for ( int w : G.adj( v ) ) {
             if ( !marked[w] ) {
-                edgeTo[w] = v;
                 dfs( G, w );
+                edgeTo[w] = v;
             }
         }
     }

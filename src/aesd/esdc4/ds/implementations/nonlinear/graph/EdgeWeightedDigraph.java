@@ -27,7 +27,7 @@ public class EdgeWeightedDigraph {
     // quantidade de arestas
     private int edges;
     
-    // lista de adjacências - adj[v] = vértices adjacentes à v
+    // listas de adjacências - adj[v] = vértices adjacentes à v
     private List<Edge>[] adj;
     
     // grau de entrada dos vértices - indegree[v] = grau de entrada do vértice v
@@ -81,7 +81,7 @@ public class EdgeWeightedDigraph {
             this.indegree[v] = digraph.indegree( v );
         }
         
-        // atualiza a lista de adjacências
+        // atualiza as listas de adjacências
         adj = new ResizingArrayList[vertices];
         for ( int v = 0; v < vertices; v++ ) {
             adj[v] = new ResizingArrayList<>();
@@ -89,7 +89,7 @@ public class EdgeWeightedDigraph {
         
         for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             
-            // inverte a lista de adjacências para ficar igual à original
+            // inverte as listas de adjacências para ficarem iguais às originais
             Stack<Edge> reverse = new ResizingArrayStack<>();
             
             for ( Edge e : digraph.adj[v] ) {

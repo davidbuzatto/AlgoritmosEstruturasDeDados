@@ -73,7 +73,7 @@ public class EulerianCycle {
             }
         }
 
-        // cria uma visualização local da lista de adjacências
+        // cria uma visualização local das listas de adjacências
         // para iterar um vértice por vez, o tipo de dados Edge é usado para
         // evitgar que sejam eploradas ambas as cópias da aresta v-w.
         Queue<Edge>[] adj = new Queue[graph.getNumberOfVertices()];
