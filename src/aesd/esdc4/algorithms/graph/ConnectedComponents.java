@@ -28,7 +28,7 @@ public class ConnectedComponents {
     // size[id] = quantidade de vértices no componente conexo identificado por id
     private int[] size;
 
-    // quantidade de componentes conexos
+    // quantidade de componentes conexos.
     private int count;
 
     /**
