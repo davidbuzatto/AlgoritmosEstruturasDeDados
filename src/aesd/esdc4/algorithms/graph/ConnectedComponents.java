@@ -116,8 +116,8 @@ public class ConnectedComponents {
     }
 
     /**
-     * Returns the number of vertices in the connected component containing
-     * vertex {@code v}.
+     * Returna a quantidade de vértices no componente conexo que contém o 
+     * vértice v.
      *
      * @param v o vértice
      * @return a quantidade de vértices contidos no componente conexo em que v
@@ -130,9 +130,9 @@ public class ConnectedComponents {
     }
 
     /**
-     * Returns the number of connected components in the graph {@code G}.
+     * Retorna a quantidade de componentes conexos do grafo.
      *
-     * @return the number of connected components in the graph {@code G}
+     * @return o número de componentex conexos
      */
     public int count() {
         return count;
