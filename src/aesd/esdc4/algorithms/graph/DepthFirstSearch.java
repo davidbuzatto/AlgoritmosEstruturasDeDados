@@ -10,8 +10,8 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.Graph;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- * Realiza a busca em profundida para computar os caminhos entre o vértice fonte
- * e todos os outros vértices do grafo.
+ * Realiza a busca em profundidade para computar os caminhos entre o vértice
+ * fonte e todos os outros vértices do grafo.
  *
  * s é o vértice fonte (source).
  *
@@ -64,8 +64,8 @@ public class DepthFirstSearch {
         
         for ( int w : graph.adj( v ) ) {
             if ( !marked[w] ) {
-                edgeTo[w] = v;
                 dfs( graph, w );
+                edgeTo[w] = v;
             }
         }
         

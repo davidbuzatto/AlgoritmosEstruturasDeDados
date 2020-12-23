@@ -12,7 +12,9 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- *
+ * Calcula a árvore de menores caminhos para cada vértice até qualquer outro
+ * vértice em um digrafo ponderado.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -20,48 +22,57 @@ import aesd.esdc4.ds.interfaces.Stack;
  */
 public class FloydWarshall {
 
-    private boolean hasNegativeCycle;  // is there a negative cycle?
-    private double[][] distTo;         // distTo[v][w] = length of shortest v->w path
-    private Edge[][] edgeTo;   // edgeTo[v][w] = last edge on shortest v->w path
+    // há um ciclo negativo?
+    private boolean hasNegativeCycle;
+    
+    // distTo[v][w] = distância do menor caminho entre v-w
+    private double[][] distTo;
+    
+    // edgeTo[v][w] = última aresta no menor caminho v->w
+    private Edge[][] edgeTo;
 
     /**
-     * Computes a shortest paths tree from each vertex to to every other vertex
-     * in the edge-weighted digraph {@code G}. If no such shortest path exists
-     * for some pair of vertices, it computes a negative cycle.
+     * Calcula a árvore de menores caminhos para cada vértice até qualquer outro
+     * vértice em um digrafo ponderado. Se não houver uma menor caminho para algum
+     * par de vértices, computa um ciclo negativo.
      *
-     * @param G the edge-weighted digraph
+     * @param digraph o digrafo ponderado
      */
-    public FloydWarshall( AdjMatrixEdgeWeightedDigraph G ) {
-        int V = G.getNumberOfVertices();
+    public FloydWarshall( AdjMatrixEdgeWeightedDigraph digraph ) {
+        
+        int V = digraph.getNumberOfVertices();
+        
         distTo = new double[V][V];
         edgeTo = new Edge[V][V];
 
-        // initialize distances to infinity
+        // inicializa as distâncias para infinito
         for ( int v = 0; v < V; v++ ) {
             for ( int w = 0; w < V; w++ ) {
                 distTo[v][w] = Double.POSITIVE_INFINITY;
             }
         }
 
-        // initialize distances using edge-weighted digraph's
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-            for ( Edge e : G.adj( v ) ) {
+        // inicializa as distâncias usando o digrafo ponderado
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
+            for ( Edge e : digraph.adj( v ) ) {
                 distTo[e.from()][e.to()] = e.weight();
                 edgeTo[e.from()][e.to()] = e;
             }
-            // in case of self-loops
+            // tratando loops
             if ( distTo[v][v] >= 0.0 ) {
                 distTo[v][v] = 0.0;
                 edgeTo[v][v] = null;
             }
         }
 
-        // Floyd-Warshall updates
+        // atualizações Floyd-Warshall
         for ( int i = 0; i < V; i++ ) {
-            // compute shortest paths using only 0, 1, ..., i as intermediate vertices
+            
+            // comptua os menos caminhos usando somente 0, 1, ..., i como
+            // vértices intermediários
             for ( int v = 0; v < V; v++ ) {
                 if ( edgeTo[v][i] == null ) {
-                    continue;  // optimization
+                    continue;  // otimização
                 }
                 for ( int w = 0; w < V; w++ ) {
                     if ( distTo[v][w] > distTo[v][i] + distTo[i][w] ) {
@@ -69,138 +80,144 @@ public class FloydWarshall {
                         edgeTo[v][w] = edgeTo[i][w];
                     }
                 }
-                // check for negative cycle
+                // verificação de ciclo negativo
                 if ( distTo[v][v] < 0.0 ) {
                     hasNegativeCycle = true;
                     return;
                 }
             }
         }
-        assert check( G );
+        
     }
 
     /**
-     * Is there a negative cycle?
+     * Há um ciclo negativo?
      *
-     * @return {@code true} if there is a negative cycle, and {@code false}
-     * otherwise
+     * @return verdadeiro se houver um ciclo negativo, falso caso contrário
      */
     public boolean hasNegativeCycle() {
         return hasNegativeCycle;
     }
 
     /**
-     * Returns a negative cycle, or {@code null} if there is no such cycle.
+     * Retorna um ciclo negativo ou nulll caso não haja.
      *
-     * @return a negative cycle as an iterable of edges, or {@code null} if
-     * there is no such cycle
+     * @return um ciclo negativo ou null caso não haja.
      */
     public Iterable<Edge> negativeCycle() {
+        
         for ( int v = 0; v < distTo.length; v++ ) {
-            // negative cycle in v's predecessor graph
+            
+            // ciclo negativo no grafo predecessor de v
             if ( distTo[v][v] < 0.0 ) {
+                
                 int V = edgeTo.length;
+                
                 EdgeWeightedDigraph spt = new EdgeWeightedDigraph( V );
+                
                 for ( int w = 0; w < V; w++ ) {
                     if ( edgeTo[v][w] != null ) {
                         spt.addEdge( edgeTo[v][w].from(), edgeTo[v][w].to(), edgeTo[v][w].weight() );
                     }
                 }
+                
                 EdgeWeightedDirectedCycle finder = new EdgeWeightedDirectedCycle( spt );
-                assert finder.hasCycle();
+                
+                
                 return finder.cycle();
+                
             }
+            
         }
+        
         return null;
+        
     }
 
     /**
-     * Is there a path from the vertex {@code s} to vertex {@code t}?
+     * Há um caminho de source até target?
      *
-     * @param s the source vertex
-     * @param t the destination vertex
-     * @return {@code true} if there is a path from vertex {@code s} to vertex
-     * {@code t}, and {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
-     * @throws IllegalArgumentException unless {@code 0 <= t < V}
+     * @param source o vértice fonte
+     * @param target o vértice de destino
+     * @return verdadeiro caso haja um caminho entre os vértices source e target
+     * falso caso contrário
+     * @throws IllegalArgumentException se o vértice source ou o vértice target
+     * forem inválidos
      */
-    public boolean hasPath( int s, int t ) {
-        validateVertex( s );
-        validateVertex( t );
-        return distTo[s][t] < Double.POSITIVE_INFINITY;
+    public boolean hasPath( int source, int target ) throws IllegalArgumentException {
+        
+        validateVertex( source );
+        validateVertex( target );
+        
+        return distTo[source][target] < Double.POSITIVE_INFINITY;
+        
     }
 
     /**
-     * Returns the length of a shortest path from vertex {@code s} to vertex
-     * {@code t}.
+     * Retorna o comprimento menor caminho entre o vértice source e o vértice
+     * target.
      *
-     * @param s the source vertex
-     * @param t the destination vertex
-     * @return the length of a shortest path from vertex {@code s} to vertex
-     * {@code t}; {@code Double.POSITIVE_INFINITY} if no such path
-     * @throws UnsupportedOperationException if there is a negative cost cycle
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param source o vértice fonte
+     * @param target o vértice de destino
+     * @return o comprimento do menor caminho entre os vértices source e target
+     * ou Double.POSITIVE_INFINITY caso não exista
+     * @throws UnsupportedOperationException se houver um ciclo negativo
+     * @throws IllegalArgumentException se o vértice source ou o vértice target
+     * forem inválidos
      */
-    public double dist( int s, int t ) {
-        validateVertex( s );
-        validateVertex( t );
+    public double dist( int source, int target )
+            throws UnsupportedOperationException, IllegalArgumentException {
+        
+        validateVertex( source );
+        validateVertex( target );
+        
         if ( hasNegativeCycle() ) {
             throw new UnsupportedOperationException( "Negative cost cycle exists" );
         }
-        return distTo[s][t];
+        
+        return distTo[source][target];
+        
     }
 
     /**
-     * Returns a shortest path from vertex {@code s} to vertex {@code t}.
+     * Retorna o menor caminho entre o vértice source e o vértice
+     * target.
      *
-     * @param s the source vertex
-     * @param t the destination vertex
-     * @return a shortest path from vertex {@code s} to vertex {@code t} as an
-     * iterable of edges, and {@code null} if no such path
-     * @throws UnsupportedOperationException if there is a negative cost cycle
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param source o vértice fonte
+     * @param target o vértice de destino
+     * @return o menor caminho entre os vértices source e target ou null caso
+     * não exista
+     * @throws UnsupportedOperationException se houver um ciclo negativo
+     * @throws IllegalArgumentException se o vértice source ou o vértice target
+     * forem inválidos
      */
-    public Iterable<Edge> path( int s, int t ) {
-        validateVertex( s );
-        validateVertex( t );
+    public Iterable<Edge> path( int source, int target )
+            throws UnsupportedOperationException, IllegalArgumentException {
+        
+        validateVertex( source );
+        validateVertex( target );
+        
         if ( hasNegativeCycle() ) {
             throw new UnsupportedOperationException( "Negative cost cycle exists" );
         }
-        if ( !hasPath( s, t ) ) {
+        
+        if ( !hasPath( source, target ) ) {
             return null;
         }
+        
         Stack<Edge> path = new ResizingArrayStack<>();
-        for ( Edge e = edgeTo[s][t]; e != null; e = edgeTo[s][e.from()] ) {
+        for ( Edge e = edgeTo[source][target]; e != null; e = edgeTo[source][e.from()] ) {
             path.push( e );
         }
+        
         return path;
+        
     }
 
-    // check optimality conditions
-    private boolean check( AdjMatrixEdgeWeightedDigraph G ) {
-
-        // no negative cycle
-        if ( !hasNegativeCycle() ) {
-            for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-                for ( Edge e : G.adj( v ) ) {
-                    int w = e.to();
-                    for ( int i = 0; i < G.getNumberOfVertices(); i++ ) {
-                        if ( distTo[i][w] > distTo[i][v] + e.weight() ) {
-                            System.err.println( "edge " + e + " is eligible" );
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
-    private void validateVertex( int v ) {
-        int V = distTo.length;
-        if ( v < 0 || v >= V ) {
-            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+    private void validateVertex( int v ) throws IllegalArgumentException {
+        int length = distTo.length;
+        if ( v < 0 || v >= length ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( length - 1 ) );
         }
     }
 

@@ -59,6 +59,10 @@ public class BreadthFirstSearch {
         distTo = new int[graph.getNumberOfVertices()];
         edgeTo = new int[graph.getNumberOfVertices()];
         
+        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
+            distTo[v] = INFINITY;
+        }
+        
         this.source = source;
         this.graph = graph;
         
@@ -71,9 +75,6 @@ public class BreadthFirstSearch {
         
         Queue<Integer> q = new LinkedQueue<>();
         
-        for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
-            distTo[v] = INFINITY;
-        }
         distTo[source] = 0;
         marked[source] = true;
         q.enqueue( source );

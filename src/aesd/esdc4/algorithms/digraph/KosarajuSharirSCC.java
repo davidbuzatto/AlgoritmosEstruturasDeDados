@@ -8,7 +8,8 @@ package aesd.esdc4.algorithms.digraph;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Digraph;
 
 /**
- *
+ * Calcula os componentes fortes do digrafo (componentes fortemente conexos).
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
@@ -16,87 +17,94 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.Digraph;
  */
 public class KosarajuSharirSCC {
 
-    private boolean[] marked;     // marked[v] = has vertex v been visited?
-    private int[] id;             // id[v] = id of strong component containing v
-    private int count;            // number of strongly-connected components
+    // marked[v] = o vértice v foi visitado?
+    private boolean[] marked;
+    
+    // id[v] = identificador do componente forte que contém v
+    private int[] id;
+    
+    // quantidade dos componentes fortemente conexos do grafo processado
+    private int count;
 
     /**
-     * Computes the strong components of the digraph {@code G}.
+     * Calcula os componentes fortes do digrafo (componentes fortemente conexos).
      *
-     * @param G the digraph
+     * @param digraph o digrafo
      */
-    public KosarajuSharirSCC( Digraph G ) {
+    public KosarajuSharirSCC( Digraph digraph ) {
 
-        // compute reverse postorder of reverse graph
-        DepthFirstOrder dfs = new DepthFirstOrder( G.reverse() );
+        // computa a pós-ordem reversa do reverso do grafo
+        DepthFirstOrder dfs = new DepthFirstOrder( digraph.reverse() );
 
-        // run DFS on G, using reverse postorder to guide calculation
-        marked = new boolean[G.getNumberOfVertices()];
-        id = new int[G.getNumberOfVertices()];
+        // executa a DFS no digrafo, usando a pós-ordeme reversa para guiar o
+        // cálculo
+        marked = new boolean[digraph.getNumberOfVertices()];
+        id = new int[digraph.getNumberOfVertices()];
+        
         for ( int v : dfs.reversePost() ) {
             if ( !marked[v] ) {
-                dfs( G, v );
+                dfs( digraph, v );
                 count++;
             }
         }
 
     }
 
-    // DFS on graph G
-    private void dfs( Digraph G, int v ) {
+    // dfs no digrafo
+    private void dfs( Digraph digraph, int v ) {
+        
         marked[v] = true;
         id[v] = count;
-        for ( int w : G.adj( v ) ) {
+        
+        for ( int w : digraph.adj( v ) ) {
             if ( !marked[w] ) {
-                dfs( G, w );
+                dfs( digraph, w );
             }
         }
+        
     }
 
     /**
-     * Returns the number of strong components.
+     * Retorna a quantidade de componentes fortes.
      *
-     * @return the number of strong components
+     * @return a quantidade de componentes fortes
      */
     public int count() {
         return count;
     }
 
     /**
-     * Are vertices {@code v} and {@code w} in the same strong component?
+     * Os vértices v e w estão no mesmo componente forte?
      *
-     * @param v one vertex
-     * @param w the other vertex
-     * @return {@code true} if vertices {@code v} and {@code w} are in the same
-     * strong component, and {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
-     * @throws IllegalArgumentException unless {@code 0 <= w < V}
+     * @param v um vértice
+     * @param w outro vértice
+     * @return verdadeiro se v e w estiverem no mesmo componente forte,
+     * falso caso contrário
+     * @throws IllegalArgumentException se o vértice v ou o vértice w forem
+     * inválidos
      */
-    public boolean stronglyConnected( int v, int w ) {
+    public boolean stronglyConnected( int v, int w ) throws IllegalArgumentException {
         validateVertex( v );
         validateVertex( w );
         return id[v] == id[w];
     }
 
     /**
-     * Returns the component id of the strong component containing vertex
-     * {@code v}.
+     * Retorna o identificador do componente forte que contém o vértice v.
      *
-     * @param v the vertex
-     * @return the component id of the strong component containing vertex
-     * {@code v}
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
+     * @param v o vértice
+     * @return o identificador do componente forte que contém o vértice v
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public int id( int v ) {
+    public int id( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return id[v];
     }
 
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
-    private void validateVertex( int v ) {
-        int V = marked.length;
-        if ( v < 0 || v >= V ) {
-            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+    private void validateVertex( int v ) throws IllegalArgumentException {
+        int length = marked.length;
+        if ( v < 0 || v >= length ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( length - 1 ) );
         }
     }
 

@@ -14,7 +14,8 @@ import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- *
+ * Determina a ordem de profundidade de um digrafo.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -22,140 +23,171 @@ import aesd.esdc4.ds.interfaces.Stack;
  */
 public class DepthFirstOrder {
 
-    private boolean[] marked;          // marked[v] = has v been marked in dfs?
-    private int[] pre;                 // pre[v]    = preorder  number of v
-    private int[] post;                // post[v]   = postorder number of v
-    private Queue<Integer> preorder;   // vertices in preorder
-    private Queue<Integer> postorder;  // vertices in postorder
-    private int preCounter;            // counter or preorder numbering
-    private int postCounter;           // counter for postorder numbering
+    // marked[v] = v foi marcado na dfs?
+    private boolean[] marked;
+    
+    // pre[v] = número de v na pré-ordem
+    private int[] pre;
+    
+    // post[v] = número de v na pós-ordem
+    private int[] post;
+    
+    // vértices em pré-ordem
+    private Queue<Integer> preorder;
+    
+    // vértices em pós-ordem
+    private Queue<Integer> postorder;
+    
+    // contador para a numeração em pré-ordem
+    private int preCounter;
+    
+    // contador para a numeração em pós-ordem
+    private int postCounter;
 
     /**
-     * Determines a depth-first order for the digraph {@code G}.
+     * Determina a ordem de profundidade de um digrafo.
      *
-     * @param G the digraph
+     * @param digraph o digrafo
      */
-    public DepthFirstOrder( Digraph G ) {
-        pre = new int[G.getNumberOfVertices()];
-        post = new int[G.getNumberOfVertices()];
+    public DepthFirstOrder( Digraph digraph ) {
+        
+        pre = new int[digraph.getNumberOfVertices()];
+        post = new int[digraph.getNumberOfVertices()];
         postorder = new LinkedQueue<>();
         preorder = new LinkedQueue<>();
-        marked = new boolean[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+        marked = new boolean[digraph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             if ( !marked[v] ) {
-                dfs( G, v );
+                dfs( digraph, v );
             }
         }
 
     }
 
     /**
-     * Determines a depth-first order for the edge-weighted digraph {@code G}.
+     * Determina a ordem de profundidade de um digrafo ponderado.
      *
-     * @param G the edge-weighted digraph
+     * @param digraph o digrafo ponderado
      */
-    public DepthFirstOrder( EdgeWeightedDigraph G ) {
-        pre = new int[G.getNumberOfVertices()];
-        post = new int[G.getNumberOfVertices()];
+    public DepthFirstOrder( EdgeWeightedDigraph digraph ) {
+        
+        pre = new int[digraph.getNumberOfVertices()];
+        post = new int[digraph.getNumberOfVertices()];
         postorder = new LinkedQueue<>();
         preorder = new LinkedQueue<>();
-        marked = new boolean[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+        marked = new boolean[digraph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             if ( !marked[v] ) {
-                dfs( G, v );
+                dfs( digraph, v );
             }
         }
+        
     }
 
-    // run DFS in digraph G from vertex v and compute preorder/postorder
-    private void dfs( Digraph G, int v ) {
+    // executa a busca em profundidade no digrafo a partir do vértice v e
+    // computa pré-ordem/pó-ordem
+    private void dfs( Digraph digraph, int v ) {
+        
         marked[v] = true;
         pre[v] = preCounter++;
         preorder.enqueue( v );
-        for ( int w : G.adj( v ) ) {
+        
+        for ( int w : digraph.adj( v ) ) {
             if ( !marked[w] ) {
-                dfs( G, w );
+                dfs( digraph, w );
             }
         }
+        
         postorder.enqueue( v );
         post[v] = postCounter++;
+        
     }
 
-    // run DFS in edge-weighted digraph G from vertex v and compute preorder/postorder
+    // executa a busca em profundidade no digrafo ponderado a partir do vértice
+    // v e computa pré-ordem/pó-ordem
     private void dfs( EdgeWeightedDigraph G, int v ) {
+        
         marked[v] = true;
         pre[v] = preCounter++;
         preorder.enqueue( v );
+        
         for ( Edge e : G.adj( v ) ) {
             int w = e.to();
             if ( !marked[w] ) {
                 dfs( G, w );
             }
         }
+        
         postorder.enqueue( v );
         post[v] = postCounter++;
+        
     }
 
     /**
-     * Returns the preorder number of vertex {@code v}.
+     * Retorna o número de pré-ordem do vértice v.
      *
-     * @param v the vertex
-     * @return the preorder number of vertex {@code v}
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice
+     * @return o número de pré-ordem do vértice v
+     * @throws IllegalArgumentException caso o vértice seja inválido
      */
-    public int pre( int v ) {
+    public int pre( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return pre[v];
     }
 
     /**
-     * Returns the postorder number of vertex {@code v}.
+     * Retorna o número de pó-ordem do vértice v.
      *
-     * @param v the vertex
-     * @return the postorder number of vertex {@code v}
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice
+     * @return o número de pós-ordem do vértice v
+     * @throws IllegalArgumentException caso o vértice seja inválido
      */
-    public int post( int v ) {
+    public int post( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return post[v];
     }
 
     /**
-     * Returns the vertices in postorder.
+     * Retorna os vértices em pré-ordem.
      *
-     * @return the vertices in postorder, as an iterable of vertices
+     * @return os vértices em pré-ordem como um interável
+     */
+    public Iterable<Integer> pre() {
+        return preorder;
+    }
+    
+    /**
+     * Retorna os vértices em pós-ordem.
+     *
+     * @return os vértices em pós-ordem como um interável
      */
     public Iterable<Integer> post() {
         return postorder;
     }
 
     /**
-     * Returns the vertices in preorder.
+     * Rertorna os vértices em pós-ordem inversa
      *
-     * @return the vertices in preorder, as an iterable of vertices
-     */
-    public Iterable<Integer> pre() {
-        return preorder;
-    }
-
-    /**
-     * Returns the vertices in reverse postorder.
-     *
-     * @return the vertices in reverse postorder, as an iterable of vertices
+     * @return os vértices em pós-ordem inversa como um interável
      */
     public Iterable<Integer> reversePost() {
+        
         Stack<Integer> reverse = new ResizingArrayStack<>();
+        
         for ( int v : postorder ) {
             reverse.push( v );
         }
+        
         return reverse;
+        
     }
 
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex( int v ) {
-        int V = marked.length;
-        if ( v < 0 || v >= V ) {
-            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+        int length = marked.length;
+        if ( v < 0 || v >= length ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( length - 1 ) );
         }
     }
 

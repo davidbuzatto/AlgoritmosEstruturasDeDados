@@ -10,7 +10,8 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.Digraph;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- *
+ * Calcula os componentes fortes do digrafo (componentes fortemente conexos).
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -18,113 +19,119 @@ import aesd.esdc4.ds.interfaces.Stack;
  */
 public class TarjanSCC {
 
-    private boolean[] marked;        // marked[v] = has v been visited?
-    private int[] id;                // id[v] = id of strong component containing v
-    private int[] low;               // low[v] = low number of v
-    private int pre;                 // preorder number counter
-    private int count;               // number of strongly-connected components
+    // marked[v] = o vértice v foi visitado?
+    private boolean[] marked;
+    
+    // id[v] = identificador do componente forte que contém v
+    private int[] id;
+    
+    // low[v] = número baixo de v
+    private int[] low;
+    
+    // contador da número da pré-ordem
+    private int pre;
+    
+    // quantidade dos componentes fortemente conexos do grafo processado
+    private int count;
+    
     private Stack<Integer> stack;
 
     /**
-     * Computes the strong components of the digraph {@code G}.
+     * Calcula os componentes fortes do digrafo (componentes fortemente conexos).
      *
-     * @param G the digraph
+     * @param digraph o digrafo
      */
-    public TarjanSCC( Digraph G ) {
-        marked = new boolean[G.getNumberOfVertices()];
+    public TarjanSCC( Digraph digraph ) {
+        
+        marked = new boolean[digraph.getNumberOfVertices()];
         stack = new ResizingArrayStack<>();
-        id = new int[G.getNumberOfVertices()];
-        low = new int[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+        id = new int[digraph.getNumberOfVertices()];
+        low = new int[digraph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             if ( !marked[v] ) {
-                dfs( G, v );
+                dfs( digraph, v );
             }
         }
+        
     }
 
-    private void dfs( Digraph G, int v ) {
+    // dfs no digrafo
+    private void dfs( Digraph digraph, int v ) {
+        
         marked[v] = true;
         low[v] = pre++;
+        
         int min = low[v];
+        
         stack.push( v );
-        for ( int w : G.adj( v ) ) {
+        
+        for ( int w : digraph.adj( v ) ) {
             if ( !marked[w] ) {
-                dfs( G, w );
+                dfs( digraph, w );
             }
             if ( low[w] < min ) {
                 min = low[w];
             }
         }
+        
         if ( min < low[v] ) {
             low[v] = min;
             return;
         }
+        
         int w;
         do {
             w = stack.pop();
             id[w] = count;
-            low[w] = G.getNumberOfVertices();
+            low[w] = digraph.getNumberOfVertices();
         } while ( w != v );
+        
         count++;
+        
     }
 
     /**
-     * Returns the number of strong components.
+     * Retorna a quantidade de componentes fortes.
      *
-     * @return the number of strong components
+     * @return a quantidade de componentes fortes
      */
     public int count() {
         return count;
     }
 
     /**
-     * Are vertices {@code v} and {@code w} in the same strong component?
+     * Os vértices v e w estão no mesmo componente forte?
      *
-     * @param v one vertex
-     * @param w the other vertex
-     * @return {@code true} if vertices {@code v} and {@code w} are in the same
-     * strong component, and {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
-     * @throws IllegalArgumentException unless {@code 0 <= w < V}
+     * @param v um vértice
+     * @param w outro vértice
+     * @return verdadeiro se v e w estiverem no mesmo componente forte,
+     * falso caso contrário
+     * @throws IllegalArgumentException se o vértice v ou o vértice w forem
+     * inválidos
      */
-    public boolean stronglyConnected( int v, int w ) {
+    public boolean stronglyConnected( int v, int w ) throws IllegalArgumentException {
         validateVertex( v );
         validateVertex( w );
         return id[v] == id[w];
     }
 
     /**
-     * Returns the component id of the strong component containing vertex
-     * {@code v}.
+     * Retorna o identificador do componente forte que contém o vértice v.
      *
-     * @param v the vertex
-     * @return the component id of the strong component containing vertex
-     * {@code v}
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice
+     * @return o identificador do componente forte que contém o vértice v
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public int id( int v ) {
+    public int id( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return id[v];
     }
 
-    // does the id[] array contain the strongly connected components?
-    private boolean check( Digraph G ) {
-        TransitiveClosure tc = new TransitiveClosure( G );
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-            for ( int w = 0; w < G.getNumberOfVertices(); w++ ) {
-                if ( stronglyConnected( v, w ) != ( tc.reachable( v, w ) && tc.reachable( w, v ) ) ) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
-    private void validateVertex( int v ) {
-        int V = marked.length;
-        if ( v < 0 || v >= V ) {
-            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+    private void validateVertex( int v ) throws IllegalArgumentException {
+        int length = marked.length;
+        if ( v < 0 || v >= length ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( length - 1 ) );
         }
     }
 

@@ -13,7 +13,9 @@ import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- *
+ * Computa a árvore de menor caminho a partir do vértice fonte (source) para
+ * todos os outros vértices do digrafo ponderado.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -21,49 +23,68 @@ import aesd.esdc4.ds.interfaces.Stack;
  */
 public class BellmanFordSP {
 
-    // for floating-point precision issues
+    // para resolver problemas com precisão de ponto flutuante
     private static final double EPSILON = 1E-14;
 
-    private double[] distTo;               // distTo[v] = distance  of shortest s->v path
-    private Edge[] edgeTo;         // edgeTo[v] = last edge on shortest s->v path
-    private boolean[] onQueue;             // onQueue[v] = is v currently on the queue?
-    private Queue<Integer> queue;          // queue of vertices to relax
-    private int cost;                      // number of calls to relax()
-    private Iterable<Edge> cycle;  // negative cycle (or null if no such cycle)
+    // distTo[v] = distância do menor caminho s->v
+    private double[] distTo;
+    
+    // edgeTo[v] = última aresta no menor caminho s->v
+    private Edge[] edgeTo;
+    
+    // onQueue[v] = v está na fila?
+    private boolean[] onQueue;
+    
+    // filad e vértices à relaxar
+    private Queue<Integer> queue;
+    
+    // quantidade de chamadas ao método relax()
+    private int cost;
+    
+    // ciclo negativo ou null caso não exista
+    private Iterable<Edge> cycle;
 
     /**
-     * Computes a shortest paths tree from {@code s} to every other vertex in
-     * the edge-weighted digraph {@code G}.
+     * Computa a árvore de menor caminho a partir do vértice fonte (source) para
+     * todos os outros vértices do digrafo ponderado.
      *
-     * @param G the acyclic digraph
-     * @param s the source vertex
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
+     * @param digraph o digrafo ponderado acíclico
+     * @param source o vértice fonte
+     * @throws IllegalArgumentException se o peso de alguma aresta for negativo
+     * @throws IllegalArgumentException se o vértice fonte for inválido
      */
-    public BellmanFordSP( EdgeWeightedDigraph G, int s ) {
-        distTo = new double[G.getNumberOfVertices()];
-        edgeTo = new Edge[G.getNumberOfVertices()];
-        onQueue = new boolean[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+    public BellmanFordSP( EdgeWeightedDigraph digraph, int source ) {
+        
+        distTo = new double[digraph.getNumberOfVertices()];
+        edgeTo = new Edge[digraph.getNumberOfVertices()];
+        onQueue = new boolean[digraph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             distTo[v] = Double.POSITIVE_INFINITY;
         }
-        distTo[s] = 0.0;
+        distTo[source] = 0.0;
 
-        // Bellman-Ford algorithm
+        // algoritmo de Bellman-Ford
         queue = new LinkedQueue<>();
-        queue.enqueue( s );
-        onQueue[s] = true;
+        queue.enqueue( source );
+        onQueue[source] = true;
+        
         while ( !queue.isEmpty() && !hasNegativeCycle() ) {
             int v = queue.dequeue();
             onQueue[v] = false;
-            relax( G, v );
+            relax( digraph, v );
         }
         
     }
 
-    // relax vertex v and put other endpoints on queue if changed
-    private void relax( EdgeWeightedDigraph G, int v ) {
-        for ( Edge e : G.adj( v ) ) {
+    // relaxamento do vértice v e inserção de outros pontos de fim (endpoints)
+    // na fila se algo mudar
+    private void relax( EdgeWeightedDigraph digraph ,int v ) {
+        
+        for ( Edge e : digraph.adj( v ) ) {
+            
             int w = e.to();
+            
             if ( distTo[w] > distTo[v] + e.weight() + EPSILON ) {
                 distTo[w] = distTo[v] + e.weight();
                 edgeTo[w] = e;
@@ -72,40 +93,46 @@ public class BellmanFordSP {
                     onQueue[w] = true;
                 }
             }
-            if ( ++cost % G.getNumberOfVertices() == 0 ) {
+            
+            if ( ++cost % digraph.getNumberOfVertices() == 0 ) {
                 findNegativeCycle();
                 if ( hasNegativeCycle() ) {
-                    return;  // found a negative cycle
+                    return;  // encontrou um ciclo negativo
                 }
             }
+            
         }
+        
     }
 
     /**
-     * Is there a negative cycle reachable from the source vertex {@code s}?
+     * Há um ciclo negativo alcançável a partir do vértice fonte source?
      *
-     * @return {@code true} if there is a negative cycle reachable from the
-     * source vertex {@code s}, and {@code false} otherwise
+     * @return verdadeiro se hovuer um ciclo negativo alcançável a partir do 
+     * vértice fonte, falso caso contrário
      */
     public boolean hasNegativeCycle() {
         return cycle != null;
     }
 
     /**
-     * Returns a negative cycle reachable from the source vertex {@code s}, or
-     * {@code null} if there is no such cycle.
+     * Retorna o ciclo negativo alcançável a partir do vértice fonte ou null
+     * caso não exista.
      *
-     * @return a negative cycle reachable from the soruce vertex {@code s} as an
-     * iterable of edges, and {@code null} if there is no such cycle
+     * @return o ciclo negativo alcançável a partir do vértice fonte como um
+     * iterável ou null caso não exista.
      */
     public Iterable<Edge> negativeCycle() {
         return cycle;
     }
 
-    // by finding a cycle in predecessor graph
+    // encontra um ciclo no grafo predecessor
     private void findNegativeCycle() {
+        
         int V = edgeTo.length;
+        
         EdgeWeightedDigraph spt = new EdgeWeightedDigraph( V );
+        
         for ( int v = 0; v < V; v++ ) {
             if ( edgeTo[v] != null ) {
                 spt.addEdge( edgeTo[v].from(), edgeTo[v].to(), edgeTo[v].weight() );
@@ -114,70 +141,81 @@ public class BellmanFordSP {
 
         EdgeWeightedDirectedCycle finder = new EdgeWeightedDirectedCycle( spt );
         cycle = finder.cycle();
+        
     }
 
     /**
-     * Returns the length of a shortest path from the source vertex {@code s} to
-     * vertex {@code v}.
+     * Retorna o comprimento do menor caminho do vértice fonte ao vértice v.
      *
-     * @param v the destination vertex
-     * @return the length of a shortest path from the source vertex {@code s} to
-     * vertex {@code v}; {@code Double.POSITIVE_INFINITY} if no such path
-     * @throws UnsupportedOperationException if there is a negative cost cycle
-     * reachable from the source vertex {@code s}
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice de destino
+     * @return o comprimento do menor caminho do vértice fonte ao vértice v ou
+     * Double.POSITIVE_INFINITY} caso não exista
+     * @throws UnsupportedOperationException se houver um ciclo negativo
+     * alcançável a partir do vértice fonte.
+     * @throws IllegalArgumentException caso o vértice seja inválido
      */
-    public double distTo( int v ) {
+    public double distTo( int v ) throws IllegalArgumentException {
+        
         validateVertex( v );
+        
         if ( hasNegativeCycle() ) {
             throw new UnsupportedOperationException( "Negative cost cycle exists" );
         }
+        
         return distTo[v];
+        
     }
 
     /**
-     * Is there a path from the source {@code s} to vertex {@code v}?
+     * Retorna verdadeiro se houver um caminho entre o vértice fonte e o vértice
+     * de destino.
      *
-     * @param v the destination vertex
-     * @return {@code true} if there is a path from the source vertex {@code s}
-     * to vertex {@code v}, and {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice de destino
+     * @return verdadeiro se houver um caminho entre o vértice fonte e o vértice
+     * de destino, falso caso contrário
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public boolean hasPathTo( int v ) {
+    public boolean hasPathTo( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return distTo[v] < Double.POSITIVE_INFINITY;
     }
 
     /**
-     * Returns a shortest path from the source {@code s} to vertex {@code v}.
+     * Retorna o menor caminho entre o vértice fonte e o vértice de destino.
      *
-     * @param v the destination vertex
-     * @return a shortest path from the source {@code s} to vertex {@code v} as
-     * an iterable of edges, and {@code null} if no such path
-     * @throws UnsupportedOperationException if there is a negative cost cycle
-     * reachable from the source vertex {@code s}
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice de destino
+     * @return o menor caminho entre o vértice fonte e o vértice de destino como
+     * um iterável, ou null caso o caminho não exista
+     * @throws UnsupportedOperationException se houver um ciclo de custo negativo
+     * alcançável a partir do vértice fonte
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public Iterable<Edge> pathTo( int v ) {
+    public Iterable<Edge> pathTo( int v ) throws IllegalArgumentException {
+        
         validateVertex( v );
+        
         if ( hasNegativeCycle() ) {
             throw new UnsupportedOperationException( "Negative cost cycle exists" );
         }
+        
         if ( !hasPathTo( v ) ) {
             return null;
         }
+        
         Stack<Edge> path = new ResizingArrayStack<Edge>();
+        
         for ( Edge e = edgeTo[v]; e != null; e = edgeTo[e.from()] ) {
             path.push( e );
         }
+        
         return path;
+        
     }
 
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex( int v ) {
-        int V = distTo.length;
-        if ( v < 0 || v >= V ) {
-            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+        int length = distTo.length;
+        if ( v < 0 || v >= length ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( length - 1 ) );
         }
     }
 

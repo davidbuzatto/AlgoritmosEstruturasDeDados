@@ -11,7 +11,8 @@ import aesd.esdc4.ds.interfaces.Stack;
 import java.util.Iterator;
 
 /**
- *
+ * Computa um caminho Euleriano do digrafo caso exista.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -19,94 +20,111 @@ import java.util.Iterator;
  */
 public class DirectedEulerianPath {
 
-    private Stack<Integer> path = null;   // Eulerian path; null if no suh path
+    // caminho Euleriano
+    private Stack<Integer> path;
 
     /**
-     * Computes an Eulerian path in the specified digraph, if one exists.
+     * Computa um caminho Euleriano do digrafo caso exista.
      *
-     * @param G the digraph
+     * @param digraph o grafo
      */
     @SuppressWarnings( "unchecked" )
-    public DirectedEulerianPath( Digraph G ) {
+    public DirectedEulerianPath( Digraph digraph ) {
 
-        // find vertex from which to start potential Eulerian path:
-        // a vertex v with outdegree(v) > indegree(v) if it exits;
-        // otherwise a vertex with outdegree(v) > 0
+        // procura por um vértice para iniciar um provável caminho Euleriano:
+        // um vértice com grau de saída maior que o grau de entrada se existir
+        // (outdegree(v) > indegree(v));
+        // caso contrário, um vértice com grau de saída maior que zero
+        // (outdegree(v) > 0).
         int deficit = 0;
-        int s = nonIsolatedVertex( G );
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-            if ( G.outdegree( v ) > G.indegree( v ) ) {
-                deficit += ( G.outdegree( v ) - G.indegree( v ) );
+        int s = nonIsolatedVertex( digraph );
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
+            if ( digraph.outdegree( v ) > digraph.indegree( v ) ) {
+                deficit += ( digraph.outdegree( v ) - digraph.indegree( v ) );
                 s = v;
             }
         }
 
-        // digraph can't have an Eulerian path
-        // (this condition is needed)
+        // digrafo não têm um caminho Euleriano
+        // essa condição é necessária para corretude
         if ( deficit > 1 ) {
             return;
         }
 
-        // special case for digraph with zero edges (has a degenerate Eulerian path)
+        // caso especial em que o grafo não possui nenhuma aresta.
+        // nesse caso o grafo possui um caminho Euleriano degenerado.
         if ( s == -1 ) {
             s = 0;
         }
 
-        // create local view of adjacency lists, to iterate one vertex at a time
-        Iterator<Integer>[] adj = new Iterator[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-            adj[v] = G.adj( v ).iterator();
+        // cria uma visualização local das listas de adjacências
+        // para iterar um vértice por vez
+        Iterator<Integer>[] adj = new Iterator[digraph.getNumberOfVertices()];
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
+            adj[v] = digraph.adj( v ).iterator();
         }
 
-        // greedily add to cycle, depth-first search style
+        // cria a pilha com um vértice não isolado
         Stack<Integer> stack = new ResizingArrayStack<>();
         stack.push( s );
+        
+        // procura de forma gulosa todos as arestas no estilo de uma busca em
+        // profundidade iterativa
         path = new ResizingArrayStack<>();
+        
         while ( !stack.isEmpty() ) {
+            
             int v = stack.pop();
+            
             while ( adj[v].hasNext() ) {
                 stack.push( v );
                 v = adj[v].next();
             }
-            // push vertex with no more available edges to path
+            
+            // empilha o vértice que não tem mais arestas saindo
             path.push( v );
+            
         }
 
-        // check if all edges have been used
-        if ( path.getSize()!= G.getNumberOfEdges() + 1 ) {
+        // verifica se todas as arestas foram usadas
+        if ( path.getSize()!= digraph.getNumberOfEdges() + 1 ) {
             path = null;
         }
         
     }
 
     /**
-     * Returns the sequence of vertices on an Eulerian path.
+     * Retorna a sequência de vértices do caminho Euleriano
      *
-     * @return the sequence of vertices on an Eulerian path; {@code null} if no
-     * such path
+     * @return a sequência de vértices do caminho Euleriano ou null caso não
+     * exista.
      */
     public Iterable<Integer> path() {
         return path;
     }
 
     /**
-     * Returns true if the digraph has an Eulerian path.
+     * Retorna se o digrafo possui um caminho Euleriano.
      *
-     * @return {@code true} if the digraph has an Eulerian path; {@code false}
-     * otherwise
+     * @return verdadeiro caso o digrafo possua um caminho Euleriano, falso caso
+     * contrário
      */
     public boolean hasEulerianPath() {
         return path != null;
     }
 
-    // returns any non-isolated vertex; -1 if no such vertex
-    private static int nonIsolatedVertex( Digraph G ) {
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-            if ( G.outdegree( v ) > 0 ) {
+    // retorna qualquer vértice não isolado ou -1 caso não exista nenhum
+    private static int nonIsolatedVertex( Digraph digraph ) {
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
+            if ( digraph.outdegree( v ) > 0 ) {
                 return v;
             }
         }
+        
         return -1;
+        
     }
 
 }

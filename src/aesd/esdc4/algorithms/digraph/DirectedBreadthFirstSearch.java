@@ -12,7 +12,9 @@ import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- *
+ * Realiza a busca em largura para computar o menor caminho entre o vértice
+ * fonte e todos os outros vértices do digrafo.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -20,59 +22,65 @@ import aesd.esdc4.ds.interfaces.Stack;
  */
 public class DirectedBreadthFirstSearch {
 
+    // maior valor possível do tipo inteiro
     private static final int INFINITY = Integer.MAX_VALUE;
-    private boolean[] marked;  // marked[v] = is there an s->v path?
-    private int[] edgeTo;      // edgeTo[v] = last edge on shortest s->v path
-    private int[] distTo;      // distTo[v] = length of shortest s->v path
 
+    // marked[v] = há um caminho s-v?
+    // ou v foi visitado?
+    private boolean[] marked;
+
+    // edgeTo[v] = última aresta no menor caminho s-v
+    private int[] edgeTo;
+
+    // distTo[v] = número de arestas no menor caminho s-v
+    private int[] distTo;
+
+    // vértice fonte
+    private final int source;
+
+    // o grafo
+    private final Digraph digraph;
+    
     /**
-     * Computes the shortest path from {@code s} and every other vertex in graph
-     * {@code G}.
+     * Computa o menor caminho entre o vértice fonte s e todos os outros
+     * vértices do digrafo.
      *
-     * @param G the digraph
-     * @param s the source vertex
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param digraph o grafo
+     * @param source o vértice fonte
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public DirectedBreadthFirstSearch( Digraph G, int s ) {
-        marked = new boolean[G.getNumberOfVertices()];
-        distTo = new int[G.getNumberOfVertices()];
-        edgeTo = new int[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+    public DirectedBreadthFirstSearch( Digraph digraph, int source ) throws IllegalArgumentException {
+        
+        validateVertex( source );
+        
+        marked = new boolean[digraph.getNumberOfVertices()];
+        distTo = new int[digraph.getNumberOfVertices()];
+        edgeTo = new int[digraph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             distTo[v] = INFINITY;
         }
-        validateVertex( s );
-        bfs( G, s );
+        
+        this.source = source;
+        this.digraph = digraph;
+        
+        bfs( digraph, source );
+        
     }
 
-    /**
-     * Computes the shortest path from any one of the source vertices in
-     * {@code sources} to every other vertex in graph {@code G}.
-     *
-     * @param G the digraph
-     * @param sources the source vertices
-     * @throws IllegalArgumentException if {@code sources} is {@code null}
-     * @throws IllegalArgumentException unless each vertex {@code v} in
-     * {@code sources} satisfies {@code 0 <= v < V}
-     */
-    public DirectedBreadthFirstSearch( Digraph G, Iterable<Integer> sources ) {
-        marked = new boolean[G.getNumberOfVertices()];
-        distTo = new int[G.getNumberOfVertices()];
-        edgeTo = new int[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-            distTo[v] = INFINITY;
-        }
-        validateVertices( sources );
-        bfs( G, sources );
-    }
-
-    // BFS from single source
+    // implementação da busca em largura para uma fonte
     private void bfs( Digraph G, int s ) {
+        
         Queue<Integer> q = new LinkedQueue<>();
+        
         marked[s] = true;
         distTo[s] = 0;
         q.enqueue( s );
+        
         while ( !q.isEmpty() ) {
+            
             int v = q.dequeue();
+            
             for ( int w : G.adj( v ) ) {
                 if ( !marked[w] ) {
                     edgeTo[w] = v;
@@ -81,98 +89,90 @@ public class DirectedBreadthFirstSearch {
                     q.enqueue( w );
                 }
             }
+            
         }
-    }
-
-    // BFS from multiple sources
-    private void bfs( Digraph G, Iterable<Integer> sources ) {
-        Queue<Integer> q = new LinkedQueue<>();
-        for ( int s : sources ) {
-            marked[s] = true;
-            distTo[s] = 0;
-            q.enqueue( s );
-        }
-        while ( !q.isEmpty() ) {
-            int v = q.dequeue();
-            for ( int w : G.adj( v ) ) {
-                if ( !marked[w] ) {
-                    edgeTo[w] = v;
-                    distTo[w] = distTo[v] + 1;
-                    marked[w] = true;
-                    q.enqueue( w );
-                }
-            }
-        }
+        
     }
 
     /**
-     * Is there a directed path from the source {@code s} (or sources) to vertex
-     * {@code v}?
+     * Há um caminho direcionado entre o vértice fonte e v?
      *
-     * @param v the vertex
-     * @return {@code true} if there is a directed path, {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice
+     * @return verdadeiro se houver um caminho direcionado entre s->v, falso
+     * caso contrário
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public boolean hasPathTo( int v ) {
+    public boolean hasPathTo( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return marked[v];
     }
 
     /**
-     * Returns the number of edges in a shortest path from the source {@code s}
-     * (or sources) to vertex {@code v}?
+     * Retorna a quantidade de arestas do menor caminho direcionado entre o
+     * vértice fonte e o vértice passado.
      *
-     * @param v the vertex
-     * @return the number of edges in a shortest path
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice
+     * @return a quantidade de aretas no caminho direcionado
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public int distTo( int v ) {
+    public int distTo( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return distTo[v];
     }
 
     /**
-     * Returns a shortest path from {@code s} (or sources) to {@code v}, or
-     * {@code null} if no such path.
+     * Retorna o menor caminho direcionado entre o vértice fonte e o vértice
+     * passado ou  null caso não exista tal caminho.
      *
-     * @param v the vertex
-     * @return the sequence of vertices on a shortest path, as an Iterable
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     * @param v o vértice
+     * @return a sequência de vértices do menor caminho como um iterável
+     * @throws IllegalArgumentException se o vértice for inválido
      */
-    public Iterable<Integer> pathTo( int v ) {
+    public Iterable<Integer> pathTo( int v ) throws IllegalArgumentException {
+        
         validateVertex( v );
 
         if ( !hasPathTo( v ) ) {
             return null;
         }
+        
         Stack<Integer> path = new ResizingArrayStack<>();
-        int x;
-        for ( x = v; distTo[x] != 0; x = edgeTo[x] ) {
-            path.push( x );
+        int current;
+        
+        for ( current = v; distTo[current] != 0; current = edgeTo[current] ) {
+            path.push( current );
         }
-        path.push( x );
+        path.push( current );
+        
         return path;
+        
     }
-
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
+    
     private void validateVertex( int v ) {
-        int V = marked.length;
-        if ( v < 0 || v >= V ) {
-            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+        int length = marked.length;
+        if ( v < 0 || v >= length ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( length - 1 ) );
         }
     }
+    
+    @Override
+    public String toString() {
 
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
-    private void validateVertices( Iterable<Integer> vertices ) {
-        if ( vertices == null ) {
-            throw new IllegalArgumentException( "argument is null" );
+        StringBuilder sb = new StringBuilder();
+
+        sb.append( "Breadth-First Search (source: vertex" ).append( source ).append( ")\n" );
+        sb.append( "v\tmarked[v]\tedgeTo[v]\tdistTo[v]\n" );
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
+            sb.append( String.format( "%d\t%s\t\t%s\t\t%s\n",
+                    v,
+                    marked[v] ? "T" : "F",
+                    edgeTo[v] == -1 ? "-" : edgeTo[v],
+                    distTo[v] == -1 ? "-" : distTo[v] ) );
         }
-        for ( Integer v : vertices ) {
-            if ( v == null ) {
-                throw new IllegalArgumentException( "vertex is null" );
-            }
-            validateVertex( v );
-        }
+
+        return sb.toString();
+
     }
 
 }

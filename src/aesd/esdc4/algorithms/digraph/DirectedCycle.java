@@ -10,7 +10,8 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.Digraph;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- *
+ * Determina se um digrafo possui algum ciclo e caso tenha o armazena.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -18,70 +19,88 @@ import aesd.esdc4.ds.interfaces.Stack;
  */
 public class DirectedCycle {
 
-    private boolean[] marked;        // marked[v] = has vertex v been marked?
-    private int[] edgeTo;            // edgeTo[v] = previous vertex on path to v
-    private boolean[] onStack;       // onStack[v] = is vertex on the stack?
-    private Stack<Integer> cycle;    // directed cycle (or null if no such cycle)
+    // marked[v] = v foi visitado?
+    private boolean[] marked;
+    
+    // edgeTo[v] = última aresta no caminho
+    private int[] edgeTo;
+    
+    // onStack[v] = o vértice v está na fila?
+    private boolean[] onStack;
+    
+    // ciclo direcionado, caso exista
+    private Stack<Integer> cycle;
 
     /**
-     * Determines whether the digraph {@code G} has a directed cycle and, if so,
-     * finds such a cycle.
+     * Determina se um digrafo possui ciclo e, caso tenha, encontra o mesmo.
      *
-     * @param G the digraph
+     * @param digraph the undirected graph
      */
-    public DirectedCycle( Digraph G ) {
-        marked = new boolean[G.getNumberOfVertices()];
-        onStack = new boolean[G.getNumberOfVertices()];
-        edgeTo = new int[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+    public DirectedCycle( Digraph digraph ) {
+        
+        marked = new boolean[digraph.getNumberOfVertices()];
+        onStack = new boolean[digraph.getNumberOfVertices()];
+        edgeTo = new int[digraph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             if ( !marked[v] && cycle == null ) {
-                dfs( G, v );
+                dfs( digraph, v );
             }
         }
+        
     }
 
-    // run DFS and find a directed cycle (if one exists)
-    private void dfs( Digraph G, int v ) {
+    // busca em profundidade para encontrar o ciclo direcionado, caso exista
+    private void dfs( Digraph digraph, int v ) {
+        
         onStack[v] = true;
         marked[v] = true;
-        for ( int w : G.adj( v ) ) {
+        
+        for ( int w : digraph.adj( v ) ) {
 
-            // short circuit if directed cycle found
+            // se encontrou um ciclo, para
             if ( cycle != null ) {
                 return;
-            } // found new vertex, so recur
+            } // encontrou um novo vértice, invoca recursivamente
             else if ( !marked[w] ) {
                 edgeTo[w] = v;
-                dfs( G, w );
-            } // trace back directed cycle
+                dfs( digraph, w );
+            } // calcula o ciclo direcionado
             else if ( onStack[w] ) {
+                
                 cycle = new ResizingArrayStack<>();
+                
                 for ( int x = v; x != w; x = edgeTo[x] ) {
                     cycle.push( x );
                 }
+                
                 cycle.push( w );
                 cycle.push( v );
+                
             }
+            
         }
+        
         onStack[v] = false;
+        
     }
 
     /**
-     * Does the digraph have a directed cycle?
+     * O digrafo tem um ciclo direcionado?
      *
-     * @return {@code true} if the digraph has a directed cycle, {@code false}
-     * otherwise
+     * @return verdadeiro caso o digrafo possua um ciclo direcionado,
+     * falso caso contrário
      */
     public boolean hasCycle() {
         return cycle != null;
     }
 
     /**
-     * Returns a directed cycle if the digraph has a directed cycle, and
-     * {@code null} otherwise.
+     * Retorna um ciclo direcionado do digrafo caso exista ou null caso
+     * contrário.
      *
-     * @return a directed cycle (as an iterable) if the digraph has a directed
-     * cycle, and {@code null} otherwise
+     * @return um ciclo direcionado do digrafo caso exista ou null
+     * caso contrário
      */
     public Iterable<Integer> cycle() {
         return cycle;

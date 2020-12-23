@@ -8,7 +8,8 @@ package aesd.esdc4.algorithms.digraph;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Digraph;
 
 /**
- *
+ * Computa o fecho transitivo de um digrafo.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -16,42 +17,44 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.Digraph;
  */
 public class TransitiveClosure {
 
-    private DirectedDepthFirstSearch[] tc;  // tc[v] = reachable from v
+    // tc[v] = alcançável a partir de v
+    private DirectedDepthFirstSearch[] tc;
 
     /**
-     * Computes the transitive closure of the digraph {@code G}.
+     * Computa o fecho transitivo de um digrafo.
      *
-     * @param G the digraph
+     * @param digraph the digraph
      */
-    public TransitiveClosure( Digraph G ) {
-        tc = new DirectedDepthFirstSearch[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-            tc[v] = new DirectedDepthFirstSearch( G, v );
+    public TransitiveClosure( Digraph digraph ) {
+        
+        tc = new DirectedDepthFirstSearch[digraph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
+            tc[v] = new DirectedDepthFirstSearch( digraph, v );
         }
+        
     }
 
     /**
-     * Is there a directed path from vertex {@code v} to vertex {@code w} in the
-     * digraph?
+     * Há um caminho direcionado do vértice v ao vértice w no digrafo?
      *
-     * @param v the source vertex
-     * @param w the target vertex
-     * @return {@code true} if there is a directed path from {@code v} to
-     * {@code w}, {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
-     * @throws IllegalArgumentException unless {@code 0 <= w < V}
+     * @param v o vértice fonte
+     * @param w o vértice de destino
+     * @return verdadeiro se houver um caminho direcionado entre v e w, falso
+     * caso contrário
+     * @throws IllegalArgumentException se o vértice v ou o vértice w forem
+     * inválidos
      */
-    public boolean reachable( int v, int w ) {
+    public boolean reachable( int v, int w ) throws IllegalArgumentException {
         validateVertex( v );
         validateVertex( w );
         return tc[v].isMarked( w );
     }
 
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex( int v ) {
-        int V = tc.length;
-        if ( v < 0 || v >= V ) {
-            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+        int length = tc.length;
+        if ( v < 0 || v >= length ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( length - 1 ) );
         }
     }
 

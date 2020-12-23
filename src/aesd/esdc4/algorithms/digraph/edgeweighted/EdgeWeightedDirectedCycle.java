@@ -11,7 +11,7 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- *
+ * Determina se um digrafo ponderado possui um ciclo direcionado.
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -19,45 +19,59 @@ import aesd.esdc4.ds.interfaces.Stack;
  */
 public class EdgeWeightedDirectedCycle {
 
-    private boolean[] marked;             // marked[v] = has vertex v been marked?
-    private Edge[] edgeTo;        // edgeTo[v] = previous edge on path to v
-    private boolean[] onStack;            // onStack[v] = is vertex on the stack?
-    private Stack<Edge> cycle;    // directed cycle (or null if no such cycle)
+    // marked[v] = o vértice v foi visitado?
+    private boolean[] marked;
+    
+    // edgeTo[v] = aresta anterior no caminho até v
+    private Edge[] edgeTo;
+    
+    // onStack[v] = o vértice v está na fila?
+    private boolean[] onStack;
+    
+    // o ciclo direcionado, ou null caso não exista
+    private Stack<Edge> cycle;
 
     /**
-     * Determines whether the edge-weighted digraph {@code G} has a directed
-     * cycle and, if so, finds such a cycle.
+     * Determina se um digrafo ponderado possui um ciclo direcionado e, caso possua,
+     * encontra tal ciclo.
      *
-     * @param G the edge-weighted digraph
+     * @param digrafo o digrafo ponderado
      */
-    public EdgeWeightedDirectedCycle( EdgeWeightedDigraph G ) {
-        marked = new boolean[G.getNumberOfVertices()];
-        onStack = new boolean[G.getNumberOfVertices()];
-        edgeTo = new Edge[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
+    public EdgeWeightedDirectedCycle( EdgeWeightedDigraph digrafo ) {
+        
+        marked = new boolean[digrafo.getNumberOfVertices()];
+        onStack = new boolean[digrafo.getNumberOfVertices()];
+        edgeTo = new Edge[digrafo.getNumberOfVertices()];
+        
+        for ( int v = 0; v < digrafo.getNumberOfVertices(); v++ ) {
             if ( !marked[v] ) {
-                dfs( G, v );
+                dfs( digrafo, v );
             }
         }
+        
     }
 
-    // check that algorithm computes either the topological order or finds a directed cycle
+    // computa a ordenação topológica ou encontra um ciclo direcionado
     private void dfs( EdgeWeightedDigraph G, int v ) {
+        
         onStack[v] = true;
         marked[v] = true;
+        
         for ( Edge e : G.adj( v ) ) {
+            
             int w = e.to();
 
-            // short circuit if directed cycle found
+            // se encontrou um ciclo, para
             if ( cycle != null ) {
                 return;
-            } // found new vertex, so recur
+            } // encontrou um novo vértice, invoca recursivamente
             else if ( !marked[w] ) {
                 edgeTo[w] = e;
                 dfs( G, w );
-            } // trace back directed cycle
+            } // calcula o ciclo direcionado
             else if ( onStack[w] ) {
-                cycle = new ResizingArrayStack<Edge>();
+                
+                cycle = new ResizingArrayStack<>();
 
                 Edge f = e;
                 while ( f.from() != w ) {
@@ -67,28 +81,31 @@ public class EdgeWeightedDirectedCycle {
                 cycle.push( f );
 
                 return;
+                
             }
+            
         }
 
         onStack[v] = false;
+        
     }
 
     /**
-     * Does the edge-weighted digraph have a directed cycle?
+     * O digrafo ponderado tem um ciclo direcionado?
      *
-     * @return {@code true} if the edge-weighted digraph has a directed cycle,
-     * {@code false} otherwise
+     * @return verdadeiro caso o digrafo ponderado possua um ciclo direcionado,
+     * falso caso contrário
      */
     public boolean hasCycle() {
         return cycle != null;
     }
 
     /**
-     * Returns a directed cycle if the edge-weighted digraph has a directed
-     * cycle, and {@code null} otherwise.
+     * Retorna um ciclo direcionado do digrafo ponderado caso exista ou null
+     * caso contrário.
      *
-     * @return a directed cycle (as an iterable) if the edge-weighted digraph
-     * has a directed cycle, and {@code null} otherwise
+     * @return um ciclo direcionado do digrafo ponderado caso exista ou null
+     * caso contrário
      */
     public Iterable<Edge> cycle() {
         return cycle;

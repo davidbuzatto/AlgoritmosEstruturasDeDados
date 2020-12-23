@@ -9,7 +9,9 @@ import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
 import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 
 /**
- *
+ * Calcula a árvore de menores caminhos para cada vértice até qualquer outro
+ * vértice em um digrafo ponderado.
+ * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
@@ -20,74 +22,89 @@ public class DirectedDijkstraAllPairsSP {
     private DirectedDijkstraSP[] all;
 
     /**
-     * Computes a shortest paths tree from each vertex to to every other vertex
-     * in the edge-weighted digraph {@code G}.
+     * Calcula a árvore de menores caminhos para cada vértice até qualquer outro
+     * vértice em um digrafo ponderado.
      *
-     * @param G the edge-weighted digraph
-     * @throws IllegalArgumentException if an edge weight is negative
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
+     * @param digraph o digrafo ponderado
+     * @throws IllegalArgumentException se o peso de alguma aresta for negativo
+     * @throws IllegalArgumentException se o vértice fonte for inválido
      */
-    public DirectedDijkstraAllPairsSP( EdgeWeightedDigraph G ) {
-        all = new DirectedDijkstraSP[G.getNumberOfVertices()];
-        for ( int v = 0; v < G.getNumberOfVertices(); v++ ) {
-            all[v] = new DirectedDijkstraSP( G, v );
+    public DirectedDijkstraAllPairsSP( EdgeWeightedDigraph digraph )
+            throws IllegalArgumentException {
+        
+        all = new DirectedDijkstraSP[digraph.getNumberOfVertices()];
+        
+        for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
+            all[v] = new DirectedDijkstraSP( digraph, v );
         }
+        
     }
 
     /**
-     * Returns a shortest path from vertex {@code s} to vertex {@code t}.
+     * Retorna o menor caminho entre o vértice source e o vértice
+     * target.
      *
-     * @param s the source vertex
-     * @param t the destination vertex
-     * @return a shortest path from vertex {@code s} to vertex {@code t} as an
-     * iterable of edges, and {@code null} if no such path
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
-     * @throws IllegalArgumentException unless {@code 0 <= t < V}
+     * @param source o vértice fonte
+     * @param target o vértice de destino
+     * @return o menor caminho entre os vértices source e target ou null caso
+     * não exista
+     * @throws UnsupportedOperationException se houver um ciclo negativo
+     * @throws IllegalArgumentException se o vértice source ou o vértice target
+     * forem inválidos
      */
-    public Iterable<Edge> path( int s, int t ) {
-        validateVertex( s );
-        validateVertex( t );
-        return all[s].pathTo( t );
+    public Iterable<Edge> path( int source, int target ) {
+        
+        validateVertex( source );
+        validateVertex( target );
+        
+        return all[source].pathTo( target );
+        
     }
 
     /**
-     * Is there a path from the vertex {@code s} to vertex {@code t}?
+     * Há um caminho de source até target?
      *
-     * @param s the source vertex
-     * @param t the destination vertex
-     * @return {@code true} if there is a path from vertex {@code s} to vertex
-     * {@code t}, and {@code false} otherwise
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
-     * @throws IllegalArgumentException unless {@code 0 <= t < V}
+     * @param source o vértice fonte
+     * @param target o vértice de destino
+     * @return verdadeiro caso haja um caminho entre os vértices source e target
+     * falso caso contrário
+     * @throws IllegalArgumentException se o vértice source ou o vértice target
+     * forem inválidos
      */
-    public boolean hasPath( int s, int t ) {
-        validateVertex( s );
-        validateVertex( t );
-        return dist( s, t ) < Double.POSITIVE_INFINITY;
+    public boolean hasPath( int source, int target ) throws IllegalArgumentException {
+        
+        validateVertex( source );
+        validateVertex( target );
+        
+        return dist( source, target ) < Double.POSITIVE_INFINITY;
+        
     }
 
     /**
-     * Returns the length of a shortest path from vertex {@code s} to vertex
-     * {@code t}.
+     * Retorna o comprimento menor caminho entre o vértice source e o vértice
+     * target.
      *
-     * @param s the source vertex
-     * @param t the destination vertex
-     * @return the length of a shortest path from vertex {@code s} to vertex
-     * {@code t}; {@code Double.POSITIVE_INFINITY} if no such path
-     * @throws IllegalArgumentException unless {@code 0 <= s < V}
-     * @throws IllegalArgumentException unless {@code 0 <= t < V}
+     * @param source o vértice fonte
+     * @param target o vértice de destino
+     * @return o comprimento do menor caminho entre os vértices source e target
+     * ou Double.POSITIVE_INFINITY caso não exista
+     * @throws IllegalArgumentException se o vértice source ou o vértice target
+     * forem inválidos
      */
-    public double dist( int s, int t ) {
-        validateVertex( s );
-        validateVertex( t );
-        return all[s].distTo( t );
+    public double dist( int source, int target ) {
+        
+        validateVertex( source );
+        validateVertex( target );
+        
+        return all[source].distTo( target );
+        
     }
 
-    // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex( int v ) {
-        int V = all.length;
-        if ( v < 0 || v >= V ) {
-            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( V - 1 ) );
+        int length = all.length;
+        if ( v < 0 || v >= length ) {
+            throw new IllegalArgumentException( "vertex " + v + " is not between 0 and " + ( length - 1 ) );
         }
     }
+    
 }

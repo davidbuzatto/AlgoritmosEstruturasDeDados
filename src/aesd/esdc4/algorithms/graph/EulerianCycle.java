@@ -12,7 +12,7 @@ import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- * Computa um ciclo Euleriano no grafo caso exista.
+ * Computa um ciclo Euleriano do grafo caso exista.
  *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
@@ -22,7 +22,7 @@ import aesd.esdc4.ds.interfaces.Stack;
 public class EulerianCycle {
 
     // ciclo Euleriano
-    private Stack<Integer> cycle = new ResizingArrayStack<>();
+    private Stack<Integer> cycle;
 
     // uma aresta não direcionada com um campo para indicar se a aresta já foi
     // visitada
@@ -75,7 +75,7 @@ public class EulerianCycle {
 
         // cria uma visualização local das listas de adjacências
         // para iterar um vértice por vez, o tipo de dados Edge é usado para
-        // evitgar que sejam eploradas ambas as cópias da aresta v-w.
+        // evitar que sejam exploradas ambas as cópias da aresta v-w.
         Queue<Edge>[] adj = new Queue[graph.getNumberOfVertices()];
         for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
             adj[v] = new LinkedQueue<>();
