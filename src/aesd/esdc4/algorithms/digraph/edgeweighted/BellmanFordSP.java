@@ -13,7 +13,7 @@ import aesd.esdc4.ds.interfaces.Queue;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
- * Computa a árvore de menor caminho a partir do vértice fonte (source) para
+ * Computa a árvore de menor caminho a partir do vértice fonte para
  * todos os outros vértices do digrafo ponderado.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
