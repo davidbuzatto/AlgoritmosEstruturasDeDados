@@ -5,6 +5,7 @@
  */
 package aesd.esdc4.ds.implementations.nonlinear.graph;
 
+import aesd.esdc4.ds.implementations.linear.Bag;
 import aesd.esdc4.ds.implementations.linear.ResizingArrayList;
 import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
 import aesd.esdc4.ds.interfaces.List;
@@ -27,7 +28,7 @@ public class EdgeWeightedGraph {
     private int edges;
     
     // listas de adjacências - adj[v] = vértices adjacentes à v
-    private List<Edge>[] adj;
+    private Bag<Edge>[] adj;
 
     /**
      * Cria um grafo ponderado com uma quantidade específica de vértices.
@@ -46,9 +47,9 @@ public class EdgeWeightedGraph {
         this.vertices = vertices;
         this.edges = 0;
         
-        adj = new ResizingArrayList[vertices];
+        adj = new Bag[vertices];
         for ( int v = 0; v < vertices; v++ ) {
-            adj[v] = new ResizingArrayList<>();
+            adj[v] = new Bag<>();
         }
         
     }
@@ -71,9 +72,9 @@ public class EdgeWeightedGraph {
         this.edges = graph.getNumberOfEdges();
         
         // atualiza as listas de adjacências
-        adj = new ResizingArrayList[vertices];
+        adj = new Bag[vertices];
         for ( int v = 0; v < vertices; v++ ) {
-            adj[v] = new ResizingArrayList<>();
+            adj[v] = new Bag<>();
         }
         
         for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
@@ -122,19 +123,22 @@ public class EdgeWeightedGraph {
     /**
      * Adds the undirected edge {@code e} to this edge-weighted graph.
      *
-     * @param e the edge
+     * @param v o vértice de calda/origem
+     * @param w O vértice de cabeça/destino
+     * @param weight O peso da aresta
      * @throws IllegalArgumentException unless both endpoints are between
      * {@code 0} and {@code V-1}
      */
-    public void addEdge( int v, int w ) throws IllegalArgumentException {
+    public void addEdge( int v, int w, double weight ) throws IllegalArgumentException {
         
         validateVertex( v );
         validateVertex( w );
         
-        Edge e = new Edge( v, w, 0 );
+        Edge e = new Edge( v, w, weight );
         
         adj[v].add( e );
         adj[w].add( e );
+        
         edges++;
         
     }

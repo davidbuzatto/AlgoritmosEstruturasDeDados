@@ -120,10 +120,12 @@ public class AdjMatrixEdgeWeightedGraph {
             this.v = v;
         }
 
+        @Override
         public Iterator<Edge> iterator() {
             return this;
         }
 
+        @Override
         public boolean hasNext() {
             while ( w < vertices ) {
                 if ( adj[v][w] != null ) {
@@ -134,6 +136,7 @@ public class AdjMatrixEdgeWeightedGraph {
             return false;
         }
 
+        @Override
         public Edge next() {
             if ( !hasNext() ) {
                 throw new NoSuchElementException();

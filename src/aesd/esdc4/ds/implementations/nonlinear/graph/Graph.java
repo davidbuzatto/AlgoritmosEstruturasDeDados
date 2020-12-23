@@ -5,9 +5,8 @@
  */
 package aesd.esdc4.ds.implementations.nonlinear.graph;
 
-import aesd.esdc4.ds.implementations.linear.ResizingArrayList;
+import aesd.esdc4.ds.implementations.linear.Bag;
 import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
-import aesd.esdc4.ds.interfaces.List;
 import aesd.esdc4.ds.interfaces.Stack;
 
 /**
@@ -27,7 +26,7 @@ public class Graph {
     private int edges;
     
     // listas de adjacências
-    private List<Integer>[] adj;
+    private Bag<Integer>[] adj;
 
     /**
      * Cria um grafo com uma quantidade específica de vértices.
@@ -46,9 +45,9 @@ public class Graph {
         this.vertices = vertices;
         this.edges = 0;
         
-        adj = new ResizingArrayList[vertices];
+        adj = new Bag[vertices];
         for ( int v = 0; v < vertices; v++ ) {
-            adj[v] = new ResizingArrayList<>();
+            adj[v] = new Bag<>();
         }
         
     }
@@ -70,9 +69,9 @@ public class Graph {
         this.edges = graph.getNumberOfEdges();
 
         // atualiza as listas de adjacências
-        adj = new ResizingArrayList[vertices];
+        adj = new Bag[vertices];
         for ( int v = 0; v < vertices; v++ ) {
-            adj[v] = new ResizingArrayList<>();
+            adj[v] = new Bag<>();
         }
 
         for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {

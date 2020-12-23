@@ -114,10 +114,12 @@ public class AdjMatrixEdgeWeightedDigraph {
             this.v = v;
         }
 
+        @Override
         public Iterator<Edge> iterator() {
             return this;
         }
 
+        @Override
         public boolean hasNext() {
             while ( w < vertices ) {
                 if ( adj[v][w] != null ) {
@@ -128,6 +130,7 @@ public class AdjMatrixEdgeWeightedDigraph {
             return false;
         }
 
+        @Override
         public Edge next() {
             if ( !hasNext() ) {
                 throw new NoSuchElementException();
@@ -135,9 +138,11 @@ public class AdjMatrixEdgeWeightedDigraph {
             return adj[v][w++];
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
+        
     }
 
     @Override

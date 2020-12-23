@@ -5,6 +5,7 @@
  */
 package aesd.esdc4.ds.implementations.nonlinear.graph;
 
+import aesd.esdc4.ds.implementations.linear.Bag;
 import aesd.esdc4.ds.implementations.linear.ResizingArrayList;
 import aesd.esdc4.ds.implementations.linear.ResizingArrayStack;
 import aesd.esdc4.ds.interfaces.List;
@@ -28,7 +29,7 @@ public class EdgeWeightedDigraph {
     private int edges;
     
     // listas de adjacências - adj[v] = vértices adjacentes à v
-    private List<Edge>[] adj;
+    private Bag<Edge>[] adj;
     
     // grau de entrada dos vértices - indegree[v] = grau de entrada do vértice v
     private int[] indegree;
@@ -51,9 +52,9 @@ public class EdgeWeightedDigraph {
         this.edges = 0;
         this.indegree = new int[vertices];
         
-        adj = new ResizingArrayList[vertices];
+        adj = new Bag[vertices];
         for ( int v = 0; v < vertices; v++ ) {
-            adj[v] = new ResizingArrayList<>();
+            adj[v] = new Bag<>();
         }
         
     }
@@ -82,9 +83,9 @@ public class EdgeWeightedDigraph {
         }
         
         // atualiza as listas de adjacências
-        adj = new ResizingArrayList[vertices];
+        adj = new Bag[vertices];
         for ( int v = 0; v < vertices; v++ ) {
-            adj[v] = new ResizingArrayList<>();
+            adj[v] = new Bag<>();
         }
         
         for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
