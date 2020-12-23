@@ -7,7 +7,7 @@
 package aesd.esdc4.algorithms.tree;
 
 /**
- * Enumeração para os tipos de percursos das árvores.
+ * Enumeração para os tipos de percursos das árvores binárias de busca.
  * 
  * @author Prof. Dr. David Buzatto
  */
