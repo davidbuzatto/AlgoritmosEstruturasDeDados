@@ -5,12 +5,12 @@
  */
 package aesd.esdc4.algorithms.graph.edgeweighted.tests;
 
+import aesd.esdc4.algorithms.digraph.edgeweighted.DirectedDijkstraSP;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
 import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 
 /**
- * Teste de uso do algoritmo de Dijkstra classe DirectedDijkstraSPTrace para
- * verificar o que está acontecendo.
+ * Teste de uso do algoritmo de Dijkstra da classe DirectedDijkstraSP.
  * 
  * @author Prof. Dr. David Buzatto
  */
@@ -36,7 +36,7 @@ public class TestDirectedDijkstraSPTrace {
         g.addEdge( 6, 4, 0.93 );
         System.out.println( g );
         
-        DirectedDijkstraSPTrace dSP = new DirectedDijkstraSPTrace( g, 0 );
+        DirectedDijkstraSP dSP = new DirectedDijkstraSP( g, 0 );
         for ( Edge e : dSP.pathTo( 0 ) ) {
             System.out.println( e );
         }

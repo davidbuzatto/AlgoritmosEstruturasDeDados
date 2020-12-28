@@ -5,12 +5,13 @@
  */
 package aesd.esdc4.algorithms.graph.edgeweighted.tests;
 
+import aesd.esdc4.algorithms.graph.edgeweighted.LazyPrimMST;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
 import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 
 /**
  * Teste de uso do algoritmo de Prim na variação lazy usando a classe 
- * LazyPrimMSTTrace para verificar o que está acontecendo.
+ * LazyPrimMST.
  * 
  * @author Prof. Dr. David Buzatto
  */
@@ -37,7 +38,7 @@ public class TestLazyPrimMSTTrace {
         g.addEdge( 6, 4, 0.93 );
         System.out.println( g );
         
-        LazyPrimMSTTrace lpMST = new LazyPrimMSTTrace( g );
+        LazyPrimMST lpMST = new LazyPrimMST( g );
         for ( Edge e : lpMST.edges() ) {
             System.out.println( e );
         }

@@ -5,12 +5,13 @@
  */
 package aesd.esdc4.algorithms.graph.edgeweighted.tests;
 
+import aesd.esdc4.algorithms.graph.edgeweighted.PrimMST;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
 import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 
 /**
  * Teste de uso do algoritmo de Prim na variação eager usando a classe 
- * PrimMSTTrace para verificar o que está acontecendo.
+ * PrimMSTo.
  * 
  * @author Prof. Dr. David Buzatto
  */
@@ -37,7 +38,7 @@ public class TestPrimMSTTrace {
         g.addEdge( 6, 4, 0.93 );
         System.out.println( g );
         
-        PrimMSTTrace pMST = new PrimMSTTrace( g );
+        PrimMST pMST = new PrimMST( g );
         for ( Edge e : pMST.edges() ) {
             System.out.println( e );
         }

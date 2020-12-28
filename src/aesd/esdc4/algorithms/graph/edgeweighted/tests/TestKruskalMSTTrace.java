@@ -5,12 +5,12 @@
  */
 package aesd.esdc4.algorithms.graph.edgeweighted.tests;
 
+import aesd.esdc4.algorithms.graph.edgeweighted.KruskalMST;
 import aesd.esdc4.ds.implementations.nonlinear.graph.Edge;
 import aesd.esdc4.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 
 /**
- * Teste de uso do algoritmo de Kruskal usando a classe KruskalMSTTrace para
- * verificar o que está acontecendo.
+ * Teste de uso do algoritmo de Kruskal usando a classe KruskalMST.
  * 
  * @author Prof. Dr. David Buzatto
  */
@@ -37,7 +37,7 @@ public class TestKruskalMSTTrace {
         g.addEdge( 6, 4, 0.93 );
         System.out.println( g );
         
-        KruskalMSTTrace kMST = new KruskalMSTTrace( g );
+        KruskalMST kMST = new KruskalMST( g );
         for ( Edge e : kMST.edges() ) {
             System.out.println( e );
         }

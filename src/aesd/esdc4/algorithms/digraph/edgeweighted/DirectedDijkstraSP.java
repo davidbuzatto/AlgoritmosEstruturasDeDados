@@ -59,7 +59,7 @@ public class DirectedDijkstraSP {
         distTo[source] = 0.0;
 
         // relaxamento dos vértices na ordem de distância ao vértice fonte
-        pq = new IndexedMinPriorityQueue<Double>( digraph.getNumberOfVertices() );
+        pq = new IndexedMinPriorityQueue<>( digraph.getNumberOfVertices() );
         pq.insert( source, distTo[source] );
         
         while ( !pq.isEmpty() ) {
@@ -75,7 +75,8 @@ public class DirectedDijkstraSP {
     // alterada
     private void relax( Edge e ) {
         
-        int v = e.from(), w = e.to();
+        int v = e.from();
+        int w = e.to();
         
         if ( distTo[w] > distTo[v] + e.weight() ) {
             
