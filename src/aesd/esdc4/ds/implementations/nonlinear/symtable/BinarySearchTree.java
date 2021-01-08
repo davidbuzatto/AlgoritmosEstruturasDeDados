@@ -315,7 +315,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
     }
     
     /*
-     * Método privado para a remoção recursiva (Ribbard Deletion).
+     * Método privado para a remoção recursiva (Hibbard Deletion).
      */
     private Node<Key, Value> delete( Node<Key, Value> node, Key key ) {
         
