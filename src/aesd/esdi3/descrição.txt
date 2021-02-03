@@ -1,0 +1,4 @@
+Pacote de Arquivos e Código Fonte para a Disciplina de Estruturas de Dados.
+Curso: Tecnologia em Sistemas para Internet
+
+Mantido por Prof. Dr. David Buzatto.

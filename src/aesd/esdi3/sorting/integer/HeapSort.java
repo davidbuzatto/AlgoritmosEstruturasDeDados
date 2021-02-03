@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc5.sorting.generic;
+package aesd.esdi3.sorting.integer;
 
-import aesd.esdc5.utils.SortingUtils;
+import aesd.esdi3.utils.SortingUtils;
 
 /**
  * Ordenação usando um Heap (Heap Sort )
@@ -78,7 +78,7 @@ import aesd.esdc5.utils.SortingUtils;
  */
 public class HeapSort {
 
-    public static <Type extends Comparable<Type>> void sort( Type[] array ) {
+    public static void sort( int[] array ) {
         
         // IMPORTANTE! O índice 1 é a raiz nesta implementação!
 
@@ -126,11 +126,11 @@ public class HeapSort {
      * Flutua o nó k para a posição correta (baixo para cima)
      * se necessário (se for maior que o seu pai).
      */
-    private static <Type extends Comparable<Type>> void swim( Type[] array, int k ) {
+    private static void swim( int[] array, int k ) {
 
         // se o nó k não é a raiz (nó 1) e
         // seu pai (k/2) for menor que ele
-        while ( k > 1 && array[k/2].compareTo( array[k] ) < 0 ) {
+        while ( k > 1 && array[k/2] < array[k] ) {
 
             // troca o pai pelo filho
             SortingUtils.swap( array, k/2, k );
@@ -149,7 +149,7 @@ public class HeapSort {
      * Afunda o nó k para a posição correta (cima para baixo)
      * se necessário (se for menor que algum de seus filhos).
      */
-    private static <Type extends Comparable<Type>> void sink( Type[] array, int k, int n ) {
+    private static void sink( int[] array, int k, int n ) {
 
         // posição do filho
         int j;
@@ -163,7 +163,7 @@ public class HeapSort {
             // se j está dentro do limite
             // e o valor da posição j é menor que
             // o valor do seu irmão
-            if ( j < n && array[j].compareTo( array[j+1] ) < 0 ) {
+            if ( j < n && array[j] < array[j+1] ) {
 
                 // muda para o irmão (filho da direita)
                 // pois o filho à esquerda é menor que o mai
@@ -177,7 +177,7 @@ public class HeapSort {
             // ao valor do filho da direita (que faltou ser testado).
             // está ok, pois atende à regra do max-heap e termina
             // o loop
-            if ( array[k].compareTo( array[j] ) >= 0 ) {
+            if ( array[k] >= array[j] ) {
                 break;
             }
 

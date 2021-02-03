@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc5.sorting.integer;
+package aesd.esdi3.sorting.generic;
 
-import aesd.esdc5.utils.SortingUtils;
+import aesd.esdi3.utils.SortingUtils;
 
 /**
  * Quick Sort 3-Way.
@@ -28,7 +28,7 @@ import aesd.esdc5.utils.SortingUtils;
  */
 public class QuickSort3Way {
 
-    public static void sort( int[] array ) {
+    public static <Tipo extends Comparable<Tipo>> void sort( Tipo[] array ) {
         quickSort3( array, 0, array.length - 1 );
     }
     
@@ -47,7 +47,7 @@ public class QuickSort3Way {
     * ---------------------------------------------------------
     *
     */
-   private static void quickSort3( int[] array, int start, int end ) {
+   private static <Type extends Comparable<Type>> void quickSort3( Type[] array, int start, int end ) {
        
        // se o início for menor que o fim
        // executa o algoritmo.
@@ -68,16 +68,18 @@ public class QuickSort3Way {
 
            // valor base (valor da faixa do meio)
            // é o valor da "faixa pivô"
-           int v = array[start];
+           Type v = array[start];
 
            // faz a varredura do início ao fim, diminuindo o
            // lado esquerdo e o lado direito e posicionando os valores
            while ( i <= max ) {
+
+               int comp = array[i].compareTo( v );
                
                // se o valor de i for menor que o valor base
                // indica que é necessário jogar o valor de i
                // para a esquerda, montando a faixa menor
-               if ( array[i] < v ) {
+               if ( comp < 0 ) {
 
                    // troca o valor do menor com o valor de i
                    // e desloca os dois controles para a direita
@@ -88,7 +90,7 @@ public class QuickSort3Way {
                    // se o valor de i for maior que o valor base
                    // indica que é necessário jogar o valor de i
                    // para a direita, montando a faixa maior
-               } else if ( array[i] > v ) {
+               } else if ( comp > 0 ) {
 
                    // troca o valor do maior com o valor de i
                    // e desloca o menor para a esquerda

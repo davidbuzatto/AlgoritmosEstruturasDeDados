@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc5.sorting.generic;
+package aesd.esdi3.sorting.integer;
 
-import aesd.esdc5.utils.SortingUtils;
+import aesd.esdi3.utils.SortingUtils;
 
 /**
  * Ordenação Shell (Shell Sort)
@@ -36,7 +36,7 @@ import aesd.esdc5.utils.SortingUtils;
  */
 public class ShellSort {
 
-    public static <Type extends Comparable<Type>> void sort( Type[] array ) {
+    public static void sort( int[] array ) {
         
         int length = array.length;
         
@@ -76,7 +76,7 @@ public class ShellSort {
                 // e o item à esquerda de j (distância de 1 espaçamento)
                 // for maior que o item em j, eles estão em posições
                 // erradas, sendo assim...
-                while( j >= h && array[j-h].compareTo( array[j] ) > 0 ) {
+                while( j >= h && array[j-h] > array[j] ) {
 
                     // troca os elementos
                     SortingUtils.swap( array, j-h, j );

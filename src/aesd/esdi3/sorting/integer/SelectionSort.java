@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc5.sorting.generic;
+package aesd.esdi3.sorting.integer;
 
-import aesd.esdc5.utils.SortingUtils;
+import aesd.esdi3.utils.SortingUtils;
 
 /**
  * Ordenação por seleção (Selection Sort)
@@ -41,7 +41,7 @@ import aesd.esdc5.utils.SortingUtils;
  */
 public class SelectionSort {
 
-    public static <Type extends Comparable<Type>> void sort( Type[] array ) {
+    public static void sort( int[] array ) {
         
         int length = array.length;
         
@@ -68,7 +68,7 @@ public class SelectionSort {
             for ( j = i+1; j < length; j++ ) {
 
                 // encontra o mínimo da parte não-ordenada
-                if ( array[j].compareTo( array[min] ) < 0 ) {
+                if ( array[j] < array[min] ) {
                     min = j;
                 }
 

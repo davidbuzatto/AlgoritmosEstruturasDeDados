@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package aesd.esdc5.utils;
+package aesd.esdi3.utils;
 
 /**
  * Métodos utilitários para os algoritmos de ordenação.

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc5.sorting.generic;
+package aesd.esdi3.sorting.generic;
 
 /**
  * Ordenação por intercalação (Merge Sort)
@@ -65,7 +65,7 @@ public class MergeSort {
      * ordenado.
      */
     private static <Type extends Comparable<Type>> void topDown( 
-            Type[] array, int start, int send, Type[] tempMS ) {
+            Type[] array, int start, int end, Type[] tempMS ) {
 
        // indica o meio do array
        // usado para particionar o problema
@@ -74,24 +74,24 @@ public class MergeSort {
        // se inicio for menor que fim indica
        // que ainda existem intervalos com
        // dois ou mais itens, sendo assim...
-       if ( start < send ) {
+       if ( start < end ) {
 
            // calcula o meio do intervalo
            // o cálculo poderia ser mais simples
            // como: middle = ( start + end ) / 2
            // entretanto, a expressão abaixo é
            // pode ser mais fácil de entender
-           middle = start + ( ( send - start ) / 2 );
+           middle = start + ( ( end - start ) / 2 );
 
            // invoca o algoritmo no intervalo da esquerda
            topDown( array, start, middle, tempMS );
 
            // invoca o algoritmo no intervalo da direita
-           topDown( array, middle + 1, send, tempMS );
+           topDown( array, middle + 1, end, tempMS );
 
            // intercala ("faz o merge") das sub-árvores
            // do nó atual da árvore merge
-           merge( array, start, middle, send, tempMS );
+           merge( array, start, middle, end, tempMS );
 
        }
 
@@ -105,7 +105,7 @@ public class MergeSort {
      * a intercalação.
      */
     private static <Type extends Comparable<Type>> void bottomUp( 
-            Type[] array, int inicio, int fim, Type[] tempMS ) {
+            Type[] array, int start, int end, Type[] tempMS ) {
 
        // m controla o espaçamento que é proporcional ao nível
        // atual da árvore, ou seja, 1 para o último nível,
@@ -118,7 +118,7 @@ public class MergeSort {
 
        // enquanto m for menor ou igual à posição final,
        // seu valor é dobrado a cada iteração
-       for ( m = 1; m <= fim; m *= 2 ) {
+       for ( m = 1; m <= end; m *= 2 ) {
 
            // a partir do início do array e enquanto
            // i for menor que o final menos o valor de m
@@ -126,7 +126,7 @@ public class MergeSort {
            // incrementa i em duas vezes o espaçamento
            // este for gera as posições iniciais e finais
            // de cada nó
-           for ( i = inicio; i <= fim - m; i += 2*m ) {
+           for ( i = start; i <= end - m; i += 2*m ) {
 
                // faz o merge do intervalo atual
                // sendo o início igual a i, o meio igual
@@ -135,7 +135,7 @@ public class MergeSort {
                // baseado em i (i+2*m-1) e o final. este mínimo
                // evita o estouro do intervalo para além
                // dos limites válidos do array
-               merge( array, i, i+m-1, Math.min( i+2*m-1, fim ), tempMS );
+               merge( array, i, i+m-1, Math.min( i+2*m-1, end ), tempMS );
 
            }
        }

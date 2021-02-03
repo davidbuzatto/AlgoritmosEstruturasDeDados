@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aesd.esdc5.sorting.integer;
+package aesd.esdi3.sorting.integer;
 
-import aesd.esdc5.utils.SortingUtils;
+import aesd.esdi3.utils.SortingUtils;
 
 /**
  * Ordenação por "flutuação" ou "borbulhamento" (Bubble Sort)
@@ -52,7 +52,7 @@ public class BubbleSort {
         
         // indica se houve ou não pelo
         // menos uma troca
-        boolean swaped;
+        boolean swapped;
 
         // índice da sequência ordenada
         // (indica o final da mesma)
@@ -66,7 +66,7 @@ public class BubbleSort {
         do {
 
             // a priori, não houve troca
-            swaped = false;
+            swapped = false;
 
             // percorre o array do seu fim
             // até o fim da sequência ordenada
@@ -82,7 +82,7 @@ public class BubbleSort {
                     SortingUtils.swap( array, j-1, j );
 
                     // indica que houve uma troca
-                    swaped = true;
+                    swapped = true;
 
                 }
 
@@ -95,7 +95,7 @@ public class BubbleSort {
             // pois pode haver mais alguma no próximo passo
             // e enquanto i (que indica a parte ordenada)
             // não chegar na posição final do array
-        } while( swaped && i < length );
+        } while( swapped && i < length );
     
     }
     
