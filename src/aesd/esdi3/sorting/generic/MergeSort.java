@@ -53,6 +53,9 @@ public class MergeSort {
 
         // chama o Merge Sort (neste caso, a versão Top-Down (recursiva))
         topDown( array, 0, length - 1, tempMS );
+        
+        // ou 
+        //bottomUp( array, 0, length - 1, tempMS );
     
     }
     
