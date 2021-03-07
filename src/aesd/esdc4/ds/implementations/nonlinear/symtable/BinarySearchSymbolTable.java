@@ -53,9 +53,15 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
      * @param capacity A nova capacidade.
      */
     @SuppressWarnings( "unchecked" )
-    public BinarySearchSymbolTable( int capacity ) {
+    public BinarySearchSymbolTable( int capacity ) throws IllegalArgumentException {
+        
+        if ( capacity <= 0 ) {
+            throw new IllegalArgumentException( "capacity must be greater than zero" );
+        }
+        
         keys = (Key[]) new Comparable[capacity];
         values = (Value[]) new Object[capacity];
+        
     }
 
     @Override
