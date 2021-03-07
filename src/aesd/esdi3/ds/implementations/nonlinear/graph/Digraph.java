@@ -42,7 +42,7 @@ public class Digraph {
     public Digraph( int vertices ) throws IllegalArgumentException {
         
         if ( vertices < 0 ) {
-            throw new IllegalArgumentException( "Number of vertices must be nonnegative" );
+            throw new IllegalArgumentException( "number of vertices must be nonnegative" );
         }
         
         this.vertices = vertices;

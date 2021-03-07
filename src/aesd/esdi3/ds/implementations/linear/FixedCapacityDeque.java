@@ -56,10 +56,16 @@ public class FixedCapacityDeque<Type> implements Deque<Type> {
      * @param max Tamanho máximo da deque.
      */
     @SuppressWarnings( "unchecked" )
-    public FixedCapacityDeque( int max ) {
+    public FixedCapacityDeque( int max ) throws IllegalArgumentException {
+        
+        if ( max <= 0 ) {
+            throw new IllegalArgumentException( "max capacity must be greater than zero" );
+        }
+        
         maxSize = max;
         values = (Type[]) new Object[maxSize];
         last = -1;
+        
     }
     
     @Override

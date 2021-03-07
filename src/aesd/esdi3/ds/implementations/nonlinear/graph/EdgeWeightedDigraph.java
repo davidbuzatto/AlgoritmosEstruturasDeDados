@@ -45,7 +45,7 @@ public class EdgeWeightedDigraph {
     public EdgeWeightedDigraph( int vertices ) throws IllegalArgumentException {
         
         if ( vertices < 0 ) {
-            throw new IllegalArgumentException( "Number of vertices in a Digraph must be nonnegative" );
+            throw new IllegalArgumentException( "number of vertices in a Digraph must be nonnegative" );
         }
         
         this.vertices = vertices;

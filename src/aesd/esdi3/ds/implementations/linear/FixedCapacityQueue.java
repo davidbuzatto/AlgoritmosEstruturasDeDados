@@ -56,10 +56,16 @@ public class FixedCapacityQueue<Type> implements Queue<Type> {
      * @param max Tamanho máximo da fila.
      */
     @SuppressWarnings( "unchecked" )
-    public FixedCapacityQueue( int max ) {
+    public FixedCapacityQueue( int max ) throws IllegalArgumentException {
+        
+        if ( max <= 0 ) {
+            throw new IllegalArgumentException( "max capacity must be greater than zero" );
+        }
+        
         maxSize = max;
         values = (Type[]) new Object[maxSize];
         end = -1;
+        
     }
     
     @Override

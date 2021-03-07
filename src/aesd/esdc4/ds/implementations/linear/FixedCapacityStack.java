@@ -53,10 +53,16 @@ public class FixedCapacityStack<Type> implements Stack<Type> {
      * @param max Tamanho máximo da pilha.
      */
     @SuppressWarnings( "unchecked" )
-    public FixedCapacityStack( int max ) {
+    public FixedCapacityStack( int max ) throws IllegalArgumentException {
+        
+        if ( max <= 0 ) {
+            throw new IllegalArgumentException( "max capacity must be greater than zero" );
+        }
+        
         maxSize = max;
         values = (Type[]) new Object[maxSize];
         top = -1;
+        
     }
     
     @Override
