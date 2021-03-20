@@ -1,4 +1,0 @@
-Pacote de Arquivos e Código Fonte para a Disciplina de Projeto e Análise de Algoritmos.
-Curso: Bacharelado em Ciência da Computação
-
-Mantido por Prof. Dr. Breno Lisi Romano.
