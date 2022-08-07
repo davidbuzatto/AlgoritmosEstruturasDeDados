@@ -78,11 +78,7 @@ public class MergeSort {
        if ( start < end ) {
 
            // calcula o meio do intervalo
-           // o cálculo poderia ser mais simples
-           // como: middle = ( start + end ) / 2
-           // entretanto, a expressão abaixo é
-           // pode ser mais fácil de entender
-           middle = start + ( ( end - start ) / 2 );
+           middle = ( start + end ) / 2;
 
            // invoca o algoritmo no intervalo da esquerda
            topDown( array, start, middle, tempMS );
@@ -90,7 +86,7 @@ public class MergeSort {
            // invoca o algoritmo no intervalo da direita
            topDown( array, middle + 1, end, tempMS );
 
-           // intercala ("faz o merge") das sub-árvores
+           // intercalação (merge) das sub-árvores
            // do nó atual da árvore merge
            merge( array, start, middle, end, tempMS );
 
