@@ -11,8 +11,8 @@ package aesd.ds.implementations.nonlinear.uf;
  * como uma árvore.
  * 
  * Ordem de crescimento das operações:
- *     Union -> O(lg n).
- *     Find -> O(lg n).
+ *     Union -> quase O(1) (amortizado).
+ *     Find -> quase O(1) (amortizado).
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
