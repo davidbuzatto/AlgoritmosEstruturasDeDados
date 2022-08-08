@@ -9,6 +9,7 @@ import aesd.ds.implementations.linear.ResizingArrayList;
 import aesd.ds.implementations.nonlinear.graph.Edge;
 import aesd.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 import aesd.ds.implementations.nonlinear.uf.UF;
+import aesd.ds.implementations.nonlinear.uf.WeightedQuickUnionPathCompressionUF;
 import aesd.ds.interfaces.List;
 
 /**
@@ -36,7 +37,7 @@ public class BoruvkaMST {
     public BoruvkaMST( EdgeWeightedGraph graph ) {
         
         mst = new ResizingArrayList<>();
-        UF uf = new UF( graph.getNumberOfVertices() );
+        UF uf = new WeightedQuickUnionPathCompressionUF( graph.getNumberOfVertices() );
 
         // para V = quantidade de vértices
         // repete no máximo lg V vezes o até possuir V-1 arestas

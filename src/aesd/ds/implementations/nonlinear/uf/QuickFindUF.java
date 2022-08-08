@@ -17,14 +17,11 @@ package aesd.ds.implementations.nonlinear.uf;
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class QuickFindUF {
+public class QuickFindUF extends UF {
 
     // identificadores dos componentes
     // id[i] = identificador do componente i
     private int[] id;
-    
-    // quantidade de componentes/conjuntos
-    private int count;
 
     /**
      * Cria uma estrutura union-find com n elementos, sendo que, inicialmente, 
@@ -55,18 +52,20 @@ public class QuickFindUF {
      * @return o componente que contém p
      * @throws IllegalArgumentException se p for inválido
      */
+    @Override
     public int find( int p ) throws IllegalArgumentException {
-        validate( p );
+        validate( p, id );
         return id[p];
     }
 
     /**
-     * Une o conjunto que contém p com o conjunto que contém q
+     * Une o conjunto que contém p com o conjunto que contém q.
      *
      * @param p um elemento
      * @param q outro elemento
      * @throws IllegalArgumentException caso p ou q sejam inválidos
      */
+    @Override
     public void union( int p, int q ) throws IllegalArgumentException {
         
         // em qual componente?
@@ -88,35 +87,6 @@ public class QuickFindUF {
         
         count--;
         
-    }
-    
-    /**
-     * Verifica se dois elementos estão no mesmo componente.
-     *
-     * @param p um elemento
-     * @param q outro elemento
-     * @return verdadeiro caso p e q estejam no mesmo componente, falso caso
-     * contrário
-     * @throws IllegalArgumentException caso p ou q sejam inválidos 
-     */
-    public boolean connected( int p, int q ) throws IllegalArgumentException {
-        return find( p ) == find( q );
-    }
-    
-    /**
-     * Retorna a quantidade de conjuntos.
-     *
-     * @return o número de conjuntos.
-     */
-    public int count() {
-        return count;
-    }
-    
-    private void validate( int p ) throws IllegalArgumentException {
-        int n = id.length;
-        if ( p < 0 || p >= n ) {
-            throw new IllegalArgumentException( "index " + p + " is not between 0 and " + ( n - 1 ) );
-        }
     }
     
 }

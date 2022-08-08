@@ -10,6 +10,7 @@ import aesd.ds.implementations.nonlinear.pq.MinPriorityQueue;
 import aesd.ds.implementations.nonlinear.graph.Edge;
 import aesd.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 import aesd.ds.implementations.nonlinear.uf.UF;
+import aesd.ds.implementations.nonlinear.uf.WeightedQuickUnionPathCompressionUF;
 import aesd.ds.interfaces.Queue;
 
 /**
@@ -47,7 +48,7 @@ public class KruskalMST {
 
         // executa o algoritmo guloso
         // union-find ponderado com compressão de caminhos
-        UF uf = new UF( graph.getNumberOfVertices() );
+        UF uf = new WeightedQuickUnionPathCompressionUF( graph.getNumberOfVertices() );
         
         while ( !pq.isEmpty() && mst.getSize() < graph.getNumberOfVertices() - 1 ) {
             

@@ -19,14 +19,11 @@ package aesd.ds.implementations.nonlinear.uf;
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class QuickUnionUF {
+public class QuickUnionUF extends UF {
 
     // pais dos elementos
     // parent[i] = pai de i
     private int[] parent;
-    
-    // quantidade de componentes/conjuntos
-    private int count;
 
     /**
      * Cria uma estrutura union-find com n elementos, sendo que, inicialmente, 
@@ -57,9 +54,10 @@ public class QuickUnionUF {
      * @return o componente que contém p
      * @throws IllegalArgumentException se p for inválido
      */
+    @Override
     public int find( int p ) throws IllegalArgumentException {
         
-        validate( p );
+        validate( p, parent );
         
         // caminha até a raiz
         while ( p != parent[p] ) {
@@ -71,12 +69,13 @@ public class QuickUnionUF {
     }
     
     /**
-     * Une o conjunto que contém p com o conjunto que contém q
+     * Une o conjunto que contém p com o conjunto que contém q.
      *
      * @param p um elemento
      * @param q outro elemento
      * @throws IllegalArgumentException caso p ou q sejam inválidos
      */
+    @Override
     public void union( int p, int q ) {
         
         // mesma raiz para p e q
@@ -90,35 +89,6 @@ public class QuickUnionUF {
         parent[rootP] = rootQ;
         count--;
         
-    }
-    
-    /**
-     * Verifica se dois elementos estão no mesmo componente.
-     *
-     * @param p um elemento
-     * @param q outro elemento
-     * @return verdadeiro caso p e q estejam no mesmo componente, falso caso
-     * contrário
-     * @throws IllegalArgumentException caso p ou q sejam inválidos 
-     */
-    public boolean connected( int p, int q ) throws IllegalArgumentException {
-        return find( p ) == find( q );
-    }
-    
-    /**
-     * Retorna a quantidade de conjuntos.
-     *
-     * @return o número de conjuntos.
-     */
-    public int count() {
-        return count;
-    }
-    
-    private void validate( int p ) throws IllegalArgumentException {
-        int n = parent.length;
-        if ( p < 0 || p >= n ) {
-            throw new IllegalArgumentException( "index " + p + " is not between 0 and " + ( n - 1 ) );
-        }
     }
 
 }

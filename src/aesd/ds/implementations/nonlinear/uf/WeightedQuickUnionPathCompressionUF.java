@@ -7,7 +7,7 @@ package aesd.ds.implementations.nonlinear.uf;
 
 /**
  * Implementação do tipo de dados union-find (disjoint-sets) com união rápida 
- * ponderada pelo tamanho, sem compressão de caminho, representando a estrutura
+ * ponderada pelo ranque, com compressão de caminho, representando a estrutura
  * como uma árvore.
  * 
  * Ordem de crescimento das operações:
@@ -19,15 +19,15 @@ package aesd.ds.implementations.nonlinear.uf;
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class WeightedQuickUnionUF extends UF {
+public class WeightedQuickUnionPathCompressionUF extends UF {
 
     // pais dos elementos
     // parent[i] = pai de i
     private int[] parent;
     
-    // quantidade de elementos
-    // size[i] = quantidade de elementos na subárvore enraizada em i
-    private int[] size;
+    // ranque dos elementos
+    // rank[i] = ranque da subárvore enraizada em i
+    private byte[] rank;
 
     /**
      * Cria uma estrutura union-find com n elementos, sendo que, inicialmente, 
@@ -36,7 +36,7 @@ public class WeightedQuickUnionUF extends UF {
      * @param n quantidade de elementos
      * @throws IllegalArgumentException se n for menor que zero
      */
-    public WeightedQuickUnionUF( int n ) throws IllegalArgumentException {
+    public WeightedQuickUnionPathCompressionUF( int n ) throws IllegalArgumentException {
         
         if ( n < 0 ) {
             throw new IllegalArgumentException( "Number of elements must be nonnegative" );
@@ -44,11 +44,11 @@ public class WeightedQuickUnionUF extends UF {
         
         count = n;
         parent = new int[n];
-        size = new int[n];
+        rank = new byte[n];
         
         for ( int i = 0; i < n; i++ ) {
             parent[i] = i;
-            size[i] = 1;
+            rank[i] = 0;
         }
         
     }
@@ -66,6 +66,7 @@ public class WeightedQuickUnionUF extends UF {
         validate( p, parent );
         
         while ( p != parent[p] ) {
+            parent[p] = parent[parent[p]];    // path compression by halving
             p = parent[p];
         }
         
@@ -90,13 +91,14 @@ public class WeightedQuickUnionUF extends UF {
             return;
         }
 
-        // faz a menor raiz apontar para a maior
-        if ( size[rootP] < size[rootQ] ) {
+        // faz a raiz de menor ranque apontar para a raiz de maior ranque
+        if ( rank[rootP] < rank[rootQ] ) {
             parent[rootP] = rootQ;
-            size[rootQ] += size[rootP];
+        } else if ( rank[rootP] > rank[rootQ] ) {
+            parent[rootQ] = rootP;
         } else {
             parent[rootQ] = rootP;
-            size[rootP] += size[rootQ];
+            rank[rootP]++;
         }
         
         count--;
