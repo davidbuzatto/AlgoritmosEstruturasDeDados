@@ -309,7 +309,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      * Para a inserção, N foi inserido na subárvore esquerda da subárvore
      * esquerda de A, ou seja, rotacionada um nó com filho à esquerda.
      *
-     * Para as árvores AVL, essa é uma rotação simples apresentada no slide 24.
+     * Para as árvores AVL, essa é uma rotação simples apresentada no slide 11.
      * 
      * Diferença entre alturas:
      *     A = +2;
@@ -339,7 +339,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      * Para a inserção, N foi inserido na subárvore direita da subárvore
      * direita de A, ou seja, rotacionada um nó com filho à direita.
      *
-     * Para as árvores AVL, essa é uma rotação simples apresentada no slide 30.
+     * Para as árvores AVL, essa é uma rotação simples apresentada no slide 17.
      * 
      * Diferença entre alturas:
      *     A = -2;
@@ -372,7 +372,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      *     2 - nó A com seu novo filho à esquerda.
      *
      * Para as árvores AVL, essa é uma rotação dupla apresentada nos slides
-     * 36, 37 e 38.
+     * 23, 24 e 25.
      * 
      * Diferença entre alturas:
      *     A = +2;
@@ -394,7 +394,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
      *     2 - nó A com seu novo filho à direita.
      *
      * Para as árvores AVL, essa é uma rotação dupla apresentada nos slides
-     * 50, 51 e 52.
+     * 37, 38 e 39.
      * 
      * Diferença entre alturas:
      *     A = -2;
