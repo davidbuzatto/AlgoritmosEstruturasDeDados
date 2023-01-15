@@ -33,7 +33,8 @@ public class ShellSort {
 
     public static <Type extends Comparable<Type>> void sort( Type[] array ) {
         
-        int length = array.length;
+        // tamanho do array
+        int n = array.length;
         
         // controla a iteração dentro de um espaçamento
         // (número de sequências de comparação)
@@ -49,7 +50,7 @@ public class ShellSort {
 
         // calculando o espaçamento máximo
         // relativo ao tamanho do array
-        while( h < length / 3 ) {
+        while( h < n / 3 ) {
             h = 3 * h + 1; // 1, 4, 13, 40, 121...
         }
 
@@ -59,7 +60,7 @@ public class ShellSort {
 
             // iniciando do espaçamento atual e andando
             // item por item até a última posição
-            for( i = h; i < length; i++ ) {
+            for( i = h; i < n; i++ ) {
 
                 // j marca a posição base para a comparação
                 // do "arco" do algoritmo (h-sorting)

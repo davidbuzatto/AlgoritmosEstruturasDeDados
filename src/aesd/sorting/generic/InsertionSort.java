@@ -41,7 +41,8 @@ public class InsertionSort {
 
     public static <Type extends Comparable<Type>> void sort( Type[] array ) {
         
-        int length = array.length;
+        // tamanho do array
+        int n = array.length;
         
         // índice da sequência ordenada
         // controla a iteração
@@ -54,7 +55,7 @@ public class InsertionSort {
         // percorre o array partindo da segunda posição
         // isso indica que a posição 0 já faz parte da sequência
         // ordenada
-        for ( i = 1; i < length; i++ ) {
+        for ( i = 1; i < n; i++ ) {
 
             // j indica o início da parte não-ordenada
             j = i;

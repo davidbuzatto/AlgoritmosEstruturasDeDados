@@ -38,7 +38,8 @@ public class SelectionSort {
 
     public static <Type extends Comparable<Type>> void sort( Type[] array ) {
         
-        int length = array.length;
+        // tamanho do array
+        int n = array.length;
         
         // índice da sequência ordenada
         // controla a iteração
@@ -52,7 +53,7 @@ public class SelectionSort {
         int min;
 
         // percorre todo o array
-        for ( i = 0; i < length; i++ ) {
+        for ( i = 0; i < n; i++ ) {
 
             // o mínimo é o item atual
             // é importante frisar que o lado
@@ -60,7 +61,7 @@ public class SelectionSort {
             min = i;
 
             // percorre o array na parte não-ordenada
-            for ( j = i+1; j < length; j++ ) {
+            for ( j = i+1; j < n; j++ ) {
 
                 // encontra o mínimo da parte não-ordenada
                 if ( array[j].compareTo( array[min] ) < 0 ) {

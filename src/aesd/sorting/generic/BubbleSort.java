@@ -43,7 +43,8 @@ public class BubbleSort {
 
     public static <Type extends Comparable<Type>> void sort( Type[] array ) {
         
-        int length = array.length;
+        // tamanho do array
+        int n = array.length;
         
         // indica se houve ou não pelo
         // menos uma troca
@@ -66,7 +67,7 @@ public class BubbleSort {
             // percorre o array do seu fim
             // até o fim da sequência ordenada
             // indicado por i
-            for( j = length-1; j > i; j-- ) {
+            for( j = n-1; j > i; j-- ) {
                 
                 // se o elemento à esquerda for maior
                 // que o elemento à direita, eles estão
@@ -90,7 +91,7 @@ public class BubbleSort {
             // pois pode haver mais alguma no próximo passo
             // e enquanto i (que indica a parte ordenada)
             // não chegar na posição final do array
-        } while( swapped && i < length );
+        } while( swapped && i < n );
     
     }
     

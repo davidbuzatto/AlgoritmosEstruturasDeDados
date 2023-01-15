@@ -40,14 +40,15 @@ public class MergeSort {
     @SuppressWarnings( "unchecked" )
     public static <Type extends Comparable<Type>> void sort( Type[] array ) {
         
-        int length = array.length;
+        // tamanho do array
+        int n = array.length;
         
         // aloca o espaço auxiliar para
         // armazenar os valores que serão ordenados
-        Type[] tempMS = (Type[]) new Object[length];
+        Type[] tempMS = (Type[]) new Object[n];
 
         // chama o Merge Sort (neste caso, a versão Top-Down (recursiva))
-        topDown( array, 0, length - 1, tempMS );
+        topDown( array, 0, n - 1, tempMS );
         
         // ou 
         //bottomUp( array, 0, length - 1, tempMS );

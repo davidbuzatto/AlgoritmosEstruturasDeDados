@@ -13,9 +13,15 @@ package aesd.sorting.linear;
  *
  * Crescimento do uso de memória em relação ao tamanho da
  * entrada: O(n*k) ou O(n+k).
+ * 
+ * Obs: k é a quantidade de buckets.
  *
  * In-place? Não
  *  Estável? Sim, desde que o algoritmo que ordena os buckets também seja.
+ *           No exemplo implementado, a ordenação é feita por sucessivas
+ *           distribuições baseadas nas posições dos números das unidades,
+ *           depois dezenas, depois centenas etc, ou seja, indo do algarismo
+ *           menos significativo em direção ao algarismo mais significativo.
  *
  * Complexidade:
  *       Pior caso: O(n^2)
@@ -88,6 +94,7 @@ public class BucketSort {
                 c[i] = 0;
             }
         
+            // recalcula as variáveis auxiliares para obtenção dos algarismos
             t2 = t1;
             t1 *= 10;
             
