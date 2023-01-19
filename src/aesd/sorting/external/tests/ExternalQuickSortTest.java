@@ -2,6 +2,7 @@ package aesd.sorting.external.tests;
 
 import aesd.sorting.external.ExternalQuickSort;
 import aesd.sorting.external.Register;
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -28,6 +29,8 @@ public class ExternalQuickSortTest {
             System.out.println();
             System.out.println( "After Sorting:" );
             showFileContent();
+            
+            new File( FILE_NAME ).deleteOnExit();
             
         } catch ( Exception exc ) {
             System.out.println( exc.getMessage() );
