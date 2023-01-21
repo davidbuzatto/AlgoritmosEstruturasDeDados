@@ -43,7 +43,7 @@ public class ExternalQuickSortTest {
         try ( RandomAccessFile file = new RandomAccessFile( FILE_NAME, "rwd" ) ) {
             Register.write( file, new Register( 5 ) );
             Register.write( file, new Register( 3 ) );
-            Register.write( file, new Register( 10 ) );
+            Register.write( file, new Register( 9 ) );
             Register.write( file, new Register( 6 ) );
             Register.write( file, new Register( 1 ) );
             Register.write( file, new Register( 7 ) );
