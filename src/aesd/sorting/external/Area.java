@@ -2,7 +2,8 @@ package aesd.sorting.external;
 
 /**
  * Uma área de registros temporária em memória. Serve de região de transferência
- * dos registros que estão sendo ordenados no arquivo fonte.
+ * dos registros que estão sendo ordenados no arquivo fonte. Tem funcionamento
+ * análogo à uma lista.
  * 
  * Implementação baseada na obra: ZIVIANI, N. Projeto de Algoritmos com
  * Implementações em Java e C++. São Paulo: Cengage, 2006. 644 p.

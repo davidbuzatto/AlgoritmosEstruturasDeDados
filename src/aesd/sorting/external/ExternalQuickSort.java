@@ -5,17 +5,24 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * QuickSort externo.
+ * Quick Sort externo.
  * 
- * AJUSTAR ABAIXO
+ * O Quick Sort externo foi proposto por Maria Carolina Monard em 1980 em sua
+ * tese de doutorado intitulada "Projeto e Análise de Algoritmos de
+ * Classificação Externa baseados na Estratégia de Quicksort".
+ * 
+ * Ordena um arquivo A de n registros in situ, utilizando arquivos de acesso
+ * randômico e tem como base o paradigma de divisão e conquista, assim como
+ * sua contraparte interna. O processo de particionamento utiliza uma área
+ * de armazenamento na memória interna (T).
  * 
  * In-place? Sim
  * Estável? Não
  *
  * Complexidade:
  *       Pior caso: O(n^2)
- *      Caso médio: O(n log n)
- *     Melhor caso: O(n log n)
+ *      Caso médio: O(n lg n)
+ *     Melhor caso: O(n)
  * 
  * Implementação baseada na obra: ZIVIANI, N. Projeto de Algoritmos com
  * Implementações em Java e C++. São Paulo: Cengage, 2006. 644 p.
@@ -34,21 +41,16 @@ public class ExternalQuickSort {
         externalQS.closeFiles();
     }
     
-    /*
-     * Legenda:
-     *     ls => rs: read superior
-     *     li => ri: read inferior
-     *     ws => ws: write superior
-     *     wi => wi: write inferior
-     */
     private static class PartitionLimits {
         int i;
         int j;
     }
     
-    private RandomAccessFile rInfFile;
-    private RandomAccessFile wInfFile;
-    private RandomAccessFile rwSupFile;
+    // ponteiros para o arquivo
+    private RandomAccessFile riFile;   // read inferior
+    private RandomAccessFile wiFile;   // write inferior
+    private RandomAccessFile rsFile;   // read superior
+    private RandomAccessFile wsFile;   // write superior
     
     private boolean readSuperior;
     private Register lastRead;
@@ -56,9 +58,10 @@ public class ExternalQuickSort {
     private int areaSize;
     
     private ExternalQuickSort( String fileName, int areaSize ) throws FileNotFoundException {
-        rInfFile = new RandomAccessFile( fileName, "rws" );
-        wInfFile = new RandomAccessFile( fileName, "rws" );
-        rwSupFile = new RandomAccessFile( fileName, "rws" );
+        riFile = new RandomAccessFile( fileName, "rws" );
+        wiFile = new RandomAccessFile( fileName, "rws" );
+        rsFile = new RandomAccessFile( fileName, "rws" );
+        wsFile = new RandomAccessFile( fileName, "rws" );
         this.areaSize = areaSize;
     }
 
@@ -84,10 +87,11 @@ public class ExternalQuickSort {
     private PartitionLimits partition( int left, int right ) throws Exception {
         
         // ponteiros
-        int rs = right;
-        int ri = left;
-        int ws = right;
-        int wi = left;
+        int ri = left;     // read inferior
+        int rs = right;    // read superior
+        int wi = left;     // write inferior
+        int ws = right;    // write superior
+        
         int areaNumber = 0;
         
         // registros para marcação
@@ -103,8 +107,8 @@ public class ExternalQuickSort {
         area = new Area( areaSize );
         
         // posiciona os file-pointers
-        rInfFile.seek( ( ri - 1 ) * Register.getSize() );
-        wInfFile.seek( ( wi - 1 ) * Register.getSize() );
+        riFile.seek( ( ri - 1 ) * Register.getSize() );
+        wiFile.seek( ( wi - 1 ) * Register.getSize() );
         
         while ( ri <= rs ) {
             
@@ -174,23 +178,23 @@ public class ExternalQuickSort {
     }
 
     private void readSuperior( int rs ) throws IOException {
-        rwSupFile.seek( ( rs - 1 ) * Register.getSize() );
-        lastRead = Register.read( rwSupFile );
+        rsFile.seek( ( rs - 1 ) * Register.getSize() );
+        lastRead = Register.read( rsFile );
         readSuperior = false;
     }
     
     private void readInferior() throws IOException {
-        lastRead = Register.read( rInfFile );
+        lastRead = Register.read( riFile );
         readSuperior = true;
     }
     
     private void writeSuperior( int ws ) throws Exception {
-        rwSupFile.seek( ( ws - 1 ) * Register.getSize() );
-        Register.write( rwSupFile, lastRead );
+        wsFile.seek( ( ws - 1 ) * Register.getSize() );
+        Register.write( wsFile, lastRead );
     }
     
     private void writeInferior() throws IOException {
-        Register.write( wInfFile, lastRead );
+        Register.write( wiFile, lastRead );
     }
 
     private int removeLast() throws Exception {
@@ -209,9 +213,10 @@ public class ExternalQuickSort {
     }
     
     private void closeFiles() throws Exception {
-        wInfFile.close();
-        rInfFile.close();
-        rwSupFile.close();
+        wiFile.close();
+        riFile.close();
+        rsFile.close();
+        wsFile.close();
     }
     
 }

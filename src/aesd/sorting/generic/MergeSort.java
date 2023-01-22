@@ -29,9 +29,9 @@ package aesd.sorting.generic;
  *  Estável? Sim
  *
  * Complexidade:
- *       Pior caso: O(n log n)
- *      Caso médio: O(n log n)
- *     Melhor caso: O(n log n)
+ *       Pior caso: O(n lg n)
+ *      Caso médio: O(n lg n)
+ *     Melhor caso: O(n lg n)
  *
  * @author Prof. Dr. David Buzatto
  */

@@ -19,12 +19,22 @@ public class ExternalQuickSortTest {
         
         try {
             
-            createTestFile();
+            Register[] registers = new Register[]{
+                new Register( 5 ),
+                new Register( 3 ),
+                new Register( 9 ),
+                new Register( 6 ),
+                new Register( 1 ),
+                new Register( 7 ),
+                new Register( 4 )
+            };
+            
+            createTestFile( registers );
             
             System.out.println( "Before Sorting:" );
             showFileContent();
             
-            ExternalQuickSort.sort( FILE_NAME, 7 );
+            ExternalQuickSort.sort( FILE_NAME, registers.length );
             
             System.out.println();
             System.out.println( "After Sorting:" );
@@ -38,16 +48,12 @@ public class ExternalQuickSortTest {
         
     }
     
-    private static void createTestFile() throws IOException {
+    private static void createTestFile( Register[] registers ) throws IOException {
         
         try ( RandomAccessFile file = new RandomAccessFile( FILE_NAME, "rwd" ) ) {
-            Register.write( file, new Register( 5 ) );
-            Register.write( file, new Register( 3 ) );
-            Register.write( file, new Register( 9 ) );
-            Register.write( file, new Register( 6 ) );
-            Register.write( file, new Register( 1 ) );
-            Register.write( file, new Register( 7 ) );
-            Register.write( file, new Register( 4 ) );
+            for ( Register r : registers ) {
+                Register.write( file, r );
+            }
         }
             
     }

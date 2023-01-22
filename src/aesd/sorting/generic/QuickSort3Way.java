@@ -16,7 +16,7 @@ import aesd.sorting.utils.SortingUtils;
  *
  * Complexidade:
  *       Pior caso: O(n^2)
- *      Caso médio: O(n log n)
+ *      Caso médio: O(n lg n)
  *     Melhor caso: O(n)
  *
  * @author Prof. Dr. David Buzatto
