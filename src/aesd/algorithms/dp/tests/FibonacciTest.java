@@ -30,31 +30,35 @@ public class FibonacciTest {
         //n = 91;
         //times = 100000;
         
-        t = System.currentTimeMillis();
+        t = System.nanoTime();
         for ( int i = 0; i <= n; i++ ) {
             rF = recursiveFibonacci( i );
         }
-        t = System.currentTimeMillis() - t;
+        t = nanoToMs( System.nanoTime() - t );
         System.out.printf( "Recursive: fib(%d) = %,d (%dms)\n", n, rF, t );
         
-        t = System.currentTimeMillis();
+        t = System.nanoTime();
         for ( int k = 0; k < times; k++ ) {
             for ( int i = 0; i <= n; i++ ) {
                 buF = DPBottomUpFibonacci( i );
             }
         }
-        t = System.currentTimeMillis() - t;
+        t = nanoToMs( System.nanoTime() - t );
         System.out.printf( "Bottom-Up: fib(%d) = %,d (%dms)\n", n, buF, t );
         
-        t = System.currentTimeMillis();
+        t = System.nanoTime();
         for ( int k = 0; k < times; k++ ) {
             for ( int i = 0; i <= n; i++ ) {
                 tdF = DPTopDownFibonacci( i );
             }
         }
-        t = System.currentTimeMillis() - t;
+        t = nanoToMs( System.nanoTime() - t );
         System.out.printf( " Top-Down: fib(%d) = %,d (%dms)\n", n, buF, t );
         
+    }
+    
+    private static long nanoToMs( long nano ) {
+        return nano / 1000000;
     }
     
 }
