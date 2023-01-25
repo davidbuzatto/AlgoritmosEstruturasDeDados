@@ -19,15 +19,15 @@ public class LabyrinthSolverTestGUI {
     
     public static void main( String[] args ) {
         
-        /*int[][] labyrinth = new int[][]{
+        int[][] labyrinth = new int[][]{
             { 0, 0, 0, 0, 1, 0 },
             { 0, 1, 1, 0, 0, 0 },
             { 0, 0, 0, 0, 1, 0 },
             { 1, 0, 1, 1, 1, 1 },
             { 0, 0, 0, 0, 0, 0 }
-        };*/
+        };
         
-        int[][] labyrinth = new int[][]{
+        /*int[][] labyrinth = new int[][]{
             { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             { 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1 },
             { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -40,7 +40,7 @@ public class LabyrinthSolverTestGUI {
             { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1 },
             { 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0 },
             { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-        };
+        };*/
         
         LabyrinthSolver ls = new LabyrinthSolver( labyrinth, 0, 0, 4, 5 );
         

@@ -117,13 +117,12 @@ public class LabyrinthSolver {
         
         StringBuilder sb = new StringBuilder();
         
-        
         for ( int i = 0; i < output.length; i++ ) {
             if ( i != 0 ) {
                 sb.append( "\n" );
             }
             for ( int j = 0; j < output[i].length; j++ ) {
-                sb.append(output[i][j] );
+                sb.append( output[i][j] );
             }
         }
         
