@@ -8,7 +8,7 @@ import aesd.ds.interfaces.SymbolTable;
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class Fibonacci {
+public class FibonacciProblem {
     
     // armazenamento dos termos da série gerados no algoritmo top-down
     private static SymbolTable<Integer, Long> fLookup;

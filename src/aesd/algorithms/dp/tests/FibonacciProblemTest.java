@@ -1,15 +1,15 @@
 package aesd.algorithms.dp.tests;
 
-import static aesd.algorithms.dp.Fibonacci.DPBottomUpFibonacci;
-import static aesd.algorithms.dp.Fibonacci.DPTopDownFibonacci;
-import static aesd.algorithms.dp.Fibonacci.recursiveFibonacci;
+import static aesd.algorithms.dp.FibonacciProblem.DPBottomUpFibonacci;
+import static aesd.algorithms.dp.FibonacciProblem.DPTopDownFibonacci;
+import static aesd.algorithms.dp.FibonacciProblem.recursiveFibonacci;
 
 /**
  * Testes do cálculo dos termos da série de Fibonacci.
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class FibonacciTest {
+public class FibonacciProblemTest {
     
     public static void main( String[] args ) {
         
