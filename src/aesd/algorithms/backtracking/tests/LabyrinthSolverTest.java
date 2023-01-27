@@ -10,13 +10,43 @@ import aesd.algorithms.backtracking.LabyrinthSolver;
 public class LabyrinthSolverTest {
     
     public static void main( String[] args ) {
+        test01();
+        System.out.println();
+        test02();
+    }
+    
+    public static void test01() {
         
-        int[][] labyrinth = new int[][]{
-            { 0, 0, 0, 0, 1, 0 },
-            { 0, 1, 1, 0, 0, 0 },
-            { 0, 0, 0, 0, 1, 0 },
-            { 1, 0, 1, 1, 1, 1 },
-            { 0, 0, 0, 0, 0, 0 }
+        boolean[][] labyrinth = new boolean[][]{
+            { false, false, false, false,  true, false },
+            { false,  true,  true, false, false, false },
+            { false, false, false, false,  true, false },
+            {  true, false,  true,  true,  true, true },
+            { false, false, false, false, false, false }
+        };
+        
+        LabyrinthSolver ls = new LabyrinthSolver( labyrinth, 0, 0, 4, 5 );
+        if ( ls.hasSolution() ) {
+            System.out.println( ls );
+        }
+        
+    }
+    
+    public static void test02() {
+        
+        boolean[][] labyrinth = new boolean[][]{
+            { false, false, false,  true, false, false, false, false, false, false, false, false, false, false, false, false },
+            { false, false,  true,  true, false, false,  true, false, false, false,  true,  true,  true,  true,  true,  true },
+            { false, false, false,  true, false, false,  true, false, false, false, false, false, false, false, false, false },
+            { false,  true,  true,  true, false, false,  true, false, false, false, false, false,  true,  true,  true, false },
+            { false, false,  true, false,  true, false,  true, false, false, false,  true, false,  true, false, false, false },
+            { false, false,  true, false,  true, false,  true, false,  true, false,  true, false,  true, false,  true,  true },
+            { false, false,  true, false,  true, false,  true, false,  true, false,  true, false,  true, false, false, false },
+            { false,  true,  true, false,  true,  true, false, false,  true, false,  true, false,  true,  true,  true, false },
+            { false, false, false, false, false,  true, false, false,  true, false,  true, false,  true, false, false, false },
+            { false, false, false, false, false,  true, false, false,  true, false,  true, false,  true, false,  true,  true },
+            { false, false,  true,  true,  true,  true, false, false,  true, false,  true, false,  true, false, false, false },
+            { false, false, false, false, false, false, false, false,  true, false, false, false, false, false, false, false },
         };
         
         LabyrinthSolver ls = new LabyrinthSolver( labyrinth, 0, 0, 4, 5 );

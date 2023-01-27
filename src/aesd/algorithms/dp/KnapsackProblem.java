@@ -1,7 +1,8 @@
 package aesd.algorithms.dp;
 
 /**
- * Um resolvedor do Problema da Mochila (Knapsack Problem).
+ * Um resolvedor do Problema da Mochila (Knapsack Problem) que usa programação
+ * dinâmica.
  * 
  * @author Prof. Dr. David Buzatto
  */

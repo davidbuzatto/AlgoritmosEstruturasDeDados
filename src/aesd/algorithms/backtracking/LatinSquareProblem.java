@@ -1,5 +1,8 @@
 package aesd.algorithms.backtracking;
 
+import aesd.ds.implementations.linear.ResizingArrayList;
+import aesd.ds.interfaces.List;
+
 /**
  * Um resolvedor de quadrados latinos que usa backtracking.
  * 
@@ -9,7 +12,7 @@ public class LatinSquareProblem {
     
     private char[][] latinSquare;
     private char[] symbols;
-    private int[] linearPositions;
+    private List<Integer> linearPositions;
     
     private int lines;
     private int columns;
@@ -36,11 +39,11 @@ public class LatinSquareProblem {
     private boolean solve( int linearPosition ) {
         
         // a posição linear deve ser processada?
-        if ( linearPositions[linearPosition] != -1 ) {
+        if ( linearPosition < linearPositions.getSize() ) {
             
             // calcula em qual linha e coluna o algoritmo vai processar
-            int line = linearPositions[linearPosition] / lines;
-            int column = linearPositions[linearPosition] % columns;
+            int line   = linearPositions.get( linearPosition ) / lines;
+            int column = linearPositions.get( linearPosition ) % columns;
             int errors = 0 ;
             
             // testa cada uma das possibilidades
@@ -90,7 +93,7 @@ public class LatinSquareProblem {
      */
     private void generateLinearPositions() {
         
-        linearPositions = new int[lines*columns+1];
+        linearPositions = new ResizingArrayList<>();
         
         int linearPosition = 0;
         int k = 0;
@@ -98,13 +101,11 @@ public class LatinSquareProblem {
         for ( int i = 0; i < latinSquare.length; i++ ) {
             for ( int j = 0; j < latinSquare[i].length; j++ ) {
                 if ( latinSquare[i][j] == ' ' ) {
-                    linearPositions[k++] = linearPosition;
+                    linearPositions.add( linearPosition );
                 }
                 linearPosition++;
             }
         }
-        
-        linearPositions[k] = -1;
         
     }
     

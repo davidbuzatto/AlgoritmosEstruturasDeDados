@@ -7,23 +7,14 @@ package aesd.algorithms.backtracking;
  */
 public class LabyrinthSolver {
     
-    private int[][] labyrinth;
+    private boolean[][] labyrinth;
     private char[][] output;
-    
-    private int sourceLine;
-    private int sourceColumn;
-    private int targetLine;
-    private int targetColumn;
     
     private boolean hasSolution;
     
-    public LabyrinthSolver( int[][] labyrinth, int sourceLine, int sourceColumn, int targetLine, int targetColumn ) {
+    public LabyrinthSolver( boolean[][] labyrinth, int sourceLine, int sourceColumn, int targetLine, int targetColumn ) {
         
         this.labyrinth = labyrinth;
-        this.sourceLine = sourceLine;
-        this.sourceColumn = sourceColumn;
-        this.targetLine = targetLine;
-        this.targetColumn = targetColumn;
         
         if ( !validPosition( sourceLine, sourceColumn ) ) {
             throw new IllegalArgumentException( "Invalid source position." );
@@ -36,7 +27,7 @@ public class LabyrinthSolver {
         output = new char[labyrinth.length][labyrinth[0].length];
         for ( int i = 0; i < output.length; i++ ) {
             for ( int j = 0; j < output[i].length; j++ ) {
-                if ( labyrinth[i][j] == 1 ) {
+                if ( labyrinth[i][j] == true ) {
                     output[i][j] = 'x';
                 } else {
                     output[i][j] = ' ';
@@ -53,7 +44,7 @@ public class LabyrinthSolver {
         
         if ( validPosition( sourceLine, sourceColumn ) ) {
             
-            labyrinth[sourceLine][sourceColumn] = 1;
+            labyrinth[sourceLine][sourceColumn] = true;
             
             //System.out.printf( "(%d, %d) ", sourceLine, sourceColumn );
             
@@ -97,10 +88,10 @@ public class LabyrinthSolver {
                line < labyrinth.length &&
                column >= 0 &&
                column < labyrinth[line].length &&
-               labyrinth[line][column] == 0;
+               !labyrinth[line][column];
     }
 
-    public int[][] getLabyrinth() {
+    public boolean[][] getLabyrinth() {
         return labyrinth;
     }
 

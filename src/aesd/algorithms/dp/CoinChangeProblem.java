@@ -1,7 +1,8 @@
 package aesd.algorithms.dp;
 
 /**
- * Um resolvedor do problema do troco (Coin Change Problem).
+ * Um resolvedor do problema do troco (Coin Change Problem) que usa programação
+ * dinâmica.
  * 
  * @author Prof. Dr. David Buzatto
  */

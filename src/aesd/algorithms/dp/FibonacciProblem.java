@@ -4,7 +4,8 @@ import aesd.ds.implementations.nonlinear.symtable.RedBlackTree;
 import aesd.ds.interfaces.SymbolTable;
 
 /**
- * Métodos estáticos para o cálculo dos termos da série de Fibonnaci.
+ * Métodos estáticos para o cálculo dos termos da série de Fibonnaci com
+ * recursão e programação dinâmica.
  * 
  * @author Prof. Dr. David Buzatto
  */

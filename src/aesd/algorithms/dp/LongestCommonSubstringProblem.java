@@ -2,7 +2,7 @@ package aesd.algorithms.dp;
 
 /**
  * Um resolvedor do problema da Subcadeia Comum Máxima (Longest Common
- * Substring Problem).
+ * Substring Problem) que usa programação dinâmica.
  * 
  * @author Prof. Dr. David Buzatto
  */

@@ -2,7 +2,8 @@ package aesd.algorithms.dp;
 
 /**
  * Implementação do algoritmo de Kadane para um resolvedor do problema do
- * subarranjo máximo de maior soma (Maximum Sum Subarray Problem).
+ * subarranjo máximo de maior soma (Maximum Sum Subarray Problem) que usa
+ * programação dinâmica.
  * 
  * @author Prof. Dr. David Buzatto
  */

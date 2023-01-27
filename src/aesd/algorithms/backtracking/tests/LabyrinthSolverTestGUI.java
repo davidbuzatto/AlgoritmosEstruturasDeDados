@@ -18,32 +18,43 @@ import javax.swing.JPanel;
 public class LabyrinthSolverTestGUI {
     
     public static void main( String[] args ) {
+        test02();
+        test01();
+    }
+    
+    private static void test01() {
         
-        int[][] labyrinth = new int[][]{
-            { 0, 0, 0, 0, 1, 0 },
-            { 0, 1, 1, 0, 0, 0 },
-            { 0, 0, 0, 0, 1, 0 },
-            { 1, 0, 1, 1, 1, 1 },
-            { 0, 0, 0, 0, 0, 0 }
+        boolean[][] labyrinth = new boolean[][]{
+            { false, false, false, false,  true, false },
+            { false,  true,  true, false, false, false },
+            { false, false, false, false,  true, false },
+            {  true, false,  true,  true,  true,  true },
+            { false, false, false, false, false, false }
         };
         
-        /*int[][] labyrinth = new int[][]{
-            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1 },
-            { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0 },
-            { 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0 },
-            { 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1 },
-            { 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0 },
-            { 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0 },
-            { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1 },
-            { 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-        };*/
+        LabyrinthSolver ls = new LabyrinthSolver( labyrinth, 0, 0, 4, 5 );
+        new Janela( ls ).setVisible( true );
+        
+    }
+    
+    private static void test02() {
+        
+        boolean[][] labyrinth = new boolean[][]{
+            { false, false, false,  true, false, false, false, false, false, false, false, false, false, false, false, false },
+            { false, false,  true,  true, false, false,  true, false, false, false,  true,  true,  true,  true,  true,  true },
+            { false, false, false,  true, false, false,  true, false, false, false, false, false, false, false, false, false },
+            { false,  true,  true,  true, false, false,  true, false, false, false, false, false,  true,  true,  true, false },
+            { false, false,  true, false,  true, false,  true, false, false, false,  true, false,  true, false, false, false },
+            { false, false,  true, false,  true, false,  true, false,  true, false,  true, false,  true, false,  true,  true },
+            { false, false,  true, false,  true, false,  true, false,  true, false,  true, false,  true, false, false, false },
+            { false,  true,  true, false,  true,  true, false, false,  true, false,  true, false,  true,  true,  true, false },
+            { false, false, false, false, false,  true, false, false,  true, false,  true, false,  true, false, false, false },
+            { false, false, false, false, false,  true, false, false,  true, false,  true, false,  true, false,  true,  true },
+            { false, false,  true,  true,  true,  true, false, false,  true, false,  true, false,  true, false, false, false },
+            { false, false, false, false, false, false, false, false,  true, false, false, false, false, false, false, false },
+        };
         
         LabyrinthSolver ls = new LabyrinthSolver( labyrinth, 0, 0, 4, 5 );
-        
         new Janela( ls ).setVisible( true );
         
     }
@@ -68,7 +79,6 @@ public class LabyrinthSolverTestGUI {
             setTitle( "Labyrinth Solver" );
             setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
             setSize( ( ls.getLabyrinth()[0].length + 2 ) * CELL_SIDE, ( ls.getLabyrinth().length + 3 ) * CELL_SIDE );
-            System.out.println( ( ls.getLabyrinth()[0].length + 2 ) * CELL_SIDE );
             setLocationRelativeTo( null );
             
             add( new JPanel() {
