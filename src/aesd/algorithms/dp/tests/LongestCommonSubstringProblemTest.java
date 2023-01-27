@@ -16,7 +16,7 @@ public class LongestCommonSubstringProblemTest {
         test03();
     }
     
-    public static void test01() {
+    private static void test01() {
         
         LongestCommonSubstringProblem lcsp = new LongestCommonSubstringProblem( "abcb", "bdcab" );
         System.out.println( lcsp );
@@ -24,7 +24,7 @@ public class LongestCommonSubstringProblemTest {
         
     }
     
-    public static void test02() {
+    private static void test02() {
         
         LongestCommonSubstringProblem lcsp = new LongestCommonSubstringProblem( "testeabc", "abcteste" );
         System.out.println( lcsp );
@@ -32,7 +32,7 @@ public class LongestCommonSubstringProblemTest {
         
     }
     
-    public static void test03() {
+    private static void test03() {
         
         LongestCommonSubstringProblem lcsp = new LongestCommonSubstringProblem( "XMJYAUZ", "MZJAWXU" );
         System.out.println( lcsp );

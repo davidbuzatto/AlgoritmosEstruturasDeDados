@@ -34,7 +34,7 @@ public class FibonacciProblemTest {
         for ( int i = 0; i <= n; i++ ) {
             rF = recursiveFibonacci( i );
         }
-        t = nanoToMs( System.nanoTime() - t );
+        t = nanoSecsToMilliSecs( System.nanoTime() - t );
         System.out.printf( "Recursive: fib(%d) = %,d (%dms)\n", n, rF, t );
         
         t = System.nanoTime();
@@ -43,7 +43,7 @@ public class FibonacciProblemTest {
                 buF = DPBottomUpFibonacci( i );
             }
         }
-        t = nanoToMs( System.nanoTime() - t );
+        t = nanoSecsToMilliSecs( System.nanoTime() - t );
         System.out.printf( "Bottom-Up: fib(%d) = %,d (%dms)\n", n, buF, t );
         
         t = System.nanoTime();
@@ -52,12 +52,12 @@ public class FibonacciProblemTest {
                 tdF = DPTopDownFibonacci( i );
             }
         }
-        t = nanoToMs( System.nanoTime() - t );
+        t = nanoSecsToMilliSecs( System.nanoTime() - t );
         System.out.printf( " Top-Down: fib(%d) = %,d (%dms)\n", n, buF, t );
         
     }
     
-    private static long nanoToMs( long nano ) {
+    private static long nanoSecsToMilliSecs( long nano ) {
         return nano / 1000000;
     }
     
