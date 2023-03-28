@@ -135,7 +135,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
             node.value = value;
         }
             
-        // consertando os links inclinados à right
+        // consertando os links inclinados à direita
         if ( isRed( node.right ) && !isRed( node.left ) ) {
             node = rotateLeft( node );
         }
