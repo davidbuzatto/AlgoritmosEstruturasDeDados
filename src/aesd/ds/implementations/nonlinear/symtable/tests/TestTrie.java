@@ -1,6 +1,7 @@
 package aesd.ds.implementations.nonlinear.symtable.tests;
 
 import aesd.ds.implementations.nonlinear.symtable.Trie;
+import aesd.ds.interfaces.SymbolTable;
 
 /**
  * Teste de uso de uma Trie.
@@ -21,16 +22,22 @@ public class TestTrie {
         st.put( "the", 5 );
         st.put( "sea", 6 );
         st.put( "shore", 7 );
-
+        
         // imprime
         if ( st.getSize() < 100 ) {
             System.out.println( "keys(\"\"):" );
-            for ( String key : st.keys() ) {
+            for ( String key : st.getKeys() ) {
                 System.out.println( key + " " + st.get( key ) );
             }
             System.out.println();
         }
-
+        
+        // imprime usando iterador
+        for ( SymbolTable.Entry<String, Integer> e : st ) {
+            System.out.println( e.getKey() + " " + e.getValue() );
+        }
+        System.out.println();
+        
         System.out.println( "longestPrefixOf(\"shellsort\"):" );
         System.out.println( st.longestPrefixOf( "shellsort" ) );
         System.out.println();

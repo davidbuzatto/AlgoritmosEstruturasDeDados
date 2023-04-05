@@ -1,7 +1,11 @@
 package aesd.ds.implementations.nonlinear.symtable;
 
+import aesd.ds.implementations.linear.ResizingArrayList;
 import aesd.ds.implementations.linear.ResizingArrayQueue;
+import aesd.ds.interfaces.List;
 import aesd.ds.interfaces.Queue;
+import aesd.ds.interfaces.SymbolTable;
+import java.util.Iterator;
 
 /**
  * Implementação de uma trie que funciona como uma tabela de símbolos para
@@ -10,9 +14,11 @@ import aesd.ds.interfaces.Queue;
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
+ * @param <Value> Tipo dos valores armazenados na trie.
+ * 
  * @author Prof. Dr. David Buzatto
  */
-public class Trie<Value> {
+public class Trie<Value> implements SymbolTable<String, Value> {
 
     // tabela ASCII estendida
     private static final int R = 256;
@@ -114,10 +120,60 @@ public class Trie<Value> {
         return getSize() == 0;
     }
 
-    public Iterable<String> keys() {
+    public Iterable<String> getKeys() {
         return keysWithPrefix( "" );
     }
 
+    @Override
+    public void clear() {
+        
+        for ( String k : getKeys() ) {
+            delete( k );
+        }
+        
+    }
+
+    @Override
+    public Iterator<Entry<String, Value>> iterator() {
+        
+        return new Iterator<Entry<String, Value>>() {
+            
+            private int current = 0;
+            private boolean prepared = false;
+            private List<String> keys = new ResizingArrayList<>();
+            
+            @Override
+            public boolean hasNext() {
+                prepare();
+                return current < keys.getSize();
+            }
+
+            @Override
+            public Entry<String, Value> next() {
+                prepare();
+                String key = keys.get( current );
+                Value val = get( key );
+                current++;
+                return new Entry<>( key, val );
+            }
+            
+            private void prepare() {
+                if ( !prepared ) {
+                    for ( String k : getKeys() ) {
+                        keys.add( k );
+                    }
+                    prepared = true;
+                }
+            }
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException( "Not supported." );
+            }
+            
+        };
+        
+    }
+    
     public Iterable<String> keysWithPrefix( String prefix ) {
         Queue<String> results = new ResizingArrayQueue<>();
         Node<Value> x = get( root, prefix, 0 );
