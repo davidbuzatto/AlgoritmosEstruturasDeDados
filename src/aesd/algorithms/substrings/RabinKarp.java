@@ -1,123 +1,130 @@
 package aesd.algorithms.substrings;
 
-/**
- *
- * @author Prof. Dr. David Buzatto
- */
 import java.math.BigInteger;
 import java.util.Random;
 
 /**
- * The {@code RabinKarp} class finds the first occurrence of a pattern string in
- * a text string.
- * <p>
- * This implementation uses the Rabin-Karp algorithm.
- * <p>
- * For additional documentation, see
- * <a href="https://algs4.cs.princeton.edu/53substring">Section 5.3</a> of
- * <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
+ * Implementação do algoritmo de Rabin-Karp para busca de substrings.
+ * 
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ * 4. ed. Boston: Pearson Education, 2011. 955 p.
+ * 
+ * @author Prof. Dr. David Buzatto
  */
 public class RabinKarp {
 
-    private String pat;      // the pattern  // needed only for Las Vegas
-    private long patHash;    // pattern hash value
-    private int m;           // pattern length
-    private long q;          // a large prime, small enough to avoid long overflow
-    private int R;           // radix
-    private long RM;         // R^(M-1) % Q
-
-    /**
-     * Preprocesses the pattern string.
-     *
-     * @param pattern the pattern string
-     * @param R the alphabet size
-     */
+    // o padrão (necessário apenas para a versão Las Vegas)
+    private String pat;
+    
+    // hash do padrão
+    private long patHash;
+    
+    // comprimento do padrão
+    private int m;
+    
+    // um primo grande, mas pequeno o bastante para evitar overflow
+    private long q;
+    
+    // a raiz/base
+    private int R;
+    
+    // R^(m-1) % Q
+    private long RM;
+    
     public RabinKarp( char[] pattern, int R ) {
         this.pat = String.valueOf( pattern );
         this.R = R;
         throw new UnsupportedOperationException( "Operation not supported yet" );
     }
-
-    /**
-     * Preprocesses the pattern string.
-     *
-     * @param pat the pattern string
-     */
+    
     public RabinKarp( String pat ) {
-        this.pat = pat;      // save pattern (needed only for Las Vegas)
+        
+        // salva o padrão (necessário apenas para a versão Las Vegas)
+        this.pat = pat;
+        
         R = 256;
         m = pat.length();
         q = longRandomPrime();
 
-        // precompute R^(m-1) % q for use in removing leading digit
+        // pré-computa R^(m-1) % Q para usar na remoção do dígito inicial
         RM = 1;
+        
         for ( int i = 1; i <= m - 1; i++ ) {
             RM = ( R * RM ) % q;
         }
+        
         patHash = hash( pat, m );
+        
     }
 
-    // Compute hash for key[0..m-1].
+    // cálculo do hash para a key[0..m-1].
     private long hash( String key, int m ) {
+        
         long h = 0;
+        
         for ( int j = 0; j < m; j++ ) {
             h = ( R * h + key.charAt( j ) ) % q;
         }
+        
         return h;
+        
     }
 
-    // Las Vegas version: does pat[] match txt[i..i-m+1] ?
+    // versão Las Vegas: pat[] casa com txt[i..i-m+1]?
     private boolean check( String txt, int i ) {
+        
         for ( int j = 0; j < m; j++ ) {
             if ( pat.charAt( j ) != txt.charAt( i + j ) ) {
                 return false;
             }
         }
+        
         return true;
+        
     }
 
-    // Monte Carlo version: always return true
-    // private boolean check(int i) {
+    // versçai Monte Carlo: sempre retorna verdadeiro
+    // private boolean check( int i ) {
     //    return true;
     //}
-    /**
-     * Returns the index of the first occurrence of the pattern string in the
-     * text string.
-     *
-     * @param txt the text string
-     * @return the index of the first occurrence of the pattern string in the
-     * text string; n if no such match
-     */
+    
     public int search( String txt ) {
+        
         int n = txt.length();
+        
         if ( n < m ) {
             return n;
         }
+        
         long txtHash = hash( txt, m );
 
-        // check for match at offset 0
+        // verifica o casamento no offset 0
         if ( ( patHash == txtHash ) && check( txt, 0 ) ) {
             return 0;
         }
 
-        // check for hash match; if hash match, check for exact match
+        // verifica o casamento do hash. se houve casamento, executa o casamento exato
         for ( int i = m; i < n; i++ ) {
-            // Remove leading digit, add trailing digit, check for match.
+            
+            // remove o dígito inicial, insere o dígito final e verifica o casamento
             txtHash = ( txtHash + q - RM * txt.charAt( i - m ) % q ) % q;
             txtHash = ( txtHash * R + txt.charAt( i ) ) % q;
 
-            // match
+            // casamento
             int offset = i - m + 1;
+            
             if ( ( patHash == txtHash ) && check( txt, offset ) ) {
                 return offset;
             }
+            
         }
 
-        // no match
+        // não houve casamento
         return n;
+        
     }
 
-    // a random 31-bit prime
+    // um número primo inteiro randômico de 31 bits
     private static long longRandomPrime() {
         BigInteger prime = BigInteger.probablePrime( 31, new Random() );
         return prime.longValue();

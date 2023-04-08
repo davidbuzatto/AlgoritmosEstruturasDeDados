@@ -1,6 +1,10 @@
 package aesd.compression.tests;
 
 import aesd.compression.Huffman;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.PrintStream;
 
 /**
  * Teste de compressão usando o algoritmo de Huffman.
@@ -9,14 +13,39 @@ import aesd.compression.Huffman;
  */
 public class HuffmanTest {
     
-    public static void main( String[] args ) {
-        if ( args[0].equals( "-" ) ) {
-            Huffman.compress();
-        } else if ( args[0].equals( "+" ) ) {
-            Huffman.expand();
+    public static void main( String[] args ) throws Exception {
+        
+        boolean comprimir = true;
+        PrintStream out = System.out;
+        File arquivoComprimido = new File( "comprimido.dat" );
+        
+        if ( comprimir ) {
+            
+            try ( DataInputStream dis = new DataInputStream( 
+                    new GenomeTest().getClass().getResourceAsStream(
+                            "/aesd/compression/tests/data/genomeVirus.txt" ) ) ) {
+
+                System.setIn( dis );
+
+                System.out.println( "Comprimindo" );
+                System.setOut( new PrintStream( arquivoComprimido ) );
+                Huffman.compress();
+
+                System.setOut( out );
+                System.out.println( "Comprimido" );
+
+            }
+            
         } else {
-            throw new IllegalArgumentException( "Illegal command line argument" );
+        
+            System.out.println( "Expandindo" );
+
+            FileInputStream fis = new FileInputStream( arquivoComprimido );
+            System.setIn( fis );
+            Huffman.expand();
+            
         }
+        
     }
 
 }

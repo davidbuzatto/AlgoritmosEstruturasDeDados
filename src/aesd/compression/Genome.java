@@ -18,8 +18,10 @@ public class Genome {
     public static void compress() {
 
         Alphabet DNA = Alphabet.DNA;
+        
         String s = BinaryStdIn.readString();
         int n = s.length();
+        
         BinaryStdOut.write( n );
 
         // escreve o código de 2 bits para cada caractere
@@ -35,6 +37,7 @@ public class Genome {
     public static void expand() {
         
         Alphabet DNA = Alphabet.DNA;
+        
         int n = BinaryStdIn.readInt();
         
         // lê dois bits e escreve um caractere

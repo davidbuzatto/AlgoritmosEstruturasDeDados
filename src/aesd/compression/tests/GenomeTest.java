@@ -1,6 +1,10 @@
 package aesd.compression.tests;
 
 import aesd.compression.Genome;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.PrintStream;
 
 /**
  * Teste da compressão de genomas.
@@ -9,14 +13,37 @@ import aesd.compression.Genome;
  */
 public class GenomeTest {
     
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws Exception {
         
-        if ( args[0].equals( "-" ) ) {
-            Genome.compress();
-        } else if ( args[0].equals( "+" ) ) {
-            Genome.expand();
+        boolean comprimir = true;
+        PrintStream out = System.out;
+        File arquivoComprimido = new File( "comprimido.dat" );
+        
+        if ( comprimir ) {
+            
+            try ( DataInputStream dis = new DataInputStream( 
+                    new GenomeTest().getClass().getResourceAsStream(
+                            "/aesd/compression/tests/data/genomeVirus.txt" ) ) ) {
+
+                System.setIn( dis );
+
+                System.out.println( "Comprimindo" );
+                System.setOut( new PrintStream( arquivoComprimido ) );
+                Genome.compress();
+
+                System.setOut( out );
+                System.out.println( "Comprimido" );
+
+            }
+            
         } else {
-            throw new IllegalArgumentException( "Illegal command line argument" );
+        
+            System.out.println( "Expandindo" );
+
+            FileInputStream fis = new FileInputStream( arquivoComprimido );
+            System.setIn( fis );
+            Genome.expand();
+            
         }
         
     }

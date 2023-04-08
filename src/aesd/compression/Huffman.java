@@ -5,31 +5,19 @@ import aesd.utils.BinaryStdIn;
 import aesd.utils.BinaryStdOut;
 
 /**
- *
+ * Implementação do algoritmo de compressão de Huffman.
+ * 
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ * 4. ed. Boston: Pearson Education, 2011. 955 p.
+ * 
  * @author Prof. Dr. David Buzatto
- */
-/**
- * The {@code Huffman} class provides static methods for compressing and
- * expanding a binary input using Huffman codes over the 8-bit extended ASCII
- * alphabet.
- * <p>
- * For additional documentation, see
- * <a href="https://algs4.cs.princeton.edu/55compression">Section 5.5</a> of
- * <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
- *
- * @author Robert Sedgewick
- * @author Kevin Wayne
  */
 public class Huffman {
 
-    // alphabet size of extended ASCII
+    // tamanho do alfabeto estendido da tabela ASCII
     private static final int R = 256;
 
-    // Do not instantiate.
-    private Huffman() {
-    }
-
-    // Huffman trie node
+    // nó da Trie de Huffman
     private static class Node implements Comparable<Node> {
 
         private final char ch;
@@ -43,51 +31,50 @@ public class Huffman {
             this.right = right;
         }
 
-        // is the node a leaf node?
+        // verifica se um nó é folha
         private boolean isLeaf() {
-            assert ( ( left == null ) && ( right == null ) ) || ( ( left != null ) && ( right != null ) );
             return ( left == null ) && ( right == null );
         }
 
-        // compare, based on frequency
+        // compara baseado na frequência
         public int compareTo( Node that ) {
             return this.freq - that.freq;
         }
+        
     }
 
-    /**
-     * Reads a sequence of 8-bit bytes from standard input; compresses them
-     * using Huffman codes with an 8-bit alphabet; and writes the results to
-     * standard output.
-     */
     public static void compress() {
-        // read the input
+        
+        // lê a entrada
         String s = BinaryStdIn.readString();
         char[] input = s.toCharArray();
 
-        // tabulate frequency counts
+        // tabula as contagens de frequências
         int[] freq = new int[R];
         for ( int i = 0; i < input.length; i++ ) {
             freq[input[i]]++;
         }
 
-        // build Huffman trie
+        // constroi a Trie de Huffman
         Node root = buildTrie( freq );
 
-        // build code table
+        // constroi a tabela de códigos
         String[] st = new String[R];
         buildCode( st, root, "" );
 
-        // print trie for decoder
+        // imprime a Trie para o decodificador
         writeTrie( root );
 
-        // print number of bytes in original uncompressed message
+        // imprime o número de byres na mensagem original sem compressão
         BinaryStdOut.write( input.length );
 
-        // use Huffman code to encode input
+        // usa o código de Huffman para codificar a entrada
         for ( int i = 0; i < input.length; i++ ) {
+            
             String code = st[input[i]];
+            
             for ( int j = 0; j < code.length(); j++ ) {
+                
                 if ( code.charAt( j ) == '0' ) {
                     BinaryStdOut.write( false );
                 } else if ( code.charAt( j ) == '1' ) {
@@ -96,16 +83,18 @@ public class Huffman {
                     throw new IllegalStateException( "Illegal state" );
                 }
             }
+            
         }
 
-        // close output stream
+        // fecha o fluxo de saída
         BinaryStdOut.close();
+        
     }
 
-    // build the Huffman trie given frequencies
+    // constroi a Trie de Huffman dadas as frequências
     private static Node buildTrie( int[] freq ) {
 
-        // initialize priority queue with singleton trees
+        // inicializa a fila de prioridades com as árvores únicas
         MinPriorityQueue<Node> pq = new MinPriorityQueue<>();
         for ( char c = 0; c < R; c++ ) {
             if ( freq[c] > 0 ) {
@@ -113,8 +102,8 @@ public class Huffman {
             }
         }
 
-        // merge two smallest trees
-        while ( pq.getSize()> 1 ) {
+        // funde as menores árvores
+        while ( pq.getSize() > 1 ) {
             Node left = pq.delete();
             Node right = pq.delete();
             Node parent = new Node( '\0', left.freq + right.freq, left, right );
@@ -125,44 +114,46 @@ public class Huffman {
         
     }
 
-    // write bitstring-encoded trie to standard output
+    // escreve a Trie codificada em bits na saída padrão
     private static void writeTrie( Node x ) {
+        
         if ( x.isLeaf() ) {
             BinaryStdOut.write( true );
             BinaryStdOut.write( x.ch, 8 );
             return;
         }
+        
         BinaryStdOut.write( false );
         writeTrie( x.left );
         writeTrie( x.right );
+        
     }
 
-    // make a lookup table from symbols and their encodings
+    // constroi a tabela de pesquisa usando os símbolos e suas codificações
     private static void buildCode( String[] st, Node x, String s ) {
+        
         if ( !x.isLeaf() ) {
             buildCode( st, x.left, s + '0' );
             buildCode( st, x.right, s + '1' );
         } else {
             st[x.ch] = s;
         }
+        
     }
-
-    /**
-     * Reads a sequence of bits that represents a Huffman-compressed message
-     * from standard input; expands them; and writes the results to standard
-     * output.
-     */
+    
     public static void expand() {
 
-        // read in Huffman trie from input stream
+        // lê a trie de Huffman do fluxo de entrada
         Node root = readTrie();
 
-        // number of bytes to write
+        // número de bytes a escrever
         int length = BinaryStdIn.readInt();
 
-        // decode using the Huffman trie
+        // decodifica usando a Trie de Huffman
         for ( int i = 0; i < length; i++ ) {
+            
             Node x = root;
+            
             while ( !x.isLeaf() ) {
                 boolean bit = BinaryStdIn.readBoolean();
                 if ( bit ) {
@@ -171,18 +162,25 @@ public class Huffman {
                     x = x.left;
                 }
             }
+            
             BinaryStdOut.write( x.ch, 8 );
+            
         }
+        
         BinaryStdOut.close();
+        
     }
 
     private static Node readTrie() {
+        
         boolean isLeaf = BinaryStdIn.readBoolean();
+        
         if ( isLeaf ) {
             return new Node( BinaryStdIn.readChar(), -1, null, null );
         } else {
             return new Node( '\0', -1, readTrie(), readTrie() );
         }
+        
     }
 
 }

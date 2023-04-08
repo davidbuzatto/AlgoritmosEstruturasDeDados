@@ -1,5 +1,14 @@
 package aesd.algorithms.strings;
 
+/**
+ * Implementação da representação de um alfabeto.
+ *
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
+ * Boston: Pearson Education, 2011. 955 p.
+ *
+ * @author Robert Sedgewick
+ * @author Kevin Wayne
+ */
 public class Alphabet {
 
     /**
