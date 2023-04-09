@@ -36,6 +36,7 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         private Node<Value>[] next = new Node[R];
     }
 
+    @Override
     public Value get( String key ) {
         
         if ( key == null ) {
@@ -52,6 +53,7 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         
     }
 
+    @Override
     public boolean contains( String key ) {
         
         if ( key == null ) {
@@ -77,6 +79,7 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         
     }
 
+    @Override
     public void put( String key, Value val ) {
         
         if ( key == null ) {
@@ -112,16 +115,19 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         
     }
 
+    @Override
     public int getSize() {
         return n;
     }
 
+    @Override
     public boolean isEmpty() {
         return getSize() == 0;
     }
 
+    @Override
     public Iterable<String> getKeys() {
-        return keysWithPrefix( "" );
+        return getKeysWithPrefix( "" );
     }
 
     @Override
@@ -174,7 +180,7 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         
     }
     
-    public Iterable<String> keysWithPrefix( String prefix ) {
+    public Iterable<String> getKeysWithPrefix( String prefix ) {
         Queue<String> results = new ResizingArrayQueue<>();
         Node<Value> x = get( root, prefix, 0 );
         collect( x, new StringBuilder( prefix ), results );
@@ -199,7 +205,7 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         
     }
 
-    public Iterable<String> keysThatMatch( String pattern ) {
+    public Iterable<String> getKeysThatMatch( String pattern ) {
         Queue<String> results = new ResizingArrayQueue<>();
         collect( root, new StringBuilder(), pattern, results );
         return results;
@@ -237,13 +243,13 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         
     }
 
-    public String longestPrefixOf( String query ) {
+    public String getLongestPrefixOf( String query ) {
         
         if ( query == null ) {
             throw new IllegalArgumentException( "argument to longestPrefixOf() is null" );
         }
         
-        int length = longestPrefixOf( root, query, 0, -1 );
+        int length = getLongestPrefixOf( root, query, 0, -1 );
         
         if ( length == -1 ) {
             return null;
@@ -253,7 +259,7 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         
     }
 
-    private int longestPrefixOf( Node<Value> x, String query, int d, int length ) {
+    private int getLongestPrefixOf( Node<Value> x, String query, int d, int length ) {
         
         if ( x == null ) {
             return length;
@@ -268,10 +274,11 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         }
         
         char c = query.charAt( d );
-        return longestPrefixOf( x.next[c], query, d + 1, length );
+        return getLongestPrefixOf( x.next[c], query, d + 1, length );
         
     }
     
+    @Override
     public void delete( String key ) {
         
         if ( key == null ) {

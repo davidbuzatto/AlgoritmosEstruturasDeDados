@@ -40,7 +40,7 @@ public class LZW {
         while ( input.length() > 0 ) {
             
             // busca pelo casamento do maior prefixo s
-            String s = st.longestPrefixOf( input );
+            String s = st.getLongestPrefixOf( input );
             
             // imprime a codificação de s
             BinaryStdOut.write( st.get( s ), W );

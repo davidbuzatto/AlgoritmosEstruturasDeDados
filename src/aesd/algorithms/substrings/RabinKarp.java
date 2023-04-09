@@ -28,7 +28,7 @@ public class RabinKarp {
     // a raiz/base
     private int R;
     
-    // R^(m-1) % Q
+    // R^(M-1) % Q
     private long RM;
     
     public RabinKarp( char[] pattern, int R ) {
@@ -46,7 +46,7 @@ public class RabinKarp {
         m = pat.length();
         q = longRandomPrime();
 
-        // pré-computa R^(m-1) % Q para usar na remoção do dígito inicial
+        // pré-computa R^(M-1) % Q para usar na remoção do dígito inicial
         RM = 1;
         
         for ( int i = 1; i <= m - 1; i++ ) {

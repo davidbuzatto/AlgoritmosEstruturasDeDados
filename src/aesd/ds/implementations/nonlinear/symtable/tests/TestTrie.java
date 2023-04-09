@@ -39,21 +39,21 @@ public class TestTrie {
         System.out.println();
         
         System.out.println( "longestPrefixOf(\"shellsort\"):" );
-        System.out.println( st.longestPrefixOf( "shellsort" ) );
+        System.out.println( st.getLongestPrefixOf( "shellsort" ) );
         System.out.println();
 
         System.out.println( "longestPrefixOf(\"quicksort\"):" );
-        System.out.println( st.longestPrefixOf( "quicksort" ) );
+        System.out.println( st.getLongestPrefixOf( "quicksort" ) );
         System.out.println();
 
         System.out.println( "keysWithPrefix(\"shor\"):" );
-        for ( String s : st.keysWithPrefix( "shor" ) ) {
+        for ( String s : st.getKeysWithPrefix( "shor" ) ) {
             System.out.println( s );
         }
         System.out.println();
 
         System.out.println( "keysThatMatch(\".he.l.\"):" );
-        for ( String s : st.keysThatMatch( ".he.l." ) ) {
+        for ( String s : st.getKeysThatMatch( ".he.l." ) ) {
             System.out.println( s );
         }
         

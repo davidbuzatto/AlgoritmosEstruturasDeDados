@@ -42,6 +42,7 @@ public class TernarySearchTrie<Value> implements SymbolTable<String, Value> {
     public TernarySearchTrie() {
     }
 
+    @Override
     public int getSize() {
         return n;
     }
@@ -51,6 +52,7 @@ public class TernarySearchTrie<Value> implements SymbolTable<String, Value> {
         return getSize() == 0;
     }
     
+    @Override
     public boolean contains( String key ) {
         
         if ( key == null ) {
@@ -61,6 +63,7 @@ public class TernarySearchTrie<Value> implements SymbolTable<String, Value> {
         
     }
     
+    @Override
     public Value get( String key ) {
         
         if ( key == null ) {
@@ -105,6 +108,7 @@ public class TernarySearchTrie<Value> implements SymbolTable<String, Value> {
         
     }
     
+    @Override
     public void put( String key, Value val ) {
         
         if ( key == null ) {
@@ -144,7 +148,7 @@ public class TernarySearchTrie<Value> implements SymbolTable<String, Value> {
         
     }
     
-    public String longestPrefixOf( String query ) {
+    public String getLongestPrefixOf( String query ) {
         
         if ( query == null ) {
             throw new IllegalArgumentException( "calls longestPrefixOf() with null argument" );
@@ -180,6 +184,7 @@ public class TernarySearchTrie<Value> implements SymbolTable<String, Value> {
         
     }
     
+    @Override
     public Iterable<String> getKeys() {
         Queue<String> queue = new ResizingArrayQueue<>();
         collect( root, new StringBuilder(), queue );

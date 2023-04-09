@@ -31,12 +31,12 @@ public class KMP {
         
         for ( int x = 0, j = 1; j < m; j++ ) {
             
-            // copia os casos de não casamento (mismatch)
+            // copia os casos de não casamento/incompatibilidade (mismatch)
             for ( int c = 0; c < R; c++ ) {
                 dfa[c][j] = dfa[c][x];
             }
             
-            // configura o caso de casamento (match)
+            // configura o caso de casamento/correspondência (match)
             dfa[pat.charAt( j )][j] = j + 1;
             
             // atualiza o estado de reinício
