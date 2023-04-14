@@ -14,19 +14,19 @@ import aesd.sorting.utils.SortingUtils;
  *     - Min-Heap:
  *         * Elemento pai sempre menor ou igual aos filhos
  *
- *     – Chaves armazenadas nos nós
+ *     - Chaves armazenadas nos nós
  *
  * Utilizaremos apenas:
- *     – Árvores binárias (até dois filhos)
- *     – Completa: elementos sem filhos apenas no último nível
+ *     - Árvores binárias (até dois filhos)
+ *     - Completa: elementos sem filhos apenas no último nível
  *      (e anterior, quando o último nível não está completo)
- *     – Max-heap
+ *     - Max-heap
  *
  * Árvore binária completa:
- *     – Armazenamento direto em array!
+ *     - Armazenamento direto em array!
  *     - Raiz na posição 1
  *     - Último elemento na posição tamanho - 1
- *     – Manipulação dos índices:
+ *     - Manipulação dos índices:
  *          * Pai: posição do filho / 2
  *          * Filho esquerda: posição do pai * 2
  *          * Filho direita: posicao do pai * 2 + 1
@@ -37,18 +37,18 @@ import aesd.sorting.utils.SortingUtils;
  *          * Filho direita: posicao do pai * 2 + 2
  *
  * Elemento violando a condição heap
- *     – Valor maior que o pai
+ *     - Valor maior que o pai
  *        * O elemento precisa "subir" na árvore
  *        * Bottom-Up heapify (swim => flutuar)
- *     – Valor menor que os filhos (um ou dois)
+ *     - Valor menor que os filhos (um ou dois)
  *        * O elemento precisa "descer" na árvore
  *        * Top-Down heapify (sink => afundar)
  *
  * Ordenação utilizando a estrutura heap
  *
  * Duas etapas:
- *     – Construção da estrutura max-heap
- *     – Ordenação pela concatenação dos valores máximo
+ *     - Construção da estrutura max-heap
+ *     - Ordenação pela concatenação dos valores máximo
  *       obtidos
  *         * Iteração: removendo um elemento (maior) por vez
  *           da heap

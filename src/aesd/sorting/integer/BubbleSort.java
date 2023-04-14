@@ -18,13 +18,13 @@ import aesd.sorting.utils.SortingUtils;
  *
  * Crescimento do número de comparações em relação ao tamanho
  * de entrada:
- *     – linear (no melhor caso)
- *     – quadrático (no pior caso)
+ *     - linear (no melhor caso)
+ *     - quadrático (no pior caso)
  *
  * Crescimento do número de trocas em relação ao tamanho de
  * entrada:
- *     – constante (no melhor caso)
- *     – quadrático (no pior caso)
+ *     - constante (no melhor caso)
+ *     - quadrático (no pior caso)
  *
  * Crescimento do uso de memória em relação ao tamanho da
  * entrada: constante.

@@ -9,24 +9,24 @@ import aesd.sorting.utils.SortingUtils;
  *
  * Separação da sequência em duas partes:
  *     - Elementos menores que o pivô
- *     – Elementos maiores que o pivô
+ *     - Elementos maiores que o pivô
  *
  * Pivô não precisa mais ser movido!
  *
  * Quantas comparações são executadas?
- *     – Melhor caso: array sempre dividido ao meio
+ *     - Melhor caso: array sempre dividido ao meio
  *         * Comparações: linear-logarítmico
- *     – Pior caso: pivô como menor ou maior valor
+ *     - Pior caso: pivô como menor ou maior valor
  *         * Comparações: quadrático
  *
  * Quantidade de memória necessária?
  *     - Pior caso: linear
- *     – Melhor caso: logarítmico
+ *     - Melhor caso: logarítmico
  *
  * Pivô:
- *     – Embaralhar o array antes de ordenar!
- *     – Mediana de uma amostra
- *     – Posição randômica
+ *     - Embaralhar o array antes de ordenar!
+ *     - Mediana de uma amostra
+ *     - Posição randômica
  *
  * In-place? Sim
  *  Estável? Não
@@ -51,7 +51,7 @@ public class QuickSort {
     * com base em um pivô escolhido e gera uma árvore
     * (árvore quick) onde as subárvores esquerda e direita
     * de um nó são formadas respectivamente pelas
-    * sequências com valores menores que o pivo
+    * sequências com valores menores que o pivô
     * e maiores que o pivô.
     */
    private static <Type extends Comparable<Type>> void quickSort( Type[] array, int start, int end ) {
@@ -110,7 +110,7 @@ public class QuickSort {
            // menores que o pivô.
            while ( array[++i].compareTo( array[start] ) < 0 ) {
 
-               // se chegou no fim, pára
+               // se chegou no fim, para
                if( i == end ) {
                    break;
                }
@@ -125,14 +125,14 @@ public class QuickSort {
            // maiores que o pivô.
            while ( array[--j].compareTo( array[start] ) > 0 ) {
 
-               // se chegou ao início, pára
+               // se chegou ao início, para
                if ( j == start ) {
                    break;
                }
 
            }
 
-           // se i for maior ou igual a j, pára o algoritmo,
+           // se i for maior ou igual a j, para o algoritmo,
            // pois tanto o limite da parte menor (i) quanto o
            // da parte maior (j) foram encontrados, sendo assim
            // a posição do pivô já foi encontrada

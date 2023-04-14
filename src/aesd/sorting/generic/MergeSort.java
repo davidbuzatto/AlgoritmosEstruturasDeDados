@@ -16,11 +16,11 @@ package aesd.sorting.generic;
  *
  * Crescimento do número de comparações em relação ao
  * tamanho de entrada:
- *     – linear-logarítmico
+ *     - linear-logarítmico
  *
  * Crescimento do número de trocas em relação ao
  * tamanho de entrada:
- *     – linear-logarítmico
+ *     - linear-logarítmico
  *
  * Crescimento do uso de memória em relação ao
  * tamanho da entrada: linear
