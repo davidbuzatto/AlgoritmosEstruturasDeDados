@@ -16,6 +16,8 @@ public class MaximumSumSubarrayProblemTest {
         test02();
         System.out.println();
         test03();
+        System.out.println();
+        test04();
     }
     
     private static void test01() {
@@ -41,6 +43,16 @@ public class MaximumSumSubarrayProblemTest {
     private static void test03() {
         
         int[] sequence = new int[]{1, 2, 3, -10, 1, 2, 3, -5, 1, 2, 3};
+        
+        MaximumSumSubarrayProblem mssp = new MaximumSumSubarrayProblem( sequence );
+        System.out.println( mssp );
+        System.out.println( "Solution: " + mssp.getSolution() );
+        
+    }
+    
+    private static void test04() {
+        
+        int[] sequence = new int[]{4, -5, 4, -3, 4, 4, -4, 4, -5};
         
         MaximumSumSubarrayProblem mssp = new MaximumSumSubarrayProblem( sequence );
         System.out.println( mssp );

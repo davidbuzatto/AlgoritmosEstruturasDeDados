@@ -17,6 +17,8 @@ public class CoinChangeProblemTest {
         test03();
         System.out.println();
         test04();
+        System.out.println();
+        test05();
     }
     
     private static void test01() {
@@ -56,6 +58,17 @@ public class CoinChangeProblemTest {
         
         int v = 10;
         int[] d = new int[]{1, 2};
+        
+        CoinChangeProblem ccp = new CoinChangeProblem( v, d );
+        System.out.println( ccp );
+        System.out.println( "Solution: " + ccp.getSolution() );
+        
+    }
+    
+    private static void test05() {
+        
+        int v = 7;
+        int[] d = new int[]{1, 3, 4, 5};
         
         CoinChangeProblem ccp = new CoinChangeProblem( v, d );
         System.out.println( ccp );
