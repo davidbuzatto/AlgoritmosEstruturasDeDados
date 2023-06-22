@@ -28,13 +28,14 @@ public class BTree<Key extends Comparable<Key>, Value> implements SymbolTable<Ke
     /*
      * Classe interna estática que define os nós da árvore b.
      */
+    @SuppressWarnings( "unchecked" )
     private static final class BNode<Key extends Comparable<Key>, Value> {
         
         // quantidade de filhos
         private int m;
         
         // array de filhos
-        private Entry<Key, Value>[] children = new Entry[M];
+        private Entry<Key, Value>[] children = (Entry<Key, Value>[]) new Object[M];
 
         // cria um nó com m filhos
         private BNode( int m ) {
@@ -103,6 +104,7 @@ public class BTree<Key extends Comparable<Key>, Value> implements SymbolTable<Ke
         
     }
 
+    @SuppressWarnings( "unchecked" )
     private Value search( BNode<Key, Value> x, Key key, int ht ) {
         
         Entry<Key, Value>[] children = x.children;
@@ -150,6 +152,7 @@ public class BTree<Key extends Comparable<Key>, Value> implements SymbolTable<Ke
         
     }
 
+    @SuppressWarnings( "unchecked" )
     private BNode<Key, Value> insert( BNode<Key, Value> h, Key key, Value val, int ht ) {
         
         int j;
