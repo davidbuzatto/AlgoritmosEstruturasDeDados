@@ -23,7 +23,7 @@ public class MaximumSumSubarrayProblem {
     
     /**
      * Cria uma instância do resolvedor do problema do subarranjo máximo de
-     * maior soma e resolve o problema usano os dados passados.
+     * maior soma e resolve o problema usando os dados passados.
      * 
      * @param sequence A sequência de valores a serem analisados.
      */
