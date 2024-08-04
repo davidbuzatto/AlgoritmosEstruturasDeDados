@@ -64,28 +64,31 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
             root = newNode;
         } else {
 
-            boolean found = false;
             Node<Key, Value> temp = root;
             int comp = 0;
  
-            while ( !found ) {
+            while ( true ) {
 
                 comp = key.compareTo( temp.key );
 
                 if ( comp < 0 ) {
  
+                    // inserção
                     if ( temp.left == null ) {
                         temp.left = newNode;
-                        found = true;
+                        size++;
+                        break;
                     } else {
                         temp = temp.left;
                     }
  
                 } else if ( comp > 0 ) {
- 
+                    
+                    // inserção
                     if ( temp.right == null ) {
                         temp.right = newNode;
-                        found = true;
+                        size++;
+                        break;
                     } else {
                         temp = temp.right;
                     }
@@ -96,8 +99,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
                 }
                 
             }
-        
-            size++;
 
         }*/
 
