@@ -59,7 +59,7 @@ public class LinkedQueue<Type> implements Queue<Type> {
         newNode.value = value;
         newNode.next = null;  // redundante...
         
-        if ( isEmpty()) {
+        if ( isEmpty() ) {
             start = newNode;
             end = newNode;
         } else {
@@ -85,7 +85,7 @@ public class LinkedQueue<Type> implements Queue<Type> {
     @Override
     public Type dequeue() throws EmptyQueueException {
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             Type value = start.value;
             
@@ -160,7 +160,7 @@ public class LinkedQueue<Type> implements Queue<Type> {
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             // percorrendo o encadeamento
             Node current = start;

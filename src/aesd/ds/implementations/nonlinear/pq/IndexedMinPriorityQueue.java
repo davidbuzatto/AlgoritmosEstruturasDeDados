@@ -335,7 +335,7 @@ public class IndexedMinPriorityQueue<Key extends Comparable<Key>> implements Ind
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             preOrder( 1, "", sb );
             

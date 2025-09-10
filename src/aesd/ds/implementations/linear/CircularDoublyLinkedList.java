@@ -135,16 +135,16 @@ public class CircularDoublyLinkedList<Type> implements List<Type> {
         } else {
             
             // posiciona onde será mexido (vai girar a lista em sentido horário)
-            Node temp = start;
+            Node current = start;
             for ( int i = 0; i < index; i++ ) {
-                temp = temp.next;
+                current = current.next;
             }
             
-            newNode.next = temp;
-            newNode.previous = temp.previous;
+            newNode.next = current;
+            newNode.previous = current.previous;
             
-            temp.previous.next = newNode;
-            temp.previous = newNode;
+            current.previous.next = newNode;
+            current.previous = newNode;
             
         }
         
@@ -329,7 +329,7 @@ public class CircularDoublyLinkedList<Type> implements List<Type> {
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             // percorrendo o encadeamento
             Node current = start;

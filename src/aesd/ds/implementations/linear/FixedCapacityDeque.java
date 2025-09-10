@@ -207,7 +207,7 @@ public class FixedCapacityDeque<Type> implements Deque<Type> {
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             // percorrendo o array de valores
             for ( int i = 0; i <= last; i++ ) {

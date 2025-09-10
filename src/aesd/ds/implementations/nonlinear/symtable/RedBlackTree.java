@@ -471,7 +471,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             preOrder( root, "", null, sb );
         } else {
             sb.append( "empty red-black tree!\n" );

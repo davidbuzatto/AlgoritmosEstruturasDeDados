@@ -218,7 +218,7 @@ public class DoublyLinkedDeque<Type> implements Deque<Type> {
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             // percorrendo o encadeamento
             Node current = first;

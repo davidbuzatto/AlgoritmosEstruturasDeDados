@@ -451,7 +451,7 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             preOrder( root, "", null, sb );
         } else {
             sb.append( "empty AVL tree!\n" );

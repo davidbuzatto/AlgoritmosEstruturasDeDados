@@ -236,7 +236,7 @@ public class ResizingArrayList<Type> implements List<Type> {
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             // percorrendo o array de valores
             for ( int i = 0; i <= end; i++ ) {

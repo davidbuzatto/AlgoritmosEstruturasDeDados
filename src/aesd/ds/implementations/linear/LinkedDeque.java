@@ -60,7 +60,7 @@ public class LinkedDeque<Type> implements Deque<Type> {
         newNode.value = value;
         newNode.next = null;  // redundante...
         
-        if ( isEmpty()) {
+        if ( isEmpty() ) {
             first = newNode;
             last = newNode;
         } else {
@@ -79,7 +79,7 @@ public class LinkedDeque<Type> implements Deque<Type> {
         newNode.value = value;
         newNode.next = null;  // redundante...
         
-        if ( isEmpty()) {
+        if ( isEmpty() ) {
             first = newNode;
             last = newNode;
         } else {
@@ -116,7 +116,7 @@ public class LinkedDeque<Type> implements Deque<Type> {
     @Override
     public Type removeFirst() throws EmptyDequeException {
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             Type value = first.value;
             
@@ -142,7 +142,7 @@ public class LinkedDeque<Type> implements Deque<Type> {
     @Override
     public Type removeLast() throws EmptyDequeException {
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             Type value = last.value;
             
@@ -225,7 +225,7 @@ public class LinkedDeque<Type> implements Deque<Type> {
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             
             // percorrendo o encadeamento
             Node current = first;

@@ -180,7 +180,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
         /*
          * Algoritmo iterativo.
          */
-        /*if ( !isEmpty()) {
+        /*if ( !isEmpty() ) {
 
             Node<Key, Value> current = root;
             Node<Key, Value> previous = null;
@@ -470,7 +470,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
         
         StringBuilder sb = new StringBuilder();
         
-        if ( !isEmpty()) {
+        if ( !isEmpty() ) {
             preOrder( root, "", null, sb );
         } else {
             sb.append( "empty binary search tree!\n" );
