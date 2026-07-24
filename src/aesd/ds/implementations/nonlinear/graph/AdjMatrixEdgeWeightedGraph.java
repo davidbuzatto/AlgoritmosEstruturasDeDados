@@ -1,5 +1,7 @@
 package aesd.ds.implementations.nonlinear.graph;
 
+import aesd.ds.implementations.linear.ResizingArrayList;
+import aesd.ds.interfaces.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -39,7 +41,33 @@ public class AdjMatrixEdgeWeightedGraph {
         this.vertices = vertices;
         this.edges = 0;
         this.adj = new Edge[vertices][vertices];
-        
+
+    }
+
+    /**
+     * Cria um grafo ponderado que é a cópia profunda do grafo passado como
+     * parâmetro.
+     *
+     * @param graph O grafo que será copiado
+     * @throws IllegalArgumentException se o grafo passado for null
+     */
+    public AdjMatrixEdgeWeightedGraph( AdjMatrixEdgeWeightedGraph graph ) throws IllegalArgumentException {
+
+        if ( graph == null ) {
+            throw new IllegalArgumentException( "argument is null" );
+        }
+
+        this.vertices = graph.getNumberOfVertices();
+        this.edges = graph.getNumberOfEdges();
+
+        adj = new Edge[vertices][vertices];
+
+        for ( int v = 0; v < vertices; v++ ) {
+            for ( int w = 0; w < vertices; w++ ) {
+                adj[v][w] = graph.adj[v][w];
+            }
+        }
+
     }
 
     /**
@@ -104,6 +132,63 @@ public class AdjMatrixEdgeWeightedGraph {
     public Iterable<Edge> adj( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return new AdjIterator( v );
+    }
+
+    /**
+     * Retorna o grau do vértice v.
+     *
+     * @param v o vértice
+     * @return o grau do vértice v
+     * @throws IllegalArgumentException se for um vértice inválido
+     */
+    public int degree( int v ) throws IllegalArgumentException {
+
+        validateVertex( v );
+
+        int degree = 0;
+
+        for ( int w = 0; w < vertices; w++ ) {
+            if ( adj[v][w] != null ) {
+                degree++;
+            }
+        }
+
+        return degree;
+
+    }
+
+    /**
+     * Retorna todas as arestas do grafo ponderado.
+     *
+     * @return todas as aretas como um iterável.
+     */
+    public Iterable<Edge> edges() {
+
+        List<Edge> list = new ResizingArrayList<>();
+
+        for ( int v = 0; v < vertices; v++ ) {
+
+            int selfLoops = 0;
+            for ( Edge e : adj( v ) ) {
+
+                if ( e.other( v ) > v ) {
+
+                    list.add( e );
+
+                    // adiciona apenas uma cópia dos loops
+                } else if ( e.other( v ) == v ) {
+                    if ( selfLoops % 2 == 0 ) {
+                        list.add( e );
+                    }
+                    selfLoops++;
+                }
+
+            }
+
+        }
+
+        return list;
+
     }
 
     private class AdjIterator implements Iterator<Edge>, Iterable<Edge> {

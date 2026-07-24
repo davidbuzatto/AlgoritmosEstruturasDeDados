@@ -1,5 +1,7 @@
 package aesd.ds.implementations.nonlinear.graph;
 
+import aesd.ds.implementations.linear.ResizingArrayList;
+import aesd.ds.interfaces.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -39,7 +41,33 @@ public class AdjMatrixEdgeWeightedDigraph {
         this.vertices = vertices;
         this.edges = 0;
         this.adj = new Edge[vertices][vertices];
-        
+
+    }
+
+    /**
+     * Cria um digrafo ponderado que é a cópia profunda do digrafo passado
+     * como parâmetro.
+     *
+     * @param digraph O digrafo que será copiado
+     * @throws IllegalArgumentException se o digrafo passado for null
+     */
+    public AdjMatrixEdgeWeightedDigraph( AdjMatrixEdgeWeightedDigraph digraph ) throws IllegalArgumentException {
+
+        if ( digraph == null ) {
+            throw new IllegalArgumentException( "argument is null" );
+        }
+
+        this.vertices = digraph.getNumberOfVertices();
+        this.edges = digraph.getNumberOfEdges();
+
+        adj = new Edge[vertices][vertices];
+
+        for ( int v = 0; v < vertices; v++ ) {
+            for ( int w = 0; w < vertices; w++ ) {
+                adj[v][w] = digraph.adj[v][w];
+            }
+        }
+
     }
 
     /**
@@ -98,6 +126,73 @@ public class AdjMatrixEdgeWeightedDigraph {
     public Iterable<Edge> adj( int v ) throws IllegalArgumentException {
         validateVertex( v );
         return new AdjIterator( v );
+    }
+
+    /**
+     * Retorna a quantidade de arestas direcionadas que saem do vértice v, ou
+     * seja, o grau de saída do vértice v.
+     *
+     * @param v o vértice
+     * @return o grau de saída do vértice v
+     * @throws IllegalArgumentException se for um vértice inválido
+     */
+    public int outdegree( int v ) throws IllegalArgumentException {
+
+        validateVertex( v );
+
+        int outdegree = 0;
+
+        for ( int w = 0; w < vertices; w++ ) {
+            if ( adj[v][w] != null ) {
+                outdegree++;
+            }
+        }
+
+        return outdegree;
+
+    }
+
+    /**
+     * Retorna a quantidade de arestas direcionadas que entram do vértice v, ou
+     * seja, o grau de entrada do vértice v.
+     *
+     * @param v o vértice
+     * @return o grau de entrada do vértice v
+     * @throws IllegalArgumentException se for um vértice inválido
+     */
+    public int indegree( int v ) throws IllegalArgumentException {
+
+        validateVertex( v );
+
+        int indegree = 0;
+
+        for ( int w = 0; w < vertices; w++ ) {
+            if ( adj[w][v] != null ) {
+                indegree++;
+            }
+        }
+
+        return indegree;
+
+    }
+
+    /**
+     * Retorna todas as arestas do digrafo ponderado.
+     *
+     * @return todas as aretas como um iterável.
+     */
+    public Iterable<Edge> edges() {
+
+        List<Edge> list = new ResizingArrayList<>();
+
+        for ( int v = 0; v < vertices; v++ ) {
+            for ( Edge e : adj( v ) ) {
+                list.add( e );
+            }
+        }
+
+        return list;
+
     }
 
     private class AdjIterator implements Iterator<Edge>, Iterable<Edge> {

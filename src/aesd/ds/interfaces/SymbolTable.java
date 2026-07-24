@@ -48,29 +48,33 @@ public interface SymbolTable<Key, Value> extends Iterable<SymbolTable.Entry<Key,
      * 
      * @param key Chave usada na inserção.
      * @param value Valor associado à chave.
+     * @throws IllegalArgumentException se a chave for nula.
      */
     public void put( Key key, Value value ) throws IllegalArgumentException;
-    
+
     /**
      * Obtém o valor associado à uma chave.
-     * 
+     *
      * @param key Chave usada na busca.
      * @return O valor associado à chave.
+     * @throws IllegalArgumentException se a chave for nula.
      */
     public Value get( Key key ) throws IllegalArgumentException;
-    
+
     /**
      * Remove uma chave e seu valor associado da tabela de símbolos.
-     * 
+     *
      * @param key Chave usada na busca.
+     * @throws IllegalArgumentException se a chave for nula.
      */
     public void delete( Key key ) throws IllegalArgumentException;
-    
+
     /**
      * Verifica se uma chave está contida na tabela de símbolos.
-     * 
+     *
      * @param key Chave usada na busca.
      * @return Verdadeiro, caso a chave exista na tabela de símbolos, falso caso contrário.
+     * @throws IllegalArgumentException se a chave for nula.
      */
     public boolean contains( Key key ) throws IllegalArgumentException;
     
