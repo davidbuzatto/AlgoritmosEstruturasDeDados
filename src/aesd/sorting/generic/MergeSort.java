@@ -45,7 +45,7 @@ public class MergeSort {
         
         // aloca o espaço auxiliar para
         // armazenar os valores que serão ordenados
-        Type[] tempMS = (Type[]) new Object[n];
+        Type[] tempMS = (Type[]) new Comparable[n];
 
         // chama o Merge Sort (neste caso, a versão Top-Down (recursiva))
         topDown( array, 0, n - 1, tempMS );

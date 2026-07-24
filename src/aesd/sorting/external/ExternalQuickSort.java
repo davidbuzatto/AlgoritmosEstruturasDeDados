@@ -36,7 +36,7 @@ public class ExternalQuickSort {
     }
     
     public static void sort( String fileName, int areaSize, int numberOfRegisters ) throws IOException, Exception {
-        ExternalQuickSort externalQS = new ExternalQuickSort( fileName, 3 );
+        ExternalQuickSort externalQS = new ExternalQuickSort( fileName, areaSize );
         externalQS.sort( 1, numberOfRegisters );
         externalQS.closeFiles();
     }

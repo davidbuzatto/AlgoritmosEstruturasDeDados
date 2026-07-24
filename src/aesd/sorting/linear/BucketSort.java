@@ -41,7 +41,15 @@ public class BucketSort {
         
         // tamanho do array
         int n = array.length;
-        
+
+        // array vazio já está ordenado. sem essa parada, o laço mais abaixo,
+        // que depende do maior valor encontrado no array, nunca teria esse
+        // valor atualizado (não há elementos para percorrer) e ficaria
+        // repetindo para sempre.
+        if ( n == 0 ) {
+            return;
+        }
+
         // 10 buckets
         final int K = 10;
         
