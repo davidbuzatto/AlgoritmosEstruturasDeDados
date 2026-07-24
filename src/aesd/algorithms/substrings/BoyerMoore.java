@@ -74,11 +74,17 @@ public class BoyerMoore {
             
             for ( int j = m - 1; j >= 0; j-- ) {
                 if ( pat.charAt( j ) != txt.charAt( i + j ) ) {
-                    skip = Math.max( 1, j - right[txt.charAt( i + j )] );
+
+                    // caractere fora do alfabeto (R) considerado: trata como
+                    // se nunca ocorresse no padrão (posição -1)
+                    char c = txt.charAt( i + j );
+                    int rightC = c < R ? right[c] : -1;
+
+                    skip = Math.max( 1, j - rightC );
                     break;
                 }
             }
-            
+
             // encontrou
             if ( skip == 0 ) {
                 return i;
@@ -103,11 +109,17 @@ public class BoyerMoore {
             
             for ( int j = m - 1; j >= 0; j-- ) {
                 if ( pattern[j] != text[i + j] ) {
-                    skip = Math.max( 1, j - right[text[i + j]] );
+
+                    // caractere fora do alfabeto (R) considerado: trata como
+                    // se nunca ocorresse no padrão (posição -1)
+                    char c = text[i + j];
+                    int rightC = c < R ? right[c] : -1;
+
+                    skip = Math.max( 1, j - rightC );
                     break;
                 }
             }
-        
+
             // encontrou
             if ( skip == 0 ) {
                 return i;

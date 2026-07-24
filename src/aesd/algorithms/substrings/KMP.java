@@ -80,7 +80,12 @@ public class KMP {
         int j;
         
         for ( i = 0, j = 0; i < n && j < m; i++ ) {
-            j = dfa[txt.charAt( i )][j];
+
+            // caractere fora do alfabeto (R) considerado: não pertence ao
+            // padrão, então o autômato reinicia (estado 0)
+            char c = txt.charAt( i );
+            j = c < R ? dfa[c][j] : 0;
+
         }
         
         // encontrou
@@ -101,7 +106,12 @@ public class KMP {
         int j;
         
         for ( i = 0, j = 0; i < n && j < m; i++ ) {
-            j = dfa[text[i]][j];
+
+            // caractere fora do alfabeto (R) considerado: não pertence ao
+            // padrão, então o autômato reinicia (estado 0)
+            char c = text[i];
+            j = c < R ? dfa[c][j] : 0;
+
         }
         
         // encontrou

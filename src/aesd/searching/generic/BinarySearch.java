@@ -47,13 +47,14 @@ public class BinarySearch {
     /*
      * Algoritmo recursivo da busca binária.
      */
-    public static <Type extends Comparable<Type>> int searchR( 
+    public static <Type extends Comparable<Type>> int searchR(
             Type[] array, Type key, int start, int end ) {
 
-        int middle = ( start + end ) / 2;
-        int comp = key.compareTo( array[middle] );
-        
         if ( start <= end ) {
+
+            int middle = ( start + end ) / 2;
+            int comp = key.compareTo( array[middle] );
+
             if ( comp == 0 ) {
                 return middle;
             } else if ( comp < 0 ) {

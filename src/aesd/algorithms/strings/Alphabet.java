@@ -85,7 +85,8 @@ public class Alphabet {
     public Alphabet( String alpha ) {
 
         // check that alphabet contains no duplicate chars
-        boolean[] unicode = new boolean[Character.MAX_VALUE];
+        // (+ 1 pois Character.MAX_VALUE, 65535, também é um valor de char válido)
+        boolean[] unicode = new boolean[Character.MAX_VALUE + 1];
         for ( int i = 0; i < alpha.length(); i++ ) {
             char c = alpha.charAt( i );
             if ( unicode[c] ) {
@@ -96,7 +97,8 @@ public class Alphabet {
 
         alphabet = alpha.toCharArray();
         R = alpha.length();
-        inverse = new int[Character.MAX_VALUE];
+        // (+ 1 pois Character.MAX_VALUE, 65535, também é um valor de char válido)
+        inverse = new int[Character.MAX_VALUE + 1];
         for ( int i = 0; i < inverse.length; i++ ) {
             inverse[i] = -1;
         }
