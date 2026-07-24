@@ -80,25 +80,25 @@ public class LatinSquareProblemTest {
     }
     
     private static void test04() {
-        
+
+        // quadrado sem solução: o '3' aparece duas vezes na linha 2
         char[][] latinSquare = new char[][]{
-            { '1', ' ', ' ', ' ', ' ', ' ', ' ' },
-            { ' ', '2', ' ', ' ', ' ', ' ', ' ' },
-            { ' ', ' ', '3', '3', ' ', ' ', ' ' },
-            { ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-            { ' ', ' ', ' ', ' ', '5', ' ', ' ' },
-            { ' ', ' ', ' ', ' ', ' ', '6', ' ' },
-            { ' ', ' ', ' ', ' ', ' ', ' ', '7' },
+            { '1', ' ', ' ', ' ', ' ', ' ' },
+            { ' ', '2', ' ', ' ', ' ', ' ' },
+            { ' ', ' ', '3', '3', ' ', ' ' },
+            { ' ', ' ', ' ', ' ', ' ', ' ' },
+            { ' ', ' ', ' ', ' ', '5', ' ' },
+            { ' ', ' ', ' ', ' ', ' ', '6' },
         };
-        
+
         char[] symbols = new char[]{
-            '1', '2', '3', '4', '5', '6', '7'
+            '1', '2', '3', '4', '5', '6'
         };
-        
+
         LatinSquareProblem lsp = new LatinSquareProblem( latinSquare, symbols );
         System.out.println( lsp );
         System.out.println( "Solvable? " + lsp.hasSolution() );
-        
+
     }
     
 }

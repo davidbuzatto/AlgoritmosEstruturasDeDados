@@ -1,12 +1,12 @@
 package aesd.algorithms.dp.tests;
 
-import aesd.algorithms.dp.LongestCommonSubstringProblem;
+import aesd.algorithms.dp.LongestCommonSubsequenceProblem;
 
 /**
  *
  * @author Prof. Dr. David Buzatto
  */
-public class LongestCommonSubstringProblemTest {
+public class LongestCommonSubsequenceProblemTest {
 
     public static void main( String[] args ) {
         test01();
@@ -20,7 +20,7 @@ public class LongestCommonSubstringProblemTest {
 
     private static void test01() {
 
-        LongestCommonSubstringProblem lcsp = new LongestCommonSubstringProblem( "abcb", "bdcab" );
+        LongestCommonSubsequenceProblem lcsp = new LongestCommonSubsequenceProblem( "abcb", "bdcab" );
         System.out.println( lcsp );
         System.out.println( "LCS: " + lcsp.getSolution() );
 
@@ -28,7 +28,7 @@ public class LongestCommonSubstringProblemTest {
 
     private static void test02() {
 
-        LongestCommonSubstringProblem lcsp = new LongestCommonSubstringProblem( "testeabc", "abcteste" );
+        LongestCommonSubsequenceProblem lcsp = new LongestCommonSubsequenceProblem( "testeabc", "abcteste" );
         System.out.println( lcsp );
         System.out.println( "LCS: " + lcsp.getSolution() );
 
@@ -36,7 +36,7 @@ public class LongestCommonSubstringProblemTest {
 
     private static void test03() {
 
-        LongestCommonSubstringProblem lcsp = new LongestCommonSubstringProblem( "XMJYAUZ", "MZJAWXU" );
+        LongestCommonSubsequenceProblem lcsp = new LongestCommonSubsequenceProblem( "XMJYAUZ", "MZJAWXU" );
         System.out.println( lcsp );
         System.out.println( "LCS: " + lcsp.getSolution() );
 
@@ -44,7 +44,7 @@ public class LongestCommonSubstringProblemTest {
 
     private static void test04() {
 
-        LongestCommonSubstringProblem lcsp = new LongestCommonSubstringProblem( "abcbdab", "bdcaba" );
+        LongestCommonSubsequenceProblem lcsp = new LongestCommonSubsequenceProblem( "abcbdab", "bdcaba" );
         System.out.println( lcsp );
         System.out.println( "LCS: " + lcsp.getSolution() );
 

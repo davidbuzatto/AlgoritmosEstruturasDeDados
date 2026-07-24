@@ -44,8 +44,7 @@ public class LatinSquareProblem {
             // calcula em qual linha e coluna o algoritmo vai processar
             int line   = linearPositions.get( linearPosition ) / lines;
             int column = linearPositions.get( linearPosition ) % columns;
-            int errors = 0 ;
-            
+
             // testa cada uma das possibilidades
             for ( char c : symbols ) {
 
@@ -54,32 +53,27 @@ public class LatinSquareProblem {
 
                     // assume-se que c é a solução no momento
                     latinSquare[line][column] = c;
-                    
-                    // vai processar a próxima
-                    // se retornar true, quer dizer que encaixou pelo menos uma
-                    // alternativa
-                    if ( !solve( linearPosition + 1 ) ) {
-                        // se não encontrou nenhuma alternativa, o símbolo atual
-                        // está errado
-                        latinSquare[line][column] = ' ';
+
+                    // vai processar a próxima posição; se retornar true, a
+                    // árvore de decisão a partir daqui foi resolvida, então
+                    // essa chamada também retorna true imediatamente, sem
+                    // testar os demais símbolos (senão eles sobrescreveriam
+                    // a solução já encontrada)
+                    if ( solve( linearPosition + 1 ) ) {
+                        return true;
                     }
 
-                } else {
-                    errors++;
+                    // c não levou a uma solução (nem por ser inválido aqui,
+                    // nem por falhar mais adiante): desfaz e tenta o próximo
+                    latinSquare[line][column] = ' ';
+
                 }
 
             }
-            
-            // caso a quantidade de erros seja igual ao tamanho
-            // do array de símbolos, ou seja, nenhum símbolo serviu
-            // quer dizer que a escolha anterior foi errada, então retorna falso
-            if ( errors == symbols.length ) {
-                return false;
-            }
-            
-            // foi encontrado pelo menos um símbolo correto
-            return true;
-        
+
+            // nenhum símbolo resolveu essa posição
+            return false;
+
         }
         
         // chegou na última posição

@@ -37,7 +37,11 @@ public class MaximumSumSubarrayProblem {
     private void solve() {
         
         int sum = 0;
-        int result = 0;
+
+        // começa em MIN_VALUE (e não 0) para que sequências totalmente
+        // negativas resultem no maior elemento (menos negativo), e não em 0
+        // (que corresponderia a um subarranjo vazio, não permitido aqui)
+        int result = Integer.MIN_VALUE;
         
         for ( int i = 0; i < sequence.length; i++ ) {
             

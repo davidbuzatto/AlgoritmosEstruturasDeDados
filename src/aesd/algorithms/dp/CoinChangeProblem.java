@@ -41,32 +41,37 @@ public class CoinChangeProblem {
         /*
          * coinChange[v] = 0,                                     se v = 0
          * coinChange[v] = Integer.MIN_VALUE (menos infinito)     se v < 0
+         * coinChange[v] = infinito                                se v não puder ser formado com as moedas de d
          * coinChange[v] = 1 + min(coinChange(v-d[i]))            para todo i de 0 a n-1
          */
-        
+
         for ( int v = 1; v < coinChange.length; v++ ) {
-            
+
             int min = Integer.MAX_VALUE;
-            
+
             //System.out.println( "CoinChange(" + v + ")" );
-            
+
             for ( int i = 0; i < d.length; i++ ) {
-                
+
                 int currValue;
                 int p = v-d[i];
-                
-                if ( p >= 0 ) {
+
+                // ignora valores que também não têm solução (infinito),
+                // senão currValue + 1 (logo abaixo) estouraria
+                if ( p >= 0 && coinChange[p] != Integer.MAX_VALUE ) {
                     currValue = coinChange[p];
                     //System.out.println( "CoinChange(" + v + "-" + d[i] + ") = " + currValue );
                     if ( currValue < min ) {
                         min = currValue;
                     }
                 }
-                
+
             }
-            
-            coinChange[v] = 1 + min;
-            
+
+            // se nenhuma moeda alcançou v, v não tem solução (infinito),
+            // senão 1 + min estouraria (Integer.MAX_VALUE + 1)
+            coinChange[v] = ( min == Integer.MAX_VALUE ) ? Integer.MAX_VALUE : 1 + min;
+
         }
         
         solution = coinChange[v];
@@ -91,7 +96,11 @@ public class CoinChangeProblem {
         }
         sb.append( "\n-inf" );
         for ( int i = 0; i < coinChange.length; i++ ) {
-            sb.append( String.format( "%4d " , coinChange[i] ) );
+            if ( coinChange[i] == Integer.MAX_VALUE ) {
+                sb.append( " inf " );
+            } else {
+                sb.append( String.format( "%4d " , coinChange[i] ) );
+            }
         }
         
         return sb.toString();
