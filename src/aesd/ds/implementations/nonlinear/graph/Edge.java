@@ -49,18 +49,33 @@ public class Edge implements Comparable<Edge> {
         
     }
 
+    /**
+     * Retorna o peso desta aresta.
+     *
+     * @return o peso da aresta
+     */
     public double weight() {
         return weight;
     }
 
+    /**
+     * Retorna o vértice de origem desta aresta.
+     *
+     * @return o vértice de origem da aresta
+     */
     public int from() {
         return v;
     }
 
+    /**
+     * Retorna o vértice de destino desta aresta.
+     *
+     * @return o vértice de destino da aresta
+     */
     public int to() {
         return w;
     }
-    
+
     /**
      * Retorna qualquer um dos pontos finais desta aresta.
      *
@@ -88,6 +103,9 @@ public class Edge implements Comparable<Edge> {
         }
     }
 
+    // Edge é Comparable por peso justamente para poder ser usada diretamente
+    // em filas de prioridade, como as empregadas nos algoritmos de árvore
+    // geradora mínima (MST) de Prim e Kruskal
     @Override
     public int compareTo( Edge that ) {
         return Double.compare( this.weight, that.weight );

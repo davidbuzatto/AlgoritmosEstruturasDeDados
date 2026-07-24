@@ -37,13 +37,19 @@ public class ResizingArrayStack<Type> implements Stack<Type> {
      */
     @SuppressWarnings( "unchecked" )
     public ResizingArrayStack() {
+        // o cast é necessário pois Java não permite a criação direta de um
+        // array genérico por causa do apagamento de tipos (type erasure);
+        // a capacidade inicial é 1 para evidenciar, já na primeira inserção,
+        // o crescimento por dobragem realizado por resize()
         values = (Type[]) new Object[1];
         top = -1;
     }
-    
+
     /**
-     * Redimensiona o array de valores.
-     * 
+     * Redimensiona o array de valores. Dobrar a capacidade (fator 2x) é o
+     * que garante o custo amortizado O(1) por inserção, apesar de cada
+     * redimensionamento individual custar O(n).
+     *
      * @param max Tamanho a ser redimensionado.
      */
     @SuppressWarnings( "unchecked" )
@@ -104,7 +110,10 @@ public class ResizingArrayStack<Type> implements Stack<Type> {
             
             // se o tamanho é igual à um quarto da capacidade
             if ( size > 0 && size == values.length / 4 ) {
-                // diminui a capacidade pela metade
+                // diminui a capacidade pela metade; usar 1/4 como limiar, ao
+                // invés de 1/2, evita thrashing (crescer e encolher o array
+                // repetidamente) quando inserções e remoções alternam perto
+                // do limite de capacidade
                 resize( values.length / 2 );
             }
             
@@ -135,11 +144,15 @@ public class ResizingArrayStack<Type> implements Stack<Type> {
         return size;
     }
 
+    /**
+     * Retorna um iterador que percorre a pilha do topo para a base (ordem
+     * LIFO), ou seja, na ordem inversa à da inserção dos valores.
+     */
     @Override
     public Iterator<Type> iterator() {
-        
+
         return new Iterator<Type>() {
-            
+
             private int current = top;
             
             @Override

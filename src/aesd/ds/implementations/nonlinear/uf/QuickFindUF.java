@@ -56,6 +56,13 @@ public class QuickFindUF extends UF {
     /**
      * Une o conjunto que contém p com o conjunto que contém q.
      *
+     * Como find é O(1) porque id[i] guarda diretamente o identificador do
+     * componente de i, unir dois componentes exige percorrer todo o array
+     * "rebatizando" cada elemento de um deles com o id do outro, o que torna
+     * esta operação O(n). Essa limitação motiva a próxima implementação
+     * (quick-union), que resolve o custo de union à custa de um find mais
+     * caro.
+     *
      * @param p um elemento
      * @param q outro elemento
      * @throws IllegalArgumentException caso p ou q sejam inválidos

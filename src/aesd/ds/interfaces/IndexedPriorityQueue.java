@@ -3,10 +3,16 @@ package aesd.ds.interfaces;
 import java.util.NoSuchElementException;
 
 /**
- * Interface para implementação de filas de prioridades indexadas.
- * 
+ * Interface para implementação de filas de prioridades indexadas. Diferente
+ * de uma fila de prioridades comum, cada chave é associada a um índice
+ * externo, o que permite localizar e alterar a prioridade de um elemento já
+ * inserido a partir desse índice, sem a necessidade de removê-lo e reinseri-lo.
+ * Esse comportamento é fundamental em algoritmos como os de Dijkstra e de
+ * Prim, nos quais a prioridade de um vértice já presente na fila precisa ser
+ * atualizada conforme novos caminhos ou arestas mais curtos são descobertos.
+ *
  * @param <Key> Tipo das chaves que serão armazenadas na fila de prioridades.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public interface IndexedPriorityQueue<Key extends Comparable<Key>> extends Iterable<Integer> {
@@ -61,9 +67,10 @@ public interface IndexedPriorityQueue<Key extends Comparable<Key>> extends Itera
     
     /**
      * Verifica se um inteiro é um índice da fila de prioridades.
-     * 
+     *
      * @param index O inteiro a ser verificado.
      * @return verdadeiro se index for um índice, false caso contrário
+     * @throws IllegalArgumentException se o índice for inválido
      */
     public boolean contains( int index ) throws IllegalArgumentException;
     

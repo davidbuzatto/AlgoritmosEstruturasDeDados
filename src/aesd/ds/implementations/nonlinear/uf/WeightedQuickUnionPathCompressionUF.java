@@ -1,17 +1,25 @@
 package aesd.ds.implementations.nonlinear.uf;
 
 /**
- * Implementação do tipo de dados union-find (disjoint-sets) com união rápida 
+ * Implementação do tipo de dados union-find (disjoint-sets) com união rápida
  * ponderada pelo ranque, com compressão de caminho, representando a estrutura
  * como uma árvore.
- * 
+ *
+ * Diferente da WeightedQuickUnionUF, que pondera pelo tamanho (a
+ * quantidade de elementos de cada conjunto), esta classe pondera pelo
+ * ranque, que é uma estimativa do limite superior da altura da árvore,
+ * e não uma contagem de elementos. Depois de aplicar compressão de
+ * caminho, a altura real de uma árvore pode ficar menor do que seu
+ * ranque indica, mas o ranque não é recalculado a cada compressão; por
+ * isso ele é apenas uma estimativa da altura, não uma medida exata.
+ *
  * Ordem de crescimento das operações:
  *     Union -> quase O(1) (amortizado).
  *     Find -> quase O(1) (amortizado).
- * 
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class WeightedQuickUnionPathCompressionUF extends UF {
@@ -61,7 +69,11 @@ public class WeightedQuickUnionPathCompressionUF extends UF {
         validate( p, parent );
         
         while ( p != parent[p] ) {
-            parent[p] = parent[parent[p]];    // path compression by halving
+            // path halving: aponta p diretamente para o avô (o pai do pai),
+            // uma variante mais simples e "preguiçosa" da compressão de
+            // caminho completa, que faria todos os nós do caminho apontarem
+            // diretamente para a raiz
+            parent[p] = parent[parent[p]];
             p = parent[p];
         }
         
@@ -93,6 +105,10 @@ public class WeightedQuickUnionPathCompressionUF extends UF {
             parent[rootQ] = rootP;
         } else {
             parent[rootQ] = rootP;
+            // o ranque só é incrementado quando as duas árvores unidas têm
+            // o mesmo ranque, único caso em que a altura resultante pode de
+            // fato aumentar; por isso ele muda apenas nessa situação
+            // específica de união, e não a cada compressão de caminho
             rank[rootP]++;
         }
         

@@ -40,13 +40,19 @@ public class ResizingArrayQueue<Type> implements Queue<Type> {
      */
     @SuppressWarnings( "unchecked" )
     public ResizingArrayQueue() {
+        // o cast é necessário pois Java não permite a criação direta de um
+        // array genérico por causa do apagamento de tipos (type erasure);
+        // a capacidade inicial é 1 para evidenciar, já na primeira inserção,
+        // o crescimento por dobragem realizado por resize()
         values = (Type[]) new Object[1];
         end = -1;
     }
-    
+
     /**
-     * Redimensiona o array de valores.
-     * 
+     * Redimensiona o array de valores. Dobrar a capacidade (fator 2x) é o
+     * que garante o custo amortizado O(1) por inserção, apesar de cada
+     * redimensionamento individual custar O(n).
+     *
      * @param max Tamanho a ser redimensionado.
      */
     @SuppressWarnings( "unchecked" )
@@ -113,7 +119,10 @@ public class ResizingArrayQueue<Type> implements Queue<Type> {
             
             // se o tamanho é igual à um quarto da capacidade
             if ( size > 0 && size == values.length / 4 ) {
-                // diminui a capacidade pela metade
+                // diminui a capacidade pela metade; usar 1/4 como limiar, ao
+                // invés de 1/2, evita thrashing (crescer e encolher o array
+                // repetidamente) quando inserções e remoções alternam perto
+                // do limite de capacidade
                 resize( values.length / 2 );
             }
             
@@ -127,14 +136,20 @@ public class ResizingArrayQueue<Type> implements Queue<Type> {
 
     @Override
     public void clear() {
-        
+
+        // os slots são zerados manualmente, ao invés de chamar dequeue() em
+        // laço, por dois motivos: manter as referências null para permitir a
+        // coleta de lixo e evitar um custo O(n^2), já que aqui dequeue() é
+        // O(n) por causa do deslocamento dos elementos; diferente de
+        // esvaziar a fila via dequeue() elemento a elemento, este clear()
+        // não encolhe a capacidade do array através de resize()
         for ( int i = 0; i <= end; i++ ) {
             values[i] = null;
         }
-        
+
         end = -1;
         size = 0;
-        
+
     }
 
     @Override

@@ -31,6 +31,8 @@ public class LinkedStack<Type> implements Stack<Type> {
      */
     private class Node {
         Type value;
+        // a referência previous é direcionada ao nó empilhado antes deste,
+        // ou seja, ao nó que está logo abaixo na pilha
         Node previous;
     }
     
@@ -112,11 +114,15 @@ public class LinkedStack<Type> implements Stack<Type> {
         return size;
     }
 
+    /**
+     * Retorna um iterador que percorre a pilha do topo para a base (ordem
+     * LIFO), ou seja, na ordem inversa à da inserção dos valores.
+     */
     @Override
     public Iterator<Type> iterator() {
-        
+
         return new Iterator<Type>() {
-            
+
             private Node current = top;
             
             @Override

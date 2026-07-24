@@ -7,8 +7,9 @@ import aesd.ds.interfaces.List;
 import aesd.ds.interfaces.Stack;
 
 /**
- * Implementação de um grafo não direcionado com listas de adjacências.
- * 
+ * Implementação de um grafo não direcionado ponderado com listas de
+ * adjacências.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  * 
@@ -73,8 +74,12 @@ public class EdgeWeightedGraph {
         }
         
         for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
-            
-            // inverte as listas de adjacências para ficarem iguais às originais
+
+            // inverte as listas de adjacências para ficarem iguais às originais -
+            // como simplesmente iterar a Bag original e ir adicionando na nova
+            // lista inverteria a ordem de inserção, os elementos são primeiro
+            // empilhados e depois desempilhados (duas inversões), preservando
+            // a ordem original
             Stack<Edge> reverse = new ResizingArrayStack<>();
             
             for ( Edge e : graph.adj[v] ) {
@@ -117,6 +122,11 @@ public class EdgeWeightedGraph {
 
     /**
      * Adiciona uma aresta não direcionada v-w, com peso, à esse grafo ponderado.
+     *
+     * Para um laço (v == w), adj[v].add(e) e adj[w].add(e) se referem à mesma
+     * Bag, de modo que a mesma Edge acaba sendo adicionada duas vezes nessa
+     * única lista. É esse o motivo direto da lógica selfLoops % 2 == 0
+     * empregada em edges() para não listar o laço em duplicidade.
      *
      * @param v um dos vértices
      * @param w o outro vértice
@@ -163,6 +173,12 @@ public class EdgeWeightedGraph {
 
     /**
      * Retorna todas as arestas do grafo ponderado.
+     *
+     * Como cada aresta v-w aparece tanto em adj[v] quanto em adj[w], o teste
+     * e.other(v) > v garante que cada aresta seja listada uma única vez, a
+     * partir do vértice de menor índice entre os dois. O contador selfLoops
+     * trata o caso especial dos laços, que ocupam duas posições na mesma
+     * Bag (ver addEdge).
      *
      * @return todas as aretas como um iterável.
      */

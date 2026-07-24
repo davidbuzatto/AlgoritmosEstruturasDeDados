@@ -8,10 +8,17 @@ import java.util.NoSuchElementException;
 /**
  * Implementação de um grafo não direcionado ponderado com matriz de
  * adjacências.
- * 
+ *
+ * Em contraste com a versão por lista de adjacências (ver EdgeWeightedGraph),
+ * a matriz usa espaço fixo O(V^2), independentemente da quantidade de
+ * arestas, e testa a existência de uma aresta específica em O(1). Em
+ * compensação, obter os vizinhos de um vértice ou seu grau custa O(V), pois
+ * é preciso varrer a linha inteira da matriz, em vez de O(grau) como na
+ * representação por lista.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class AdjMatrixEdgeWeightedGraph {
@@ -99,6 +106,10 @@ public class AdjMatrixEdgeWeightedGraph {
     /**
      * Adiciona uma aresta não direcionada v-w à esse grafo.
      *
+     * A matriz não permite arestas paralelas: a célula só é preenchida se
+     * ainda estiver nula. Para um laço (v == w), adj[v][w] e adj[w][v] são a
+     * mesma célula da matriz, atribuída uma única vez.
+     *
      * @param v um dos vértices
      * @param w o outro vértice
      * @param weight O peso da aresta
@@ -160,6 +171,14 @@ public class AdjMatrixEdgeWeightedGraph {
     /**
      * Retorna todas as arestas do grafo ponderado.
      *
+     * A lógica selfLoops % 2 == 0 foi herdada da versão por lista de
+     * adjacências (EdgeWeightedGraph), mas aqui continua correta por um
+     * motivo ligeiramente diferente: lá, um laço ocupa duas posições na
+     * mesma Bag; aqui, um laço ocupa uma única célula da matriz e por isso
+     * aparece uma única vez ao iterar adj(v) - o contador selfLoops nunca
+     * passa de 1, e a condição == 0 é sempre satisfeita nessa única
+     * ocorrência.
+     *
      * @return todas as aretas como um iterável.
      */
     public Iterable<Edge> edges() {
@@ -191,6 +210,10 @@ public class AdjMatrixEdgeWeightedGraph {
 
     }
 
+    // como a matriz guarda null nas posições em que não há aresta, este
+    // iterador precisa varrer w a partir da posição atual até encontrar uma
+    // célula não nula (ou esgotar a linha), diferente da versão por lista de
+    // adjacências, em que basta iterar diretamente sobre a Bag
     private class AdjIterator implements Iterator<Edge>, Iterable<Edge> {
 
         private int v;

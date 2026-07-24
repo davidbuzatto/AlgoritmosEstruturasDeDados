@@ -5,10 +5,21 @@ import java.util.NoSuchElementException;
 
 /**
  * Implementação de um digrafo (grafo direcionado) com matriz de adjacências.
- * 
+ *
+ * Em contraste com a versão por lista de adjacências (ver Digraph), a matriz
+ * usa espaço fixo O(V^2), independentemente da quantidade de arestas, e
+ * testa a existência de uma aresta específica em O(1). Em compensação,
+ * obter os vizinhos de um vértice ou seus graus de entrada/saída custa O(V),
+ * pois é preciso varrer uma linha ou coluna inteira da matriz, em vez de
+ * O(grau) como na representação por lista. A matriz guarda Edge[][], com
+ * peso fixo em zero, em vez de um simples boolean[][] como em AdjMatrixGraph,
+ * para poder reaproveitar a mesma classe Edge no iterável de arestas
+ * retornado por adj(v), mantendo a API consistente com as versões ponderadas
+ * (AdjMatrixEdgeWeightedGraph e AdjMatrixEdgeWeightedDigraph).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class AdjMatrixDigraph {
@@ -95,15 +106,18 @@ public class AdjMatrixDigraph {
     /**
      * Adiciona uma aresta direcionada v->w à esse digrafo.
      *
+     * O peso 0 usado em new Edge( v, w, 0 ) é apenas um valor sentinela, sem
+     * significado algum, já que este digrafo não é ponderado.
+     *
      * @param v o vértice de calda/origem
      * @param w O vértice de cabeça/destino
      * @throws IllegalArgumentException se os vértices forem inválidos
      */
     public void addEdge( int v, int w ) throws IllegalArgumentException {
-        
+
         validateVertex( v );
         validateVertex( w );
-        
+
         if ( adj[v][w] == null ) {
             edges++;
             adj[v][w] = new Edge( v, w, 0 );
@@ -173,6 +187,12 @@ public class AdjMatrixDigraph {
     /**
      * Retorna o digrafo inverso do digrafo atual.
      *
+     * O digrafo inverso tem todas as arestas do digrafo original com o
+     * sentido trocado, e é útil em diversos algoritmos, como o de
+     * Kosaraju-Sharir para encontrar componentes fortemente conexos. Como é
+     * preciso varrer toda a matriz de adjacências para reconstruir as
+     * arestas, a construção custa O(V^2).
+     *
      * @return o digrafo inverso
      */
     public AdjMatrixDigraph reverse() {
@@ -191,6 +211,10 @@ public class AdjMatrixDigraph {
 
     }
 
+    // como a matriz guarda null nas posições em que não há aresta, este
+    // iterador precisa varrer w a partir da posição atual até encontrar uma
+    // célula não nula (ou esgotar a linha), diferente da versão por lista de
+    // adjacências, em que basta iterar diretamente sobre a Bag
     private class AdjIterator implements Iterator<Edge>, Iterable<Edge> {
 
         private int v;

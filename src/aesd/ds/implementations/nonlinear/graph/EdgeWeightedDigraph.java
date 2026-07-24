@@ -84,8 +84,12 @@ public class EdgeWeightedDigraph {
         }
         
         for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
-            
-            // inverte as listas de adjacências para ficarem iguais às originais
+
+            // inverte as listas de adjacências para ficarem iguais às originais -
+            // como simplesmente iterar a Bag original e ir adicionando na nova
+            // lista inverteria a ordem de inserção, os elementos são primeiro
+            // empilhados e depois desempilhados (duas inversões), preservando
+            // a ordem original
             Stack<Edge> reverse = new ResizingArrayStack<>();
             
             for ( Edge e : digraph.adj[v] ) {
@@ -128,6 +132,10 @@ public class EdgeWeightedDigraph {
 
     /**
      * Adiciona uma aresta direcionada v->w à esse digrafo.
+     *
+     * A aresta é adicionada apenas em adj[v], já que se trata de um digrafo -
+     * ao contrário do grafo ponderado não direcionado (EdgeWeightedGraph),
+     * em que a mesma Edge é adicionada tanto em adj[v] quanto em adj[w].
      *
      * @param v o vértice de calda/origem
      * @param w O vértice de cabeça/destino
@@ -185,6 +193,11 @@ public class EdgeWeightedDigraph {
 
     /**
      * Retorna todas as arestas do digrafo ponderado.
+     *
+     * Diferente de EdgeWeightedGraph.edges(), aqui não é preciso nenhuma
+     * lógica de deduplicação: em um digrafo, cada Edge pertence a exatamente
+     * uma lista de adjacências (a do seu vértice de origem), então basta
+     * concatenar as listas de todos os vértices.
      *
      * @return todas as aretas como um iterável.
      */

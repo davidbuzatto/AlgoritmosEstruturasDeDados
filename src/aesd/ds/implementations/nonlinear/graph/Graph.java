@@ -6,10 +6,20 @@ import aesd.ds.interfaces.Stack;
 
 /**
  * Implementação de um grafo não direcionado com listas de adjacências.
- * 
+ *
+ * A ideia central da representação por listas de adjacências é manter, para
+ * cada vértice v, uma lista (aqui, uma Bag) apenas com os vértices que são
+ * adjacentes à v. Isso resulta em espaço proporcional a O(V + E), inserção de
+ * uma aresta em tempo O(1) e percurso pelos vizinhos de um vértice em tempo
+ * O(grau(v)). Isso contrasta com a representação por matriz de adjacências
+ * (ver AdjMatrixGraph), que gasta O(V^2) de espaço mas testa a existência de
+ * uma aresta em O(1); a lista de adjacências, por sua vez, usa espaço
+ * proporcional à quantidade de arestas, porém percorrer os vizinhos de um
+ * vértice é mais barato.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class Graph {
@@ -70,8 +80,12 @@ public class Graph {
         }
 
         for ( int v = 0; v < graph.getNumberOfVertices(); v++ ) {
-            
-            // inverte as listas de adjacências para ficarem iguais às originais
+
+            // inverte as listas de adjacências para ficarem iguais às originais -
+            // como simplesmente iterar a Bag original e ir adicionando na nova
+            // lista inverteria a ordem de inserção, os elementos são primeiro
+            // empilhados e depois desempilhados (duas inversões), preservando
+            // a ordem original
             Stack<Integer> reverse = new ResizingArrayStack<>();
             
             for ( int w : graph.adj[v] ) {
@@ -114,6 +128,11 @@ public class Graph {
 
     /**
      * Adiciona uma aresta não direcionada v-w à esse grafo.
+     *
+     * Arestas paralelas e laços (v == w) são aceitos sem qualquer verificação,
+     * já que a lista de adjacências naturalmente suporta multigrafos. Isso é
+     * diferente de AdjMatrixGraph, cuja matriz de adjacências descarta
+     * duplicatas.
      *
      * @param v um dos vértices
      * @param w o outro vértice

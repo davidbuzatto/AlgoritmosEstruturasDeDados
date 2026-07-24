@@ -12,7 +12,7 @@ import aesd.algorithms.tree.TraversalTypes;
  */
 public interface BinaryTree<Key extends Comparable<Key>, Value> extends SymbolTable<Key, Value> {
     
-    /*
+    /**
      * Classe interna estática que define a estrutura básica dos nós das árvores.
      * Ela e seus membros são públicos para poder expor a estrutura dos nós.
      */
@@ -32,8 +32,10 @@ public interface BinaryTree<Key extends Comparable<Key>, Value> extends SymbolTa
    
     /**
      * Método para executar percursos.
-     * 
-     * @param type O tipo do percurso a ser executado.
+     *
+     * @param type O tipo do percurso a ser executado, sendo um dos percursos
+     * clássicos de árvores (pré-ordem, em ordem, pós-ordem ou em nível),
+     * conforme definido no enum TraversalTypes.
      * @return Um iterável com todos os elementos visitados na ordem do percurso.
      */
     public Iterable<Entry<Key, Value>> traverse( TraversalTypes type );

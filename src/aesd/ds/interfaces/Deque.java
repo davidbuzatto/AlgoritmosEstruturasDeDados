@@ -5,7 +5,9 @@ import aesd.ds.exceptions.EmptyDequeException;
 
 /**
  * Interface para implementação de deques (double ended queues, filas de fim
- * duplo).
+ * duplo). Por permitir inserções e remoções em ambas as extremidades, uma
+ * deque generaliza tanto uma pilha quanto uma fila, podendo se comportar
+ * como qualquer uma dessas duas estruturas.
  *
  * @param <Type> Tipo dos valores que serão armazenados na deque.
  *

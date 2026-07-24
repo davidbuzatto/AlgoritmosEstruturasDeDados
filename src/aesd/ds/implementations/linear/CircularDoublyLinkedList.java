@@ -164,6 +164,7 @@ public class CircularDoublyLinkedList<Type> implements List<Type> {
      * tamanho da lista, sendo mapeado ciclicamente).
      * @return O valor da lista.
      * @throws EmptyListException se a lista estiver vazia.
+     * @throws ListIndexOutOfBoundsException se o índice for negativo.
      */
     @Override
     public Type get( int index ) throws EmptyListException {
@@ -314,9 +315,12 @@ public class CircularDoublyLinkedList<Type> implements List<Type> {
             
             private int index = 0;
             private Node current = start;
-            
+
             @Override
             public boolean hasNext() {
+                // como a lista é circular, current nunca se torna null por
+                // conta própria, por isso a contagem de posições percorridas
+                // é usada para decidir quando o percurso termina
                 return index < size;
             }
 

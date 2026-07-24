@@ -45,8 +45,9 @@ public class FixedCapacityStack<Type> implements Stack<Type> {
     
     /**
      * Constrói uma pilha vazia de tamanho especificado.
-     * 
+     *
      * @param max Tamanho máximo da pilha.
+     * @throws IllegalArgumentException se max for menor ou igual a zero.
      */
     @SuppressWarnings( "unchecked" )
     public FixedCapacityStack( int max ) throws IllegalArgumentException {
@@ -56,6 +57,8 @@ public class FixedCapacityStack<Type> implements Stack<Type> {
         }
         
         maxSize = max;
+        // o cast é necessário pois Java não permite a criação direta de um
+        // array genérico por causa do apagamento de tipos (type erasure)
         values = (Type[]) new Object[maxSize];
         top = -1;
         
@@ -119,11 +122,15 @@ public class FixedCapacityStack<Type> implements Stack<Type> {
         return size;
     }
 
+    /**
+     * Retorna um iterador que percorre a pilha do topo para a base (ordem
+     * LIFO), ou seja, na ordem inversa à da inserção dos valores.
+     */
     @Override
     public Iterator<Type> iterator() {
-        
+
         return new Iterator<Type>() {
-            
+
             private int current = top;
             
             @Override

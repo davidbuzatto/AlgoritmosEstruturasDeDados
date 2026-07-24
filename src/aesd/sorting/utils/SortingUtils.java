@@ -36,27 +36,37 @@ public abstract class SortingUtils {
 
 
     /**
-     * Método de embaralhamento para arrays de qualquer tipo de referência.
-     * 
+     * Método de embaralhamento para arrays de qualquer tipo de referência,
+     * usando o algoritmo de Fisher-Yates (shuffle de Knuth): a cada posição
+     * i, troca o elemento ali com o de uma posição sorteada dentro do
+     * intervalo ainda não embaralhado [i, array.length). É esse intervalo
+     * que encolhe a cada iteração que garante que todas as n! permutações
+     * possíveis sejam igualmente prováveis.
+     *
      * @param array array a ser embaralhado
      */
     public static void shuffle( Object[] array ) {
-                
+
         for ( int i = 0; i < array.length; i++ ) {
-            swap( array, i, (int) (Math.random() * array.length) );
+            swap( array, i, i + (int) (Math.random() * (array.length - i)) );
         }
 
     }
-    
+
     /**
-     * Método de embaralhamento para arrays de inteiros.
-     * 
+     * Método de embaralhamento para arrays de inteiros, usando o algoritmo
+     * de Fisher-Yates (shuffle de Knuth): a cada posição i, troca o
+     * elemento ali com o de uma posição sorteada dentro do intervalo ainda
+     * não embaralhado [i, array.length). É esse intervalo que encolhe a
+     * cada iteração que garante que todas as n! permutações possíveis
+     * sejam igualmente prováveis.
+     *
      * @param array array a ser embaralhado
      */
     public static void shuffle( int[] array ) {
-                
+
         for ( int i = 0; i < array.length; i++ ) {
-            swap( array, i, (int) (Math.random() * array.length) );
+            swap( array, i, i + (int) (Math.random() * (array.length - i)) );
         }
 
     }

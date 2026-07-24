@@ -1,17 +1,24 @@
 package aesd.ds.implementations.nonlinear.uf;
 
 /**
- * Implementação do tipo de dados union-find (disjoint-sets) com união rápida 
+ * Implementação do tipo de dados union-find (disjoint-sets) com união rápida
  * ponderada pelo tamanho, sem compressão de caminho, representando a estrutura
  * como uma árvore.
- * 
+ *
+ * Ponderar por tamanho garante altura O(lg n): ao sempre pendurar a
+ * árvore menor sob a maior, qualquer elemento que sobe um nível na
+ * árvore passa a pertencer a um conjunto de tamanho pelo menos o dobro
+ * do anterior. Como isso não pode se repetir mais que lg n vezes antes
+ * de o conjunto abranger todos os n elementos, nenhum elemento pode
+ * subir mais que lg n níveis.
+ *
  * Ordem de crescimento das operações:
  *     Union -> O(lg n).
  *     Find -> O(lg n).
- * 
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class WeightedQuickUnionUF extends UF {
@@ -85,7 +92,8 @@ public class WeightedQuickUnionUF extends UF {
             return;
         }
 
-        // faz a menor raiz apontar para a maior
+        // faz a menor raiz apontar para a maior: é essa decisão que garante
+        // a altura O(lg n) citada no Javadoc da classe
         if ( size[rootP] < size[rootQ] ) {
             parent[rootP] = rootQ;
             size[rootQ] += size[rootP];

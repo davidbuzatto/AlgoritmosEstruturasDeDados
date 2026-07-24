@@ -8,10 +8,17 @@ import java.util.NoSuchElementException;
 /**
  * Implementação de um digrafo (grafo direcionado) ponderado com matriz de
  * adjacências.
- * 
+ *
+ * Em contraste com a versão por lista de adjacências (ver
+ * EdgeWeightedDigraph), a matriz usa espaço fixo O(V^2), independentemente
+ * da quantidade de arestas, e testa a existência de uma aresta específica em
+ * O(1). Em compensação, obter os vizinhos de um vértice ou seus graus de
+ * entrada/saída custa O(V), pois é preciso varrer uma linha ou coluna
+ * inteira da matriz, em vez de O(grau) como na representação por lista.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class AdjMatrixEdgeWeightedDigraph {
@@ -98,6 +105,9 @@ public class AdjMatrixEdgeWeightedDigraph {
     
     /**
      * Adiciona uma aresta direcionada v->w à esse digrafo.
+     *
+     * A matriz não permite arestas paralelas: a célula adj[v][w] só é
+     * preenchida se ainda estiver nula.
      *
      * @param v o vértice de calda/origem
      * @param w O vértice de cabeça/destino
@@ -195,6 +205,10 @@ public class AdjMatrixEdgeWeightedDigraph {
 
     }
 
+    // como a matriz guarda null nas posições em que não há aresta, este
+    // iterador precisa varrer w a partir da posição atual até encontrar uma
+    // célula não nula (ou esgotar a linha), diferente da versão por lista de
+    // adjacências, em que basta iterar diretamente sobre a Bag
     private class AdjIterator implements Iterator<Edge>, Iterable<Edge> {
 
         private int v;

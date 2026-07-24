@@ -3,15 +3,20 @@ package aesd.ds.implementations.nonlinear.uf;
 /**
  * Implementação do tipo de dados union-find (disjoint-sets) com união rápida,
  * representando a estrutura como uma árvore.
- * 
+ *
+ * Como esta implementação não aplica nenhum balanceamento, a árvore pode
+ * degenerar, no pior caso, em uma estrutura equivalente a uma lista
+ * ligada, com altura O(n). Essa limitação motiva a versão ponderada
+ * (WeightedQuickUnionUF), apresentada a seguir.
+ *
  * Ordem de crescimento das operações:
  *     Union -> O(h).
  *     Find -> O(h).
  *     Obs: h é a altura da árvore.
- * 
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class QuickUnionUF extends UF {

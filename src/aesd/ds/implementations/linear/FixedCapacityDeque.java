@@ -48,8 +48,9 @@ public class FixedCapacityDeque<Type> implements Deque<Type> {
     
     /**
      * Constrói uma deque vazia de tamanho especificado.
-     * 
+     *
      * @param max Tamanho máximo da deque.
+     * @throws IllegalArgumentException se max for menor ou igual a zero.
      */
     @SuppressWarnings( "unchecked" )
     public FixedCapacityDeque( int max ) throws IllegalArgumentException {
@@ -59,6 +60,8 @@ public class FixedCapacityDeque<Type> implements Deque<Type> {
         }
         
         maxSize = max;
+        // o cast é necessário pois Java não permite a criação direta de um
+        // array genérico por causa do apagamento de tipos (type erasure)
         values = (Type[]) new Object[maxSize];
         last = -1;
         

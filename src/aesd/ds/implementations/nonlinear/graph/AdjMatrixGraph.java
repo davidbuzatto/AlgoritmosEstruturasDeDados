@@ -5,10 +5,17 @@ import aesd.ds.interfaces.List;
 
 /**
  * Implementação de um grafo não direcionado com matriz de adjacências.
- * 
+ *
+ * Em contraste com a versão por lista de adjacências (ver Graph), a matriz
+ * usa espaço fixo O(V^2), independentemente da quantidade de arestas, e
+ * testa a existência de uma aresta específica em O(1). Em compensação,
+ * obter os vizinhos de um vértice (adj(v)) ou seu grau (degree(v)) custa
+ * O(V), pois é preciso varrer a linha inteira da matriz, em vez de O(grau(v))
+ * como na representação por lista.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class AdjMatrixGraph {
@@ -101,15 +108,21 @@ public class AdjMatrixGraph {
     /**
      * Adiciona uma aresta não direcionada v-w à esse grafo.
      *
+     * O teste if ( !adj[v][w] ) existe porque a matriz de adjacências só
+     * representa presença ou ausência de aresta entre dois vértices, não
+     * conseguindo representar arestas paralelas (diferente de Graph, que usa
+     * lista de adjacências); por isso edges só é incrementado quando a
+     * aresta ainda não existia.
+     *
      * @param v um dos vértices
      * @param w o outro vértice
      * @throws IllegalArgumentException se os vértices forem inválidos
      */
     public void addEdge( int v, int w ) throws IllegalArgumentException {
-        
+
         validateVertex( v );
         validateVertex( w );
-        
+
         if ( !adj[v][w] ) {
             
             adj[v][w] = true;
@@ -123,6 +136,9 @@ public class AdjMatrixGraph {
 
     /**
      * Retorna os vértices adjacentes à v.
+     *
+     * Percorre a linha inteira da matriz correspondente a v (custo O(V)) para
+     * montar a lista de vizinhos.
      *
      * @param v o vértice
      * @return os vértices adjacentes ao vértice v
@@ -147,6 +163,9 @@ public class AdjMatrixGraph {
 
     /**
      * Retorna o grau do vértice v.
+     *
+     * Assim como adj(v), percorre a linha inteira da matriz, tendo o mesmo
+     * custo O(V).
      *
      * @param v o vértice
      * @return o grau do vértice v

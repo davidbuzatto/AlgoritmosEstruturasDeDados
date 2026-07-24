@@ -48,8 +48,9 @@ public class FixedCapacityQueue<Type> implements Queue<Type> {
     
     /**
      * Constrói uma fila vazia de tamanho especificado.
-     * 
+     *
      * @param max Tamanho máximo da fila.
+     * @throws IllegalArgumentException se max for menor ou igual a zero.
      */
     @SuppressWarnings( "unchecked" )
     public FixedCapacityQueue( int max ) throws IllegalArgumentException {
@@ -59,6 +60,8 @@ public class FixedCapacityQueue<Type> implements Queue<Type> {
         }
         
         maxSize = max;
+        // o cast é necessário pois Java não permite a criação direta de um
+        // array genérico por causa do apagamento de tipos (type erasure)
         values = (Type[]) new Object[maxSize];
         end = -1;
         
@@ -114,14 +117,18 @@ public class FixedCapacityQueue<Type> implements Queue<Type> {
 
     @Override
     public void clear() {
-        
+
+        // os slots são zerados manualmente, ao invés de chamar dequeue() em
+        // laço, por dois motivos: manter as referências null para permitir a
+        // coleta de lixo e evitar um custo O(n^2), já que aqui dequeue() é
+        // O(n) por causa do deslocamento dos elementos
         for ( int i = 0; i <= end; i++ ) {
             values[i] = null;
         }
-        
+
         end = -1;
         size = 0;
-        
+
     }
 
     @Override
