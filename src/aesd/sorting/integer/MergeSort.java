@@ -14,11 +14,19 @@ package aesd.sorting.integer;
  * Os valores dos dados não-interferem na execução do
  * algoritmo.
  *
+ * Duas formas equivalentes de aplicar a divisão e a intercalação:
+ *     - Top-Down: recursiva, divide o array ao meio até sobrarem
+ *       subarranjos de tamanho 1 e intercala na volta da recursão (é a
+ *       versão usada por sort());
+ *     - Bottom-Up: iterativa, intercala subarranjos de tamanho 1, depois
+ *       de tamanho 2, depois 4, e assim por diante, dobrando o tamanho a
+ *       cada passada, sem nenhuma recursão.
+ *
  * Crescimento do número de comparações em relação ao
  * tamanho de entrada:
  *     - linear-logarítmico
  *
- * Crescimento do número de trocas em relação ao
+ * Crescimento do número de cópias/movimentações em relação ao
  * tamanho de entrada:
  *     - linear-logarítmico
  *
@@ -36,22 +44,23 @@ package aesd.sorting.integer;
  * @author Prof. Dr. David Buzatto
  */
 public class MergeSort {
-    
+
     public static void sort( int[] array ) {
-        
+
         // tamanho do array
         int n = array.length;
-        
+
         // aloca o espaço auxiliar para
         // armazenar os valores que serão ordenados
         int[] tempMS = new int[n];
 
         // chama o Merge Sort (neste caso, a versão Top-Down (recursiva))
         topDown( array, 0, n - 1, tempMS );
-        
-        // ou 
+
+        // a chamada abaixo faria a mesma ordenação usando a versão
+        // Bottom-Up (iterativa), mantida comentada como referência
         //bottomUp( array, 0, length - 1, tempMS );
-    
+
     }
     
     /*

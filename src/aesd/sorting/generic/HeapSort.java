@@ -122,6 +122,11 @@ public class HeapSort {
      *
      * Flutua o nó k para a posição correta (baixo para cima)
      * se necessário (se for maior que o seu pai).
+     *
+     * Não é usado por sort() (que constrói o heap todo via sink(), a
+     * abordagem 2 descrita acima), mas fica disponível como referência da
+     * abordagem 1 e para reuso em estruturas como filas de prioridade, que
+     * inserem um elemento por vez e precisam flutuá-lo.
      */
     private static <Type extends Comparable<Type>> void swim( Type[] array, int k ) {
 

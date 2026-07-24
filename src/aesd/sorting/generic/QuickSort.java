@@ -28,6 +28,13 @@ import aesd.sorting.utils.SortingUtils;
  *     - Mediana de uma amostra
  *     - Posição randômica
  *
+ * Esta implementação usa sempre o primeiro elemento do intervalo como
+ * pivô (não embaralha, nem sorteia, nem calcula mediana). Por isso, sem
+ * embaralhar o array antes de chamar sort() (ver SortingUtils.shuffle),
+ * uma entrada já ordenada (ou ordenada ao contrário) cai no pior caso
+ * O(n^2), já que o pivô escolhido é sempre o menor ou o maior elemento do
+ * intervalo.
+ *
  * In-place? Sim
  *  Estável? Não
  *

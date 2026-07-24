@@ -28,7 +28,16 @@ package aesd.sorting.linear;
  * @author Prof. Dr. David Buzatto
  */
 public class CountingSort {
-    
+
+    /**
+     * Ordena um array de inteiros não negativos por contagem.
+     *
+     * @param array O array a ser ordenado.
+     * @param k O maior valor presente em array. Precisa ser conhecido de
+     * antemão porque dimensiona o array de contagem c (tamanho k+1); um
+     * valor em array maior que k causa índice fora dos limites em
+     * c[array[i]]++.
+     */
     public static void sort( int[] array, int k ) {
         
         // tamanho do array

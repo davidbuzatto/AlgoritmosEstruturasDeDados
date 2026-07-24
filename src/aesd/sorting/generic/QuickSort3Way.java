@@ -11,6 +11,15 @@ import aesd.sorting.utils.SortingUtils;
  * o Quick Sort tradicional é ineficiente, ou seja, o caso onde
  * existem diversos valores iguais dentro do array.
  *
+ * O particionamento em 3 vias (também conhecido como "Dutch national
+ * flag partitioning") resolve, numa única passada pelo intervalo, a
+ * separação em menores/iguais/maiores ao pivô — daí o melhor caso O(n),
+ * atingido quando todos os elementos são iguais (uma única faixa central,
+ * sem nenhuma chamada recursiva subsequente). Assim como QuickSort, esta
+ * implementação usa sempre o primeiro elemento do intervalo como pivô, o
+ * que também sofre no pior caso com entradas já ordenadas se o array não
+ * for embaralhado antes (ver SortingUtils.shuffle).
+ *
  * In-place? Sim
  *  Estável? Não
  *

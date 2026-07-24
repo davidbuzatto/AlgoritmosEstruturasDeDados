@@ -12,17 +12,27 @@ package aesd.sorting.external;
  */
 public class Area {
 
+    // os campos next/previous de Cell têm dupla função, dependendo se a
+    // célula está livre ou ocupada: enquanto livre, next encadeia a lista
+    // de células disponíveis (a partir de availableCells, montada no
+    // construtor); quando ocupada por addRegister(), esses mesmos campos
+    // passam a encadear a lista dupla ordenada de registros (a partir de
+    // first/last)
     private static class Cell {
         Register register;
         int next;
         int previous;
     }
-    
+
     private Cell registers[];
-    
+
+    // índice da primeira célula livre (topo da lista de células disponíveis)
     private int availableCells;
+
+    // índices do primeiro e do último registro da lista ordenada ocupada
     private int first;
     private int last;
+
     private int numOccupiedCells;
 
     /**
@@ -54,6 +64,16 @@ public class Area {
         
     }
 
+    /**
+     * Insere um registro na área, mantendo-a ordenada por meio de uma
+     * varredura linear O(n) que localiza a posição correta na lista
+     * ligada. É essa ordenação mantida a cada inserção que permite a
+     * removeFirst()/removeLast() devolverem sempre o menor/maior registro
+     * em O(1).
+     *
+     * @param register O registro a ser inserido.
+     * @throws Exception se a área já estiver cheia.
+     */
     public void addRegister( Register register ) throws Exception {
         
         if ( numOccupiedCells == registers.length ) {
@@ -112,6 +132,13 @@ public class Area {
         
     }
 
+    /**
+     * Remove e retorna o menor registro da área (o primeiro da lista
+     * ordenada), em O(1).
+     *
+     * @return O menor registro da área.
+     * @throws Exception se a área estiver vazia.
+     */
     public Register removeFirst() throws Exception {
         
         if ( numOccupiedCells == 0 ) {
@@ -134,6 +161,13 @@ public class Area {
         
     }
 
+    /**
+     * Remove e retorna o maior registro da área (o último da lista
+     * ordenada), em O(1).
+     *
+     * @return O maior registro da área.
+     * @throws Exception se a área estiver vazia.
+     */
     public Register removeLast() throws Exception {
         
         if ( numOccupiedCells == 0 ) {
@@ -157,6 +191,11 @@ public class Area {
     }
 
     
+    /**
+     * Retorna a quantidade de registros atualmente ocupando a área.
+     *
+     * @return A quantidade de células ocupadas.
+     */
     public int getNumOccupiedCells() {
         return numOccupiedCells;
     }

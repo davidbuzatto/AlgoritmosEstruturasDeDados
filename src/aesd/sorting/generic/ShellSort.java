@@ -27,6 +27,11 @@ import aesd.sorting.utils.SortingUtils;
  *      Caso médio: ? => depende da sequência!
  *     Melhor caso: ? => depende da sequência!
  *
+ * Esta implementação usa a sequência de Knuth (h = 3h + 1), para a qual o
+ * pior caso conhecido é O(n^1.5) — melhor que os O(n^2) dos algoritmos
+ * quadráticos simples (bubble/insertion/selection sort), mas não tão bom
+ * quanto o O(n lg n) garantido por merge sort/heap sort.
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class ShellSort {
@@ -51,6 +56,10 @@ public class ShellSort {
         // calculando o espaçamento máximo
         // relativo ao tamanho do array
         while( h < n / 3 ) {
+            // sequência de Knuth: gera gaps que não são múltiplos uns dos
+            // outros, ao contrário de uma sequência de potências de 2, cujos
+            // gaps pares nunca comparam elementos de paridade diferente até
+            // o h final = 1, degradando o desempenho
             h = 3 * h + 1; // 1, 4, 13, 40, 121...
         }
 

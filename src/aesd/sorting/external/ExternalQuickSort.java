@@ -31,10 +31,29 @@ import java.io.RandomAccessFile;
  */
 public class ExternalQuickSort {
 
+    /**
+     * Ordena um arquivo de registros de tamanho fixo, usando o tamanho de
+     * área padrão (3 registros) como buffer interno de particionamento.
+     *
+     * @param fileName O caminho do arquivo a ser ordenado.
+     * @param numberOfRegisters A quantidade de registros no arquivo.
+     * @throws IOException em caso de erro de leitura/escrita.
+     * @throws Exception em caso de erro de particionamento (ex.: área cheia).
+     */
     public static void sort( String fileName, int numberOfRegisters ) throws IOException, Exception {
         sort( fileName, 3, numberOfRegisters );
     }
-    
+
+    /**
+     * Ordena um arquivo de registros de tamanho fixo.
+     *
+     * @param fileName O caminho do arquivo a ser ordenado.
+     * @param areaSize O tamanho (em registros) da área de memória interna
+     * (T) usada como buffer durante o particionamento — ver partition().
+     * @param numberOfRegisters A quantidade de registros no arquivo.
+     * @throws IOException em caso de erro de leitura/escrita.
+     * @throws Exception em caso de erro de particionamento (ex.: área cheia).
+     */
     public static void sort( String fileName, int areaSize, int numberOfRegisters ) throws IOException, Exception {
         ExternalQuickSort externalQS = new ExternalQuickSort( fileName, areaSize );
         externalQS.sort( 1, numberOfRegisters );
@@ -84,8 +103,37 @@ public class ExternalQuickSort {
         
     }
     
+    /*
+     * Particionamento externo (algoritmo de Monard).
+     *
+     * Como o arquivo não cabe todo em memória, o particionamento não pode
+     * escolher um pivô fixo e comparar cada elemento contra ele, como no
+     * quicksort interno. Em vez disso, usa 4 ponteiros de arquivo (leitura
+     * e escrita, cada um pela ponta inferior e pela superior do intervalo)
+     * e uma área de memória interna (T, o buffer area) para guardar
+     * temporariamente os registros "do meio", cujo destino (inferior ou
+     * superior) ainda não pode ser decidido:
+     *     - ri/rs leem o próximo registro ainda não visto a partir de cada
+     *       ponta;
+     *     - wi/ws escrevem, de volta no próprio arquivo, os registros já
+     *       classificados como pertencentes à metade inferior/superior;
+     *     - inferiorLimit/superiorLimit são sentinelas (inicialmente
+     *       -infinito/+infinito) que vão sendo apertadas conforme a área
+     *       enche e o registro mais central precisa ser despachado para
+     *       abrir espaço, definindo um intervalo de valores que ainda não
+     *       têm posição final decidida.
+     *
+     * Enquanto a área não está cheia, os registros lidos só são
+     * acumulados nela (addArea). Quando enche, a cada novo registro lido é
+     * preciso decidir o destino de algum registro: se o novo valor for
+     * maior que superiorLimit ou menor que inferiorLimit, ele mesmo já
+     * pode ser escrito diretamente na posição correspondente; caso
+     * contrário, ele entra na área e o registro mais central dela
+     * (removeFirst/removeLast, sempre O(1) porque a área se mantém
+     * ordenada) é quem é despachado, tornando-se a nova sentinela.
+     */
     private PartitionLimits partition( int left, int right ) throws Exception {
-        
+
         // ponteiros
         int ri = left;     // read inferior
         int rs = right;    // read superior
