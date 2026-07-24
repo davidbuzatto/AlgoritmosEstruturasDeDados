@@ -46,12 +46,13 @@ public class DirectedBreadthFirstSearch {
      */
     public DirectedBreadthFirstSearch( Digraph digraph, int source ) throws IllegalArgumentException {
         
-        validateVertex( source );
-        
         marked = new boolean[digraph.getNumberOfVertices()];
         distTo = new int[digraph.getNumberOfVertices()];
         edgeTo = new int[digraph.getNumberOfVertices()];
-        
+
+        // validateVertex() depende de marked já estar inicializado
+        validateVertex( source );
+
         for ( int v = 0; v < digraph.getNumberOfVertices(); v++ ) {
             distTo[v] = INFINITY;
         }
@@ -162,8 +163,8 @@ public class DirectedBreadthFirstSearch {
             sb.append( String.format( "%d\t%s\t\t%s\t\t%s\n",
                     v,
                     marked[v] ? "T" : "F",
-                    edgeTo[v] == -1 ? "-" : edgeTo[v],
-                    distTo[v] == -1 ? "-" : distTo[v] ) );
+                    !marked[v] ? "-" : edgeTo[v],
+                    !marked[v] ? "-" : distTo[v] ) );
         }
 
         return sb.toString();

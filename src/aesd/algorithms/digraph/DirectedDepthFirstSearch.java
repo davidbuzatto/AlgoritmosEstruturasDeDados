@@ -38,14 +38,15 @@ public class DirectedDepthFirstSearch {
      */
     public DirectedDepthFirstSearch( Digraph digraph, int source ) throws IllegalArgumentException {
         
-        validateVertex( source );
-        
         this.source = source;
         this.digraph = digraph;
-        
+
         marked = new boolean[digraph.getNumberOfVertices()];
         edgeTo = new int[digraph.getNumberOfVertices()];
-        
+
+        // validateVertex() depende de marked já estar inicializado
+        validateVertex( source );
+
         dfs( digraph, source );
         
     }
@@ -126,7 +127,7 @@ public class DirectedDepthFirstSearch {
             sb.append( String.format( "%d\t%s\t\t%s\n",
                     v,
                     marked[v] ? "T" : "F",
-                    edgeTo[v] == -1 ? "-" : edgeTo[v] ) );
+                    !marked[v] ? "-" : edgeTo[v] ) );
         }
 
         return sb.toString();

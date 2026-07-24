@@ -43,20 +43,18 @@ public class DigraphBasicAlgorithms {
     public static int inDegree( Digraph digraph, int v ) {
         
         int inDegree = 0;
-        
+
+        // percorre todos os vértices, incluindo o próprio v, para que laços
+        // (arestas v-v) sejam contados aqui da mesma forma que são contados
+        // em outDegree()
         for ( int w = 0; w < digraph.getNumberOfVertices(); w++ ) {
-            
-            // se não é o nó de origem
-            if ( w != v ) {
-                
-                for ( int k : digraph.adj( w ) ) {
-                    if ( k == v ) {
-                        inDegree++;
-                    }
+
+            for ( int k : digraph.adj( w ) ) {
+                if ( k == v ) {
+                    inDegree++;
                 }
-                
             }
-            
+
         }
         
         return inDegree;
