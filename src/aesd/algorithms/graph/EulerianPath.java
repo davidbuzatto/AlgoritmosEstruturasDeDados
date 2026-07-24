@@ -8,7 +8,15 @@ import aesd.ds.interfaces.Stack;
 
 /**
  * Computa um caminho Euleriano do grafo caso exista.
- * 
+ *
+ * Um caminho Euleriano percorre cada aresta do grafo exatamente uma vez, mas,
+ * diferente do ciclo Euleriano, não precisa retornar ao vértice de origem —
+ * por isso admite até dois vértices de grau ímpar (que se tornam os extremos
+ * do caminho); mais que dois torna a busca impossível. O restante do
+ * algoritmo é o mesmo de {@link EulerianCycle}: Hierholzer, percorrendo
+ * arestas ainda não usadas de forma gulosa e retrocedendo (backtrack) via
+ * pilha ao ficar sem saída. Complexidade O(E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *

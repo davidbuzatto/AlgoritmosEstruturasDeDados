@@ -8,6 +8,13 @@ import aesd.ds.interfaces.Stack;
  * Realiza a busca em profundidade para computar os caminhos entre o vértice
  * fonte e todos os outros vértices do grafo.
  *
+ * Diferente da busca em largura, os caminhos encontrados não são
+ * necessariamente os mais curtos — a DFS mergulha o quanto pode antes de
+ * retroceder, então o caminho até um vértice reflete a ordem em que os
+ * vértices foram descobertos, não a menor quantidade de arestas. Útil
+ * quando basta saber se existe um caminho, não o menor deles.
+ * Complexidade O(V + E).
+ *
  * s é o vértice fonte (source).
  *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.

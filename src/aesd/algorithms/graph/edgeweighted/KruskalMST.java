@@ -11,10 +11,19 @@ import aesd.ds.interfaces.Queue;
 /**
  * Implementação do algoritmo de Kruskal para computação de árvore geradora
  * mínima -Minimum Spanning Tree (MST)- em grafos ponderados.
- * 
+ *
+ * Diferente da abordagem de Prim (que cresce uma única árvore vértice a
+ * vértice), Kruskal processa as arestas globalmente em ordem crescente de
+ * peso e aceita cada uma que não forma ciclo com as já aceitas — union-find
+ * é o que permite testar "v e w já estão no mesmo componente?" em tempo
+ * quase constante. Também respeita a propriedade do corte, mas construindo
+ * a MST como uma floresta que vai se fundindo, em vez de expandir a partir
+ * de uma única raiz. Complexidade O(E log E), dominada pela ordenação
+ * (aqui, pela fila de prioridades).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class KruskalMST {

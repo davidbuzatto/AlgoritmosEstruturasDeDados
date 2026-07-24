@@ -10,6 +10,13 @@ import aesd.ds.interfaces.Stack;
  * Determina se um grafo é bipartido ou se possui um ciclo ímpar. Essa
  * implementação usa busca em largura.
  *
+ * A ideia é tentar 2-colorir o grafo: colore-se o vértice fonte e, a cada
+ * aresta v-w visitada, w recebe a cor oposta à de v. Um grafo é bipartido se
+ * e somente se essa 2-coloração for sempre possível — se em algum momento
+ * v e w já visitados acabam com a mesma cor, a aresta v-w prova a existência
+ * de um ciclo de comprimento ímpar (e, portanto, a impossibilidade de
+ * bipartição). Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *

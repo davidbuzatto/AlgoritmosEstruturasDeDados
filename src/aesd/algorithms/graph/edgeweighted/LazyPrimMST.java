@@ -9,10 +9,20 @@ import aesd.ds.interfaces.Queue;
 /**
  * Implementação do algoritmo de Prim (lazy) para computação de árvore geradora
  * mínima -Minimum Spanning Tree (MST)- em grafos ponderados.
- * 
+ *
+ * Cresce a árvore um vértice de cada vez: mantém uma fila de prioridades com
+ * todas as arestas que cruzam o corte entre os vértices já na árvore e os
+ * demais, e sempre remove/adiciona a de menor peso (propriedade do corte).
+ * É "lazy" porque, ao marcar um novo vértice, arestas obsoletas (que
+ * apontam para vértices que já entraram na árvore por outro caminho) não
+ * são removidas da fila — apenas descartadas quando removidas no futuro,
+ * daí o teste marked[v] && marked[w] em prim(). Mais simples que a versão
+ * "eager" ({@link PrimMST}), ao custo de uma fila potencialmente maior
+ * (O(E) em vez de O(V) entradas). Complexidade O(E log E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class LazyPrimMST {

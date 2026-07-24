@@ -9,6 +9,15 @@ import aesd.ds.interfaces.Stack;
 /**
  * Computa um ciclo Euleriano do grafo caso exista.
  *
+ * Um ciclo Euleriano percorre cada aresta do grafo exatamente uma vez,
+ * retornando ao vértice de origem — condição necessária e suficiente para
+ * ele existir (em um grafo conexo) é que todo vértice tenha grau par.
+ * A construção usa o algoritmo de Hierholzer: percorre gulosamente arestas
+ * ainda não usadas a partir do vértice atual e, ao ficar sem saída, empilha
+ * o vértice e retrocede (backtrack) para retomar de onde ainda restam
+ * arestas — de forma iterativa, evitando o custo de uma DFS recursiva.
+ * Complexidade O(E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *

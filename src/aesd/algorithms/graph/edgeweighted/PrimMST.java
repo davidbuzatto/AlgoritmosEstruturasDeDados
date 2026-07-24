@@ -9,10 +9,18 @@ import aesd.ds.interfaces.Queue;
 /**
  * Implementação do algoritmo de Prim para computação de árvore geradora
  * mínima -Minimum Spanning Tree (MST)- em grafos ponderados.
- * 
+ *
+ * Versão "eager" de {@link LazyPrimMST}: em vez de uma fila de arestas,
+ * mantém uma fila de prioridades indexada por vértice (no máximo uma entrada
+ * por vértice fora da árvore, guardando a aresta mais barata conhecida até
+ * ele). Ao relaxar uma aresta que melhora distTo[w], a prioridade de w é
+ * atualizada no lugar (decreaseKey) em vez de duplicada — daí o menor
+ * consumo de memória (O(V) em vez de O(E) entradas) e complexidade
+ * O(E log V).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class PrimMST {

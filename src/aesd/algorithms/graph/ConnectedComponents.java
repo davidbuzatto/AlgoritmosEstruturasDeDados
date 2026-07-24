@@ -7,6 +7,13 @@ import aesd.ds.implementations.nonlinear.graph.Graph;
 /**
  * Computa os componentes conexos de um grafo ou de um grafo ponderado.
  *
+ * Cada chamada de dfs() a partir de um vértice ainda não marcado alcança
+ * exatamente os vértices do seu componente conexo, e todos recebem o mesmo
+ * identificador (count). Alternativa por union-find resolveria o mesmo
+ * problema, mas a versão baseada em DFS aqui é mais simples quando o grafo
+ * já está inteiramente disponível (não chega aos poucos, aresta a aresta).
+ * Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *

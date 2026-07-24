@@ -57,11 +57,14 @@ public class GraphBasicAlgorithms {
 
     /**
      * Calcula o grau médio do grafo.
-     * 
+     *
      * @param graph o grafo
      * @return Grau médio do grafo.
      */
     public static double mediumDegree( Graph graph ) {
+        // lema do aperto de mãos (handshaking lemma): cada aresta contribui
+        // com grau 1 para cada um dos seus dois vértices, então a soma de
+        // todos os graus é sempre 2 * quantidade de arestas
         return 2.0 * ( graph.getNumberOfEdges() / (double) graph.getNumberOfVertices() );
     }
 

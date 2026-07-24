@@ -6,7 +6,15 @@ import aesd.ds.interfaces.Stack;
 
 /**
  * Determina se um grafo possui algum ciclo e caso tenha o armazena.
- * 
+ *
+ * A ideia central é a busca em profundidade lembrando de quem é o pai (u) de
+ * cada vértice: ao visitar v e encontrar um vizinho w já marcado, isso só
+ * indica um ciclo genuíno se w não for o próprio pai u — caso contrário
+ * seria apenas a mesma aresta v-u sendo revisitada no sentido inverso.
+ * Laços e arestas paralelas são tratados como casos especiais antes da
+ * busca, pois formam ciclos triviais que a lógica pai/filho da DFS não
+ * cobre diretamente.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *

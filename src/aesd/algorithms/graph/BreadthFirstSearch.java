@@ -9,7 +9,13 @@ import aesd.ds.interfaces.Stack;
 /**
  * Realiza a busca em largura para computar o menor caminho entre o vértice
  * fonte e todos os outros vértices do grafo.
- * 
+ *
+ * A fila (FIFO) é o que garante a corretude: os vértices são processados na
+ * ordem crescente de distância até a fonte, então a primeira vez que um
+ * vértice w é alcançado (marked[w] passa a true) é necessariamente através de
+ * um menor caminho — não há como revisitar w mais tarde com uma distância
+ * menor. Complexidade O(V + E).
+ *
  * s é o vértice fonte (source).
  *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.

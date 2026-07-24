@@ -8,6 +8,12 @@ import aesd.ds.interfaces.Stack;
  * Determina se um grafo é bipartido ou se possui um ciclo ímpar. Essa
  * implementação usa busca em profundidade.
  *
+ * Mesma ideia de {@link BipartiteBFS} — tentar 2-colorir o grafo, alternando
+ * a cor a cada aresta percorrida —, mas usando DFS em vez de BFS para
+ * percorrer o grafo. Um vértice já visitado com a mesma cor do vértice
+ * atual denuncia um ciclo de comprimento ímpar, tornando a bipartição
+ * impossível. Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *

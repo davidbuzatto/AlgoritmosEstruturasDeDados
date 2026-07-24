@@ -10,10 +10,20 @@ import aesd.ds.interfaces.List;
 /**
  * Implementação do algoritmo de Boruvka para computação de árvore geradora
  * mínima -Minimum Spanning Tree (MST)- em grafos ponderados.
- * 
+ *
+ * Em vez de crescer a árvore vértice a vértice (Prim) ou aresta a aresta
+ * (Kruskal), Boruvka trabalha em rodadas: em cada rodada, toda componente
+ * (inicialmente cada vértice é sua própria componente) escolhe sua aresta
+ * de menor peso que sai dela, e todas essas arestas são adicionadas à MST de
+ * uma vez. Como cada componente ao menos se funde com outra a cada rodada, o
+ * número de componentes ao menos reduz à metade, garantindo O(log V)
+ * rodadas — daí o `t = t + t` no laço externo, que não é usado para
+ * indexar nada, apenas para limitar a quantidade de rodadas. Complexidade
+ * O(E log V).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class BoruvkaMST {

@@ -9,10 +9,18 @@ import aesd.ds.interfaces.Stack;
 /**
  * Implementação do algoritmo de menor caminho de Dijksta para grafos
  * ponderados.
- * 
+ *
+ * Versão "eager": mantém uma fila de prioridades indexada (uma entrada por
+ * vértice), de modo que ao relaxar uma aresta e melhorar distTo[w] a
+ * prioridade de w é atualizada no lugar (decreaseKey), em vez de inserir uma
+ * nova entrada duplicada como a versão "lazy" faria. A cada passo, remove-se
+ * da fila o vértice não visitado de menor distTo — a exigência de pesos não
+ * negativos é o que garante que essa distância, uma vez definida, não seja
+ * mais melhorada depois. Complexidade O(E log V).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class DijkstraSP {
