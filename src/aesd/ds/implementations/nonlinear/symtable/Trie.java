@@ -9,13 +9,22 @@ import java.util.Iterator;
 
 /**
  * Implementação de uma trie que funciona como uma tabela de símbolos para
- * Strigns.
+ * Strings.
+ *
+ * É uma trie R-vias (R-way): cada nó tem um array de R ponteiros, um para
+ * cada caractere possível do alfabeto (aqui, R = 256, ASCII estendido), de
+ * forma que descer um nível na trie e avançar uma posição na chave é a
+ * mesma coisa — a busca custa tempo proporcional apenas ao tamanho da
+ * chave, independente de quantas chaves existem na trie. O custo é
+ * espaço: todo nó reserva R ponteiros mesmo quando a maioria fica nula.
+ * A TernarySearchTrie (ver) resolve esse desperdício de memória à custa de
+ * mais comparações por busca.
  *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
  * @param <Value> Tipo dos valores armazenados na trie.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class Trie<Value> implements SymbolTable<String, Value> {
@@ -180,6 +189,15 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         
     }
     
+    /**
+     * Retorna todas as chaves da trie que começam com o prefixo informado
+     * (usado, por exemplo, para autocompletar). Localiza o nó
+     * correspondente ao fim do prefixo e coleta todas as chaves da
+     * subárvore a partir dele.
+     *
+     * @param prefix O prefixo a ser buscado.
+     * @return As chaves da trie que começam com prefix.
+     */
     public Iterable<String> getKeysWithPrefix( String prefix ) {
         Queue<String> results = new ResizingArrayQueue<>();
         Node<Value> x = get( root, prefix, 0 );
@@ -187,22 +205,29 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         return results;
     }
 
+    // percorre a subárvore coletando todas as chaves; prefix acumula os
+    // caracteres do caminho percorrido (append antes de descer,
+    // deleteCharAt ao voltar da recursão), um padrão clássico de
+    // backtracking para construir a chave incrementalmente. Diferente da
+    // TernarySearchTrie, aqui é preciso percorrer as R posições do array
+    // next em cada nó (a maioria delas nula), já que não há como saber de
+    // antemão quais caracteres realmente têm filho
     private void collect( Node<Value> x, StringBuilder prefix, Queue<String> results ) {
-        
+
         if ( x == null ) {
             return;
         }
-        
+
         if ( x.val != null ) {
             results.enqueue( prefix.toString() );
         }
-        
+
         for ( char c = 0; c < R; c++ ) {
             prefix.append( c );
             collect( x.next[c], prefix, results );
             prefix.deleteCharAt( prefix.length() - 1 );
         }
-        
+
     }
 
     public Iterable<String> getKeysThatMatch( String pattern ) {
@@ -243,6 +268,16 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         
     }
 
+    /**
+     * Retorna o maior prefixo de query que é uma chave presente na trie.
+     * Percorre a trie caractere a caractere e, a cada nó visitado que
+     * também marca o fim de uma chave armazenada (x.val != null), atualiza
+     * o maior comprimento de prefixo encontrado até então.
+     *
+     * @param query A string cujo maior prefixo será buscado.
+     * @return O maior prefixo de query presente na trie, ou null caso
+     * nenhum prefixo esteja presente.
+     */
     public String getLongestPrefixOf( String query ) {
         
         if ( query == null ) {
@@ -306,6 +341,9 @@ public class Trie<Value> implements SymbolTable<String, Value> {
         }
 
         // remove a subtrie enraizada em x se ela estiver completamente vazia
+        // (sem valor e sem nenhum filho não nulo); sem essa limpeza, cadeias
+        // de nós vazios deixadas por remoções anteriores nunca seriam
+        // liberadas, mesmo sem representar nenhuma chave
         if ( x.val != null ) {
             return x;
         }
