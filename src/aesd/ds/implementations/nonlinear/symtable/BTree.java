@@ -35,7 +35,7 @@ public class BTree<Key extends Comparable<Key>, Value> implements SymbolTable<Ke
         private int m;
         
         // array de filhos
-        private Entry<Key, Value>[] children = (Entry<Key, Value>[]) new Object[M];
+        private Entry<Key, Value>[] children = (Entry<Key, Value>[]) new Entry[M];
 
         // cria um nó com m filhos
         private BNode( int m ) {
@@ -71,6 +71,10 @@ public class BTree<Key extends Comparable<Key>, Value> implements SymbolTable<Ke
     
     // quantidade de pares chave-valor contidos na árvore
     private int n;
+
+    // true se a última chamada a insert() adicionou uma chave nova
+    // (não apenas atualizou o valor de uma chave já existente)
+    private boolean added;
 
     /**
      * Constrói uma Árvore b vazia.
@@ -134,10 +138,14 @@ public class BTree<Key extends Comparable<Key>, Value> implements SymbolTable<Ke
         if ( key == null ) {
             throw new IllegalArgumentException( "argument key to put() is null" );
         }
-        
+
+        added = false;
         BNode<Key, Value> u = insert( root, key, val, height );
-        n++;
-        
+
+        if ( added ) {
+            n++;
+        }
+
         if ( u == null ) {
             return;
         }
@@ -161,10 +169,17 @@ public class BTree<Key extends Comparable<Key>, Value> implements SymbolTable<Ke
         // nó externo
         if ( ht == 0 ) {
             for ( j = 0; j < h.m; j++ ) {
+                if ( eq( key, h.children[j].key ) ) {
+                    // chave já existe: apenas atualiza o valor associado,
+                    // sem crescer o nó nem disparar split
+                    h.children[j].value = val;
+                    return null;
+                }
                 if ( less( key, h.children[j].key ) ) {
                     break;
                 }
             }
+            added = true;
         } else { // nó interno
             for ( j = 0; j < h.m; j++ ) {
                 if ( ( j+1 == h.m ) || less( key, h.children[j+1].key ) ) {

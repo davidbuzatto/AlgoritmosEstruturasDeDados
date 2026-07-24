@@ -107,7 +107,7 @@ public class MinPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
         
         n = keys.length;
         
-        pq = (Key[]) new Object[keys.length + 1];
+        pq = (Key[]) new Comparable[keys.length + 1];
         
         for ( int i = 0; i < n; i++ ) {
             pq[i+1] = keys[i];
