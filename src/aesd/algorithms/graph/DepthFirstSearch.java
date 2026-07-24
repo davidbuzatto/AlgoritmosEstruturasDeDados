@@ -40,14 +40,15 @@ public class DepthFirstSearch {
      */
     public DepthFirstSearch( Graph graph, int source )  throws IllegalArgumentException {
         
-        validateVertex( source );
-        
         this.source = source;
         this.graph = graph;
-        
+
         edgeTo = new int[graph.getNumberOfVertices()];
         marked = new boolean[graph.getNumberOfVertices()];
-        
+
+        // validateVertex() depende de marked já estar inicializado
+        validateVertex( source );
+
         dfs( graph, source );
         
     }
@@ -125,7 +126,7 @@ public class DepthFirstSearch {
             sb.append( String.format( "%d\t%s\t\t%s\n",
                     v,
                     marked[v] ? "T" : "F",
-                    edgeTo[v] == -1 ? "-" : edgeTo[v] ) );
+                    !marked[v] ? "-" : edgeTo[v] ) );
         }
 
         return sb.toString();

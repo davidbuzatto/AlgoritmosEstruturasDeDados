@@ -50,7 +50,11 @@ public class AdjMatrixGraph {
      */
     @SuppressWarnings( "unchecked" )
     public AdjMatrixGraph( AdjMatrixGraph graph ) throws IllegalArgumentException {
-        
+
+        if ( graph == null ) {
+            throw new IllegalArgumentException( "argument is null" );
+        }
+
         this.vertices = graph.getNumberOfVertices();
         this.edges = graph.getNumberOfEdges();
         

@@ -81,7 +81,7 @@ public class AdjMatrixEdgeWeightedGraph {
         validateVertex( v );
         validateVertex( w );
         
-        Edge e = new Edge( v, w, 0 );
+        Edge e = new Edge( v, w, weight );
         
         if ( adj[v][w] == null ) {
             
