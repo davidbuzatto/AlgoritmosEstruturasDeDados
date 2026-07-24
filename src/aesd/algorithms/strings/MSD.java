@@ -23,7 +23,7 @@ public class MSD {
         sort( a, 0, n-1, 0, aux );
     }
 
-    // return dth character of s, -1 if d = length of string
+    // retorna o d-ésimo caractere de s, -1 se d for igual ao comprimento da string
     private static int charAt( String s, int d ) {
         
         if ( d == s.length() ) {

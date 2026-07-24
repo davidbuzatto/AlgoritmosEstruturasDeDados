@@ -5,8 +5,8 @@ import aesd.ds.implementations.nonlinear.graph.Edge;
 import aesd.ds.implementations.nonlinear.graph.EdgeWeightedGraph;
 
 /**
- * Teste de uso do algoritmo de Prim na variação eager usando a classe 
- * PrimMSTo.
+ * Teste de uso do algoritmo de Prim na variação eager usando a classe
+ * PrimMST.
  * 
  * @author Prof. Dr. David Buzatto
  */

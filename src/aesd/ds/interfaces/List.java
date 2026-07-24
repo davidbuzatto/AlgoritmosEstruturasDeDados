@@ -31,15 +31,16 @@ public interface List<Type> extends Iterable<Type> {
      * Retorna um valor de uma posição específica da lista.
      * 
      * @param index Índice em que o valor está.
-     * @return O value da lista.
+     * @return O valor da lista.
      */
     public Type get( int index ) 
             throws EmptyListException, ListIndexOutOfBoundsException;
     
     /**
      * Altera o valor de uma posição da lista.
-     * 
+     *
      * @param index Índice do valor que será alterado.
+     * @param value O novo valor a ser definido na posição.
      */
     public void set( int index, Type value ) 
             throws EmptyListException, ListIndexOutOfBoundsException;

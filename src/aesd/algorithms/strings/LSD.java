@@ -2,9 +2,12 @@ package aesd.algorithms.strings;
 
 /**
  * Implementação do algoritmo Least Significant Digit (LSD) para ordenação de
- * Strings 
- * 
- * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ * Strings
+ *
+ * Pré-condição: todas as Strings do array devem possuir o mesmo comprimento,
+ * igual a w.
+ *
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms.
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
  * 
  * @author Prof. Dr. David Buzatto

@@ -43,7 +43,6 @@ public class DirectedDijkstraAllPairsSP {
      * @param target o vértice de destino
      * @return o menor caminho entre os vértices source e target ou null caso
      * não exista
-     * @throws UnsupportedOperationException se houver um ciclo negativo
      * @throws IllegalArgumentException se o vértice source ou o vértice target
      * forem inválidos
      */

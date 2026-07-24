@@ -161,7 +161,7 @@ public class HeapSort {
             if ( j < n && array[j] < array[j+1] ) {
 
                 // muda para o irmão (filho da direita)
-                // pois o filho à esquerda é menor que o mai
+                // pois o filho à esquerda é menor que o maior filho (o da direita),
                 // e menor que o irmão (o irmão pode ir para o lugar
                 // do pai se for maior que ele e o heap se mantém)
                 j++;

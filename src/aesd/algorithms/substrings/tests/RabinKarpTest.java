@@ -20,7 +20,7 @@ public class RabinKarpTest {
         // imprime o resultado
         System.out.println( "text:    " + txt );
 
-        // do primeiro método de busca usando força bruta
+        // resultado do primeiro método de busca do Rabin-Karp
         System.out.print( "pattern: " );
         for ( int i = 0; i < offset; i++ ) {
             System.out.print( " " );

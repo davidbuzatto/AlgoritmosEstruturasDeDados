@@ -122,7 +122,7 @@ public class MinPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
     /**
      * Redimensiona o array de chaves.
      * 
-     * @param max Tamanho a ser redimensionado.
+     * @param capacity Tamanho a ser redimensionado.
      */
     @SuppressWarnings( "unchecked" )
     private void resize( int capacity ) {

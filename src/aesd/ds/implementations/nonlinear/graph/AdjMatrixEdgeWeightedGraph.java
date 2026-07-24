@@ -43,9 +43,9 @@ public class AdjMatrixEdgeWeightedGraph {
     }
 
     /**
-     * Retorna a quantidade vértices desse digrafo.
+     * Retorna a quantidade vértices desse grafo.
      *
-     * @return o número de vértices do digrafo
+     * @return o número de vértices do grafo
      */
     public int getNumberOfVertices() {
         return vertices;
@@ -69,10 +69,10 @@ public class AdjMatrixEdgeWeightedGraph {
     }
     
     /**
-     * Adiciona uma aresta direcionada v->w à esse grafo.
+     * Adiciona uma aresta não direcionada v-w à esse grafo.
      *
-     * @param v o vértice de calda/origem
-     * @param w O vértice de cabeça/destino
+     * @param v um dos vértices
+     * @param w o outro vértice
      * @param weight O peso da aresta
      * @throws IllegalArgumentException se os vértices forem inválidos
      */

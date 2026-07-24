@@ -26,7 +26,7 @@ public class Cycle {
     /**
      * Determina se um grafo possui ciclo e, caso tenha, encontra o mesmo.
      *
-     * @param graph the undirected graph
+     * @param graph o grafo não direcionado
      */
     public Cycle( Graph graph ) {
         

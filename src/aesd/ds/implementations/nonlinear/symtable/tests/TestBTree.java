@@ -3,7 +3,7 @@ package aesd.ds.implementations.nonlinear.symtable.tests;
 import aesd.ds.implementations.nonlinear.symtable.BTree;
 
 /**
- * Teste de uso da árvore AVL.
+ * Teste de uso da árvore B (BTree).
  * 
  * @author Prof. Dr. David Buzatto
  */

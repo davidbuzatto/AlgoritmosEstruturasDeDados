@@ -18,7 +18,7 @@ public class TransitiveClosure {
     /**
      * Computa o fecho transitivo de um digrafo.
      *
-     * @param digraph the digraph
+     * @param digraph o digrafo
      */
     public TransitiveClosure( Digraph digraph ) {
         

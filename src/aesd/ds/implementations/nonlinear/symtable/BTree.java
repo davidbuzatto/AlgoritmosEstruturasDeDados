@@ -9,7 +9,7 @@ import java.util.Iterator;
 import aesd.ds.interfaces.SymbolTable;
 
 /**
- * Implementação de uma árvore b (B-Tree)).
+ * Implementação de uma árvore b (B-Tree).
  *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.

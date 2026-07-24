@@ -10,7 +10,7 @@ package aesd.ds.interfaces;
 public interface Queue<Type> extends Iterable<Type> {
     
     /**
-     * Enfileira um valor na filha.
+     * Enfileira um valor na fila.
      * 
      * @param value Valor a ser enfileirado.
      */

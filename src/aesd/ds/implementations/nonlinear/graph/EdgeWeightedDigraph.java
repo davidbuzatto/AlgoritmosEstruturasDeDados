@@ -110,9 +110,9 @@ public class EdgeWeightedDigraph {
     }
 
     /**
-     * Retorna a quantidade arestas desse grafo.
+     * Retorna a quantidade arestas desse digrafo.
      *
-     * @return o número de arestas do grafo
+     * @return o número de arestas do digrafo
      */
     public int getNumberOfEdges() {
         return edges;

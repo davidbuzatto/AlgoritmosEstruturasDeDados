@@ -93,7 +93,7 @@ public class DijkstraSP {
      *
      * @param v o vértice de destino
      * @return o comprimento/tamanho do menor caminho entre o vértice fonte e o 
-     * vértice de destino ou Dougle.POSITIVE_INFINITY se não hover caminho entre
+     * vértice de destino ou Double.POSITIVE_INFINITY se não houver caminho entre
      * eles.
      * @throws IllegalArgumentException se o vértice for inválido
      */

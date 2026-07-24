@@ -43,9 +43,8 @@ public class BellmanFordSP {
      * Computa a árvore de menor caminho a partir do vértice fonte (source) para
      * todos os outros vértices do digrafo ponderado.
      *
-     * @param digraph o digrafo ponderado acíclico
+     * @param digraph o digrafo ponderado, que pode conter ciclos
      * @param source o vértice fonte
-     * @throws IllegalArgumentException se o peso de alguma aresta for negativo
      * @throws IllegalArgumentException se o vértice fonte for inválido
      */
     public BellmanFordSP( EdgeWeightedDigraph digraph, int source ) {

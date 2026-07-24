@@ -29,7 +29,7 @@ public class DirectedCycle {
     /**
      * Determina se um digrafo possui ciclo e, caso tenha, encontra o mesmo.
      *
-     * @param digraph the undirected graph
+     * @param digraph o digrafo
      */
     public DirectedCycle( Digraph digraph ) {
         

@@ -2,7 +2,7 @@ package aesd.ds.implementations.nonlinear.uf;
 
 /**
  * Definição da API da estrutura de dados Union-Find, também conhecida como
- * disjoint-set ou marge-find set.
+ * disjoint-set ou merge-find set.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.

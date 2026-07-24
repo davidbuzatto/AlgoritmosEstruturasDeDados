@@ -75,11 +75,9 @@ public class Bag<Type> implements Iterable<Type> {
     }
 
     /**
-     * Returns an iterator that iterates over the items in this bag in arbitrary
-     * order.
+     * Retorna um iterador que percorre os itens dessa bag em ordem arbitrária.
      *
-     * @return an iterator that iterates over the items in this bag in arbitrary
-     * order
+     * @return um iterador que percorre os itens dessa bag em ordem arbitrária
      */
     @Override
     public Iterator<Type> iterator() {

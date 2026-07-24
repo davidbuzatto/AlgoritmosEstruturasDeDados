@@ -75,7 +75,7 @@ public interface SymbolTable<Key, Value> extends Iterable<SymbolTable.Entry<Key,
     public boolean contains( Key key ) throws IllegalArgumentException;
     
     /**
-     * Remove todos os elementos dessa árvore.
+     * Remove todos os elementos dessa tabela de símbolos.
      */
     public void clear();
     

@@ -34,11 +34,11 @@ public class DigraphBasicAlgorithms {
     }
     
     /**
-     * Calcula o grau de saída de um vértice de um digrafo.
-     * 
+     * Calcula o grau de entrada de um vértice de um digrafo.
+     *
      * @param digraph o digrafo
      * @param v Vértice
-     * @return Grau de saída vértice do grafo.
+     * @return Grau de entrada vértice do grafo.
      */
     public static int inDegree( Digraph digraph, int v ) {
         
@@ -107,7 +107,7 @@ public class DigraphBasicAlgorithms {
     }
 
     /**
-     * Calcula o grauSaida médio do grafo.
+     * Calcula o grau de saída médio do grafo.
      * 
      * @param digraph o digrafo
      * @return Grau médio do grafo.
@@ -119,7 +119,7 @@ public class DigraphBasicAlgorithms {
     /**
      * Calcula a quantidade de laços dentro de um grafo.
      * 
-     * @paramdigraphdg o digrafo
+     * @param digraph o digrafo
      * @return Quantidade de laços.
      */
     public static int loopQuantity( Digraph digraph ) {

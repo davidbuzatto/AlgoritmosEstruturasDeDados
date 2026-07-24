@@ -24,10 +24,10 @@ public interface IndexedPriorityQueue<Key extends Comparable<Key>> extends Itera
     
     /**
      * Retorna o índice associado à chave que tem maior prioridade definida de
-     * acordo com a invariante da fila de prioridades implemnetada,
+     * acordo com a invariante da fila de prioridades implementada,
      * sem removê-la.
      *
-     * @return a chave com maior prioridade da fila de prioridades
+     * @return o índice associado à chave com maior prioridade da fila de prioridades
      * @throws NoSuchElementException se essa fila de prioridades estiver vazia
      */
     public int peekIndex() throws NoSuchElementException;
@@ -63,7 +63,7 @@ public interface IndexedPriorityQueue<Key extends Comparable<Key>> extends Itera
      * Verifica se um inteiro é um índice da fila de prioridades.
      * 
      * @param index O inteiro a ser verificado.
-     * @return verdadeiro se i for um índice, false caso contrário
+     * @return verdadeiro se index for um índice, false caso contrário
      */
     public boolean contains( int index ) throws IllegalArgumentException;
     
@@ -91,7 +91,7 @@ public interface IndexedPriorityQueue<Key extends Comparable<Key>> extends Itera
      * Aumenta a chave associada ao índice ao valor especificado.
      *
      * @param index o índice da chave que será aumentada
-     * @param key aumenta a chave associada ao índice à essa chave
+     * @param key a nova chave, que deve ser maior que a chave atual associada ao índice
      * @throws IllegalArgumentException se o índice for inválido
      * @throws IllegalArgumentException se a nova chave for menor ou igual à atual
      * @throws NoSuchElementException se não houver chave associada ao índice
@@ -102,7 +102,7 @@ public interface IndexedPriorityQueue<Key extends Comparable<Key>> extends Itera
      * Diminui a chave associada ao índice ao valor especificado.
      *
      * @param index o índice da chave que será diminuída
-     * @param key diminui a chave associada ao índice à essa chave
+     * @param key a nova chave, que deve ser menor que a chave atual associada ao índice
      * @throws IllegalArgumentException se o índice for inválido
      * @throws IllegalArgumentException se a nova chave for maior ou igual à atual
      * @throws NoSuchElementException se não houver chave associada ao índice

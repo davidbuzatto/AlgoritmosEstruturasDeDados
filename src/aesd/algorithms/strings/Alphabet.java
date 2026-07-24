@@ -230,7 +230,7 @@ public class Alphabet {
      *
      * @param indices the indices
      * @return the characters corresponding to the indices {@code indices}
-     * @throws IllegalArgumentException unless {@code 0 < indices[i] < R} for
+     * @throws IllegalArgumentException unless {@code 0 <= indices[i] < R} for
      * every {@code i}
      */
     public String toChars( int[] indices ) {

@@ -28,7 +28,7 @@ public class LZW {
         String input = BinaryStdIn.readString();
         TernarySearchTrie<Integer> st = new TernarySearchTrie<>();
 
-        // dado que a TernarySearchTrie não é balancaeada
+        // dado que a TernarySearchTrie não é balanceada
         // seria melhor inserir em outra ordem
         for ( int i = 0; i < R; i++ ) {
             st.put( "" + (char) i, i );

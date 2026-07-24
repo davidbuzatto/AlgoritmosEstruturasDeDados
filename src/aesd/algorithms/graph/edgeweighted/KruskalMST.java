@@ -26,7 +26,7 @@ public class KruskalMST {
     private Queue<Edge> mst;
 
     /**
-     * Comoputa uma árvore geradora mínima (ou floresta) de um grafo ponderado.
+     * Computa uma árvore geradora mínima (ou floresta) de um grafo ponderado.
      *
      * @param graph o grafo ponderado
      */
@@ -69,7 +69,7 @@ public class KruskalMST {
     }
 
     /**
-     * Retorna as aretas da árvore/floresta geradora mínima.
+     * Retorna as arestas da árvore/floresta geradora mínima.
      *
      * @return as arestas da árvore/floresta geradora mínima como um
      * iterável
@@ -79,10 +79,10 @@ public class KruskalMST {
     }
 
     /**
-     * Retorna a soma dos pesos de todas as areas da árvore/floresta geradora
+     * Retorna a soma dos pesos de todas as arestas da árvore/floresta geradora
      * mínima.
      *
-     * @return a soma dos pesos de todas as areas da árvore/floresta geradora
+     * @return a soma dos pesos de todas as arestas da árvore/floresta geradora
      * mínima.
      */
     public double weight() {

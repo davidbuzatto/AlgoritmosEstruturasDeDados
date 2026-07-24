@@ -34,7 +34,7 @@ public interface BinaryTree<Key extends Comparable<Key>, Value> extends SymbolTa
      * Método para executar percursos.
      * 
      * @param type O tipo do percurso a ser executado.
-     * @return Um iterável com todos os elementos visitados na ordem do percureso.
+     * @return Um iterável com todos os elementos visitados na ordem do percurso.
      */
     public Iterable<Entry<Key, Value>> traverse( TraversalTypes type );
     

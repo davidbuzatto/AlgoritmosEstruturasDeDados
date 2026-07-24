@@ -1,7 +1,8 @@
 package aesd.ds.implementations.nonlinear.graph;
 
 /**
- * Implementação de um aresta direcionada com peso.
+ * Implementação de uma aresta com peso, que pode ser usada tanto em grafos
+ * quanto em digrafos.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
@@ -24,7 +25,7 @@ public class Edge implements Comparable<Edge> {
      *
      * @param v vértice de calda/origem
      * @param w vértice de cabeça/destino
-     * @param weight o peso da atesta
+     * @param weight o peso da aresta
      * @throws IllegalArgumentException se v ou w forem inválidos
      * @throws IllegalArgumentException se o peso não for um número
      */

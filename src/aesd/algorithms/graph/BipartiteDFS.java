@@ -21,7 +21,7 @@ public class BipartiteDFS {
     // color[v] distingue os vértices de cada partição
     private boolean[] color;
 
-    // marked[v] = true se e semente se v foi visitado na DFS
+    // marked[v] = true se e somente se v foi visitado na DFS
     private boolean[] marked;
 
     // edgeTo[v] = última aresta no caminho até v
@@ -122,7 +122,7 @@ public class BipartiteDFS {
     }
 
     /**
-     * Retorna o ciclo ímpar caso o grafo não sej bipartido ou null caso
+     * Retorna o ciclo ímpar caso o grafo não seja bipartido ou null caso
      * contrário.
      *
      * @return o ciclo ímpar caso o grafo não seja bipartido, null caso

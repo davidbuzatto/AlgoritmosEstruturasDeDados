@@ -147,7 +147,7 @@ public class QuickSort {
        }
 
        // neste ponto, todos os valores à esquerda de i
-       // (com exercão do pivô e de i) são menores que o pivô
+       // (com exceção do pivô e de i) são menores que o pivô
        // enquanto todos os valores à direita de j (com exceção de j)
        // são maiores que o pivô
 

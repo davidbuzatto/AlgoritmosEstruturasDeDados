@@ -65,7 +65,7 @@ public class Huffman {
         // imprime a Trie para o decodificador
         writeTrie( root );
 
-        // imprime o número de byres na mensagem original sem compressão
+        // imprime o número de bytes na mensagem original sem compressão
         BinaryStdOut.write( input.length );
 
         // usa o código de Huffman para codificar a entrada

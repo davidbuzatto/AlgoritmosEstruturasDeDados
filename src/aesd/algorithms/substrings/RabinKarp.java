@@ -83,7 +83,7 @@ public class RabinKarp {
         
     }
 
-    // versçai Monte Carlo: sempre retorna verdadeiro
+    // versão Monte Carlo: sempre retorna verdadeiro
     // private boolean check( int i ) {
     //    return true;
     //}

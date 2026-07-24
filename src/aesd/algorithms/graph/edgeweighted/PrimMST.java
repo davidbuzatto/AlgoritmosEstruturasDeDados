@@ -27,11 +27,11 @@ public class PrimMST {
     // marked[v] = true se v está na árvore, falso caso contrário
     private boolean[] marked;
     
-    // fila de de prioridades indexada
+    // fila de prioridades indexada
     private IndexedMinPriorityQueue<Double> pq;
 
     /**
-     * Comoputa uma árvore geradora mínima (ou floresta) de um grafo ponderado.
+     * Computa uma árvore geradora mínima (ou floresta) de um grafo ponderado.
      *
      * @param graph o grafo ponderado
      */
@@ -96,7 +96,7 @@ public class PrimMST {
     }
 
     /**
-     * Retorna as aretas da árvore/floresta geradora mínima.
+     * Retorna as arestas da árvore/floresta geradora mínima.
      *
      * @return as arestas da árvore/floresta geradora mínima como um
      * iterável
@@ -117,10 +117,10 @@ public class PrimMST {
     }
 
     /**
-     * Retorna a soma dos pesos de todas as areas da árvore/floresta geradora
+     * Retorna a soma dos pesos de todas as arestas da árvore/floresta geradora
      * mínima.
      *
-     * @return a soma dos pesos de todas as areas da árvore/floresta geradora
+     * @return a soma dos pesos de todas as arestas da árvore/floresta geradora
      * mínima.
      */
     public double weight() {

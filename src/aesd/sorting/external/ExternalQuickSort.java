@@ -22,7 +22,7 @@ import java.io.RandomAccessFile;
  * Complexidade:
  *       Pior caso: O(n^2)
  *      Caso médio: O(n lg n)
- *     Melhor caso: O(n)
+ *     Melhor caso: O(n lg n)
  * 
  * Implementação baseada na obra: ZIVIANI, N. Projeto de Algoritmos com
  * Implementações em Java e C++. São Paulo: Cengage, 2006. 644 p.

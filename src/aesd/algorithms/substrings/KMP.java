@@ -1,7 +1,7 @@
 package aesd.algorithms.substrings;
 
 /**
- * Implementação do algoritmo de Knut-Morris-Pratt para busca de substrings.
+ * Implementação do algoritmo de Knuth-Morris-Pratt para busca de substrings.
  * 
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
  * 4. ed. Boston: Pearson Education, 2011. 955 p.

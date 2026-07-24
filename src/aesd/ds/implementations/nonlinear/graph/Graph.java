@@ -147,7 +147,7 @@ public class Graph {
      * Retorna o grau do vértice v.
      *
      * @param v o vértice
-     * @return o grafu do vértice v
+     * @return o grau do vértice v
      * @throws IllegalArgumentException se for um vértice inválido
      */
     public int degree( int v ) throws IllegalArgumentException {

@@ -18,7 +18,7 @@ public class EightQueensProblem {
     }
 
     /**
-     * Retorna verdadeiro se uma raina na posição n não conflita com nenhuma
+     * Retorna verdadeiro se uma rainha na posição n não conflita com nenhuma
      * outra rainha.
      * 
      * @param q Situação atual do tabuleiro.

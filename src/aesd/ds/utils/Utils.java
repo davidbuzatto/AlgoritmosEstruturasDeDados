@@ -11,6 +11,12 @@ import java.util.Random;
  */
 public class Utils {
     
+    /**
+     * Embaralha os elementos de uma lista, trocando aleatoriamente a posição
+     * de cada elemento com a de outro elemento escolhido ao acaso.
+     *
+     * @param list A lista cujos elementos serão embaralhados.
+     */
     @SuppressWarnings( "unchecked" )
     public static void shuffle( List list ) {
         

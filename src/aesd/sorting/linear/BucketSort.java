@@ -17,14 +17,16 @@ package aesd.sorting.linear;
  * Obs: k é a quantidade de buckets.
  *
  * In-place? Não
- *  Estável? Sim, desde que o algoritmo que ordena os buckets também seja.
+ *  Estável? Sim, pois a distribuição e a coleta preservam a ordem relativa
+ *           dos elementos que caem no mesmo bucket (não há ordenação por
+ *           comparação dentro de cada bucket).
  *           No exemplo implementado, a ordenação é feita por sucessivas
  *           distribuições baseadas nas posições dos números das unidades,
  *           depois dezenas, depois centenas etc, ou seja, indo do algarismo
  *           menos significativo em direção ao algarismo mais significativo.
  *
  * Complexidade:
- *       Pior caso: O(n^2)
+ *       Pior caso: O(d*(n+k)), sendo d a quantidade de algarismos do maior valor
  *      Caso médio: O(n+k)
  *     Melhor caso: O(n+k)
  *

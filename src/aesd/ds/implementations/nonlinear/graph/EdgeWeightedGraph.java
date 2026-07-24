@@ -90,9 +90,9 @@ public class EdgeWeightedGraph {
     }
 
     /**
-     * Retorna a quantidade vértices desse digrafo.
+     * Retorna a quantidade vértices desse grafo.
      *
-     * @return o número de vértices do digrafo
+     * @return o número de vértices do grafo
      */
     public int getNumberOfVertices() {
         return vertices;
@@ -116,13 +116,12 @@ public class EdgeWeightedGraph {
     }
 
     /**
-     * Adds the undirected edge {@code e} to this edge-weighted graph.
+     * Adiciona uma aresta não direcionada v-w, com peso, à esse grafo ponderado.
      *
-     * @param v o vértice de calda/origem
-     * @param w O vértice de cabeça/destino
-     * @param weight O peso da aresta
-     * @throws IllegalArgumentException unless both endpoints are between
-     * {@code 0} and {@code V-1}
+     * @param v um dos vértices
+     * @param w o outro vértice
+     * @param weight o peso da aresta
+     * @throws IllegalArgumentException se os vértices forem inválidos
      */
     public void addEdge( int v, int w, double weight ) throws IllegalArgumentException {
         
@@ -154,7 +153,7 @@ public class EdgeWeightedGraph {
      * Retorna o grau do vértice v.
      *
      * @param v o vértice
-     * @return o grafu do vértice v
+     * @return o grau do vértice v
      * @throws IllegalArgumentException se for um vértice inválido
      */
     public int degree( int v ) throws IllegalArgumentException {

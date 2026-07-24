@@ -57,7 +57,7 @@ public class KnapsackProblem {
         /*
          * z[k][d] = 0,                                           se k = 0 ou d = 0
          * z[k][d] = z[k-1][d],                                   se w[k-1] > d
-         * z[k][d] = max( z[k-1][d], z[k-1][d-w[k-1]] + v[k-1]],  se w[k-1] < d
+         * z[k][d] = max( z[k-1][d], z[k-1][d-w[k-1]] + v[k-1]],  se w[k-1] <= d
          */
         
         z = new int[n+1][c+1];
