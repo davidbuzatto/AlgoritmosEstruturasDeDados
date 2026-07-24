@@ -6,10 +6,23 @@ import aesd.utils.BinaryStdOut;
 
 /**
  * Implementação do algoritmo de compressão de Lempel-Ziv-Welch.
- * 
- * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ *
+ * Diferente de Huffman, que precisa conhecer as frequências dos caracteres
+ * de antemão, o LZW constrói sua tabela de símbolos adaptativamente,
+ * enquanto lê a entrada: começa apenas com os R caracteres individuais do
+ * alfabeto e, a cada passo, codifica o maior prefixo da entrada restante já
+ * presente na tabela e insere uma nova entrada (esse prefixo mais o próximo
+ * caractere) para uso futuro. Cada codeword ocupa um número fixo de bits (W),
+ * o que limita a tabela a L = 2^W entradas; ao esgotá-la, novas entradas
+ * simplesmente deixam de ser adicionadas (a compressão continua funcionando,
+ * só para de aprender). A descompressão reconstrói a mesma tabela em
+ * paralelo, sem nunca precisar transmiti-la — o único caso especial é
+ * quando um codeword referencia uma entrada que a descompressão ainda não
+ * criou (i == codeword), resolvido reaproveitando o próprio valor anterior.
+ *
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms.
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class LZW {
@@ -23,8 +36,12 @@ public class LZW {
     // comprimento da codeword
     private static final int W = 12;
 
+    /**
+     * Lê a entrada padrão e grava sua codificação LZW (uma sequência de
+     * codewords de W bits) na saída padrão.
+     */
     public static void compress() {
-        
+
         String input = BinaryStdIn.readString();
         TernarySearchTrie<Integer> st = new TernarySearchTrie<>();
 
@@ -62,8 +79,12 @@ public class LZW {
         
     }
     
+    /**
+     * Lê a codificação LZW da entrada padrão e grava a mensagem original
+     * decodificada na saída padrão.
+     */
     public static void expand() {
-        
+
         String[] st = new String[L];
         
         // próximo valor de codeword disponível
@@ -98,8 +119,13 @@ public class LZW {
             
             String s = st[codeword];
             
+            // caso especial: o codeword lido referencia uma entrada que a
+            // descompressão ainda não criou (isso só ocorre quando a
+            // compressão usou, na própria sequência seguinte, a entrada que
+            // acabara de criar). resolve-se antecipando que essa entrada
+            // seria val + o primeiro caractere de val
             if ( i == codeword ) {
-                s = val + val.charAt( 0 );   // hack para caso especial
+                s = val + val.charAt( 0 );
             }
             
             if ( i < L ) {

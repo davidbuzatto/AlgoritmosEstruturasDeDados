@@ -6,10 +6,22 @@ import aesd.utils.BinaryStdOut;
 
 /**
  * Implementação do algoritmo de compressão de Huffman.
- * 
- * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ *
+ * A ideia é usar códigos de comprimento variável: caracteres mais frequentes
+ * recebem códigos binários mais curtos, e os mais raros, códigos mais longos,
+ * reduzindo o número médio de bits por caractere em relação a um código de
+ * comprimento fixo (como ASCII, 8 bits sempre). A Trie de Huffman é
+ * construída de baixo para cima com uma fila de prioridades: os dois nós de
+ * menor frequência são repetidamente removidos e fundidos num novo nó pai
+ * (cuja frequência é a soma dos dois), até restar um único nó — a raiz. O
+ * código de cada caractere é o caminho da raiz até sua folha (0 = esquerda,
+ * 1 = direita), o que naturalmente garante a propriedade de prefixo livre
+ * (nenhum código é prefixo de outro), necessária para decodificar sem
+ * ambiguidade.
+ *
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms.
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class Huffman {
@@ -43,8 +55,13 @@ public class Huffman {
         
     }
 
+    /**
+     * Lê a entrada padrão, constrói a Trie de Huffman a partir das
+     * frequências dos caracteres e grava a codificação (Trie + mensagem
+     * codificada) na saída padrão.
+     */
     public static void compress() {
-        
+
         // lê a entrada
         String s = BinaryStdIn.readString();
         char[] input = s.toCharArray();
@@ -141,6 +158,10 @@ public class Huffman {
         
     }
     
+    /**
+     * Lê a codificação de Huffman (Trie + mensagem codificada) da entrada
+     * padrão e grava a mensagem original decodificada na saída padrão.
+     */
     public static void expand() {
 
         // lê a trie de Huffman do fluxo de entrada

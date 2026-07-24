@@ -8,7 +8,13 @@ import java.util.Scanner;
 
 /**
  * Criando, escrevendo e lendo um arquivo de texto.
- * 
+ *
+ * Diferente de um arquivo binário, os dados são gravados como caracteres
+ * legíveis (usando o charset padrão da plataforma), por isso PrintWriter é
+ * usado para escrever e Scanner para ler linha a linha, em vez das classes
+ * orientadas a bytes brutos como DataOutputStream/DataInputStream (ver
+ * BinaryFiles).
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class TextFiles {

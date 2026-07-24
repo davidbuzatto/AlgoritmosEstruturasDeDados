@@ -8,6 +8,13 @@ import aesd.utils.BinaryStdOut;
  * Implementação da compressão de genomas. Fornece dois métodos estáticos para
  * comprimir e expandir uma sequência de caracteres em códigos que usam 2 bits.
  *
+ * Diferente de Huffman e LZW, que são de propósito geral, esta é uma
+ * compressão de largura fixa especializada para o alfabeto do DNA
+ * ({A, C, G, T}, apenas 4 símbolos): como 2 bits bastam para representar 4
+ * símbolos distintos (2^2 = 4), cada caractere passa de 8 bits (ASCII) para
+ * apenas 2, uma razão de compressão fixa de 4:1, sem qualquer análise de
+ * frequência ou dicionário adaptativo.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
@@ -15,6 +22,11 @@ import aesd.utils.BinaryStdOut;
  */
 public class Genome {
 
+    /**
+     * Lê uma sequência de DNA (caracteres do alfabeto {A, C, G, T}) da
+     * entrada padrão e grava sua codificação de 2 bits por caractere na
+     * saída padrão.
+     */
     public static void compress() {
 
         Alphabet DNA = Alphabet.DNA;
@@ -34,8 +46,12 @@ public class Genome {
         
     }
 
+    /**
+     * Lê a codificação de 2 bits por caractere da entrada padrão e grava a
+     * sequência de DNA original decodificada na saída padrão.
+     */
     public static void expand() {
-        
+
         Alphabet DNA = Alphabet.DNA;
         
         int n = BinaryStdIn.readInt();

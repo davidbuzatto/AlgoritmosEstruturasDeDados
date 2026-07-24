@@ -6,7 +6,15 @@ import java.io.RandomAccessFile;
 
 /**
  * Criando, escrevendo e lendo registros em arquivo de acesso randômico.
- * 
+ *
+ * Diferente de um arquivo sequencial (lido/escrito só do início ao fim, como
+ * em BinaryFiles/TextFiles), um RandomAccessFile mantém um ponteiro de
+ * posição que pode ser movido livremente com seek(offset), permitindo ler
+ * ou escrever qualquer registro diretamente pela sua posição. Isso só
+ * funciona porque todos os registros aqui têm o mesmo tamanho fixo
+ * (Register.SIZE), o que torna a posição de um registro de índice i
+ * simplesmente i * Register.SIZE.
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class RandomAccessFiles {
