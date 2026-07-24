@@ -7,10 +7,18 @@ import java.util.Iterator;
 
 /**
  * Computa um ciclo Euleriano do digrafo caso exista.
- * 
+ *
+ * Versão direcionada de {@link aesd.algorithms.graph.EulerianCycle}: a
+ * condição de existência passa a ser grau de entrada igual ao grau de saída
+ * em todo vértice (indegree(v) == outdegree(v)), em vez de grau par. O
+ * restante segue o mesmo algoritmo de Hierholzer — percorrer gulosamente
+ * arestas ainda não usadas e retroceder (backtrack) via pilha ao ficar sem
+ * saída — adaptado para seguir apenas o sentido das arestas. Complexidade
+ * O(E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class DirectedEulerianCycle {

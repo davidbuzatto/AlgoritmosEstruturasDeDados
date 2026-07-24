@@ -6,7 +6,13 @@ import aesd.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 /**
  * Calcula a árvore de menores caminhos para cada vértice até qualquer outro
  * vértice em um digrafo ponderado.
- * 
+ *
+ * Abordagem mais simples que {@link FloydWarshall} para o mesmo problema
+ * (todos os pares): executa uma instância independente de
+ * {@link DirectedDijkstraSP} a partir de cada um dos V vértices. Exige
+ * pesos não negativos (herdado de Dijkstra) e complexidade O(V E log V),
+ * vantajosa em relação a Floyd-Warshall (O(V^3)) em grafos esparsos.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *

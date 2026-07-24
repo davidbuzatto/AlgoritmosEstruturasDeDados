@@ -7,10 +7,17 @@ import aesd.ds.interfaces.Stack;
 /**
  * Realiza a busca em profundidade para computar os caminhos entre o vértice
  * fonte e todos os outros vértices do digrafo.
- * 
+ *
+ * Mesmo princípio da versão para grafos não direcionados, seguindo apenas
+ * arestas na direção em que apontam. Os caminhos encontrados não são
+ * necessariamente os mais curtos (para isso, use
+ * {@link DirectedBreadthFirstSearch}), apenas caminhos válidos. Também serve
+ * de base para {@link TransitiveClosure}, que a utiliza uma vez por vértice
+ * para determinar toda a alcançabilidade do digrafo. Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class DirectedDepthFirstSearch {

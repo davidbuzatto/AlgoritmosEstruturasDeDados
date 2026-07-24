@@ -7,9 +7,19 @@ import aesd.ds.interfaces.Stack;
 
 /**
  * Determina se um digrafo ponderado possui um ciclo direcionado.
+ *
+ * Mesma técnica de {@link aesd.algorithms.digraph.DirectedCycle}, adaptada
+ * para arestas ponderadas: rastreia onStack[] para distinguir uma aresta que
+ * fecha um ciclo (aponta para um vértice ainda na pilha de recursão) de uma
+ * que apenas cruza para um ramo já concluído da DFS. Detectar a ausência de
+ * ciclo aqui é o que viabiliza tanto a ordenação topológica de um DAG quanto
+ * a detecção de ciclos negativos usada por {@link BellmanFordSP} e
+ * {@link FloydWarshall} (aplicada sobre o grafo de arestas predecessoras).
+ * Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class EdgeWeightedDirectedCycle {

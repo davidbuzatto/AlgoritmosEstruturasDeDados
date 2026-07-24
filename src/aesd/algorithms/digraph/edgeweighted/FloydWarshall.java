@@ -9,10 +9,19 @@ import aesd.ds.interfaces.Stack;
 /**
  * Calcula a árvore de menores caminhos para cada vértice até qualquer outro
  * vértice em um digrafo ponderado.
- * 
+ *
+ * Diferente de rodar Dijkstra ou Bellman-Ford uma vez por vértice, o
+ * algoritmo de Floyd-Warshall resolve todos os pares de uma vez por
+ * programação dinâmica: distTo[v][w] é refinado, uma iteração por vez, ao
+ * considerar cada vértice i como possível intermediário no caminho v-w
+ * (distTo[v][w] = min(distTo[v][w], distTo[v][i] + distTo[i][w])). Como
+ * aceita pesos negativos, um ciclo negativo é detectado quando distTo[v][v]
+ * fica menor que zero. Complexidade O(V^3), competitivo com V execuções de
+ * Bellman-Ford (O(V^2 E)) principalmente em grafos densos.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class FloydWarshall {

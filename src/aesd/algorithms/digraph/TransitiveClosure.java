@@ -4,10 +4,18 @@ import aesd.ds.implementations.nonlinear.graph.Digraph;
 
 /**
  * Computa o fecho transitivo de um digrafo.
- * 
+ *
+ * O fecho transitivo responde, para qualquer par (v, w), se existe algum
+ * caminho direcionado de v até w. Essa implementação usa a abordagem mais
+ * direta: executa uma DFS completa a partir de cada um dos V vértices e
+ * guarda o resultado (quais vértices cada DFS alcançou), respondendo cada
+ * consulta reachable(v, w) em tempo O(1). O custo fica em O(V(V + E)) de
+ * pré-processamento e espaço O(V^2) — vantajoso quando muitas consultas
+ * serão feitas sobre o mesmo digrafo fixo.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class TransitiveClosure {

@@ -6,10 +6,19 @@ import aesd.ds.interfaces.Stack;
 
 /**
  * Determina se um digrafo possui algum ciclo e caso tenha o armazena.
- * 
+ *
+ * Diferente da versão para grafos não direcionados ({@link Cycle}), aqui não
+ * basta comparar com o vértice pai: como as arestas têm sentido, é preciso
+ * rastrear explicitamente quais vértices estão na pilha de recursão atual
+ * (onStack[]). Encontrar uma aresta v-w em que w já está marcado só indica
+ * um ciclo se w ainda estiver na pilha (onStack[w] == true) — ou seja, se v
+ * é alcançável a partir de w pelo caminho atualmente em andamento; se w já
+ * foi totalmente processado e removido da pilha, a aresta apenas cruza para
+ * um ramo já concluído da DFS, não fecha ciclo algum. Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class DirectedCycle {

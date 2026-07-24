@@ -9,10 +9,16 @@ import aesd.ds.interfaces.Stack;
 /**
  * Realiza a busca em largura para computar o menor caminho entre o vértice
  * fonte e todos os outros vértices do digrafo.
- * 
+ *
+ * Mesmo princípio da versão para grafos não direcionados ({@code adj(v)}
+ * agora retorna apenas os sucessores de v, não os vizinhos em ambos os
+ * sentidos): a fila FIFO processa os vértices em ordem crescente de
+ * distância, garantindo que a primeira vez que um vértice é alcançado seja
+ * pelo menor caminho direcionado até ele. Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class DirectedBreadthFirstSearch {

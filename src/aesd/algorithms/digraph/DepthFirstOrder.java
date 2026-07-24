@@ -10,10 +10,18 @@ import aesd.ds.interfaces.Stack;
 
 /**
  * Determina a ordem de profundidade de um digrafo.
- * 
+ *
+ * A pré-ordem numera os vértices na ordem em que a DFS os visita pela
+ * primeira vez; a pós-ordem, na ordem em que a DFS termina de processá-los
+ * (depois de todos os seus sucessores já terem sido visitados). A pós-ordem
+ * reversa é a base da ordenação topológica de um DAG (um vértice só aparece
+ * depois de todos os que dependem dele terem sido completamente
+ * processados) e também é usada por {@link KosarajuSharirSCC} para guiar a
+ * segunda busca. Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class DepthFirstOrder {

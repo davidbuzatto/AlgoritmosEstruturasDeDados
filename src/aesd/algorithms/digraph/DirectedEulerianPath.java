@@ -7,10 +7,17 @@ import java.util.Iterator;
 
 /**
  * Computa um caminho Euleriano do digrafo caso exista.
- * 
+ *
+ * Versão direcionada de {@link aesd.algorithms.graph.EulerianPath}: como o
+ * caminho não precisa retornar à origem, admite-se um "déficit" total de até
+ * 1 entre graus de saída e de entrada somados sobre todos os vértices — na
+ * prática, no máximo um vértice com outdegree(v) - indegree(v) == 1 (onde o
+ * caminho começa). O restante segue o mesmo algoritmo de Hierholzer usado em
+ * {@link DirectedEulerianCycle}. Complexidade O(E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class DirectedEulerianPath {

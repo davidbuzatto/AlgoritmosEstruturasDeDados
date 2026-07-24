@@ -4,7 +4,17 @@ import aesd.ds.implementations.nonlinear.graph.Digraph;
 
 /**
  * Calcula os componentes fortes do digrafo (componentes fortemente conexos).
- * 
+ *
+ * Algoritmo de Kosaraju-Sharir: duas passadas de DFS. Primeiro computa-se a
+ * pós-ordem reversa do digrafo com as arestas invertidas (digraph.reverse());
+ * em seguida, percorre-se o digrafo original na ordem em que os vértices
+ * aparecem nessa pós-ordem reversa, iniciando uma nova DFS a cada vértice
+ * ainda não marcado. Cada DFS dessa segunda passada visita exatamente um
+ * componente fortemente conexo — a garantia vem do fato de que, ao processar
+ * os vértices nessa ordem específica, nunca se alcança, a partir de um
+ * componente já concluído, um vértice de um componente ainda não iniciado.
+ * Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *

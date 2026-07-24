@@ -9,10 +9,17 @@ import aesd.ds.interfaces.Stack;
 /**
  * Implementação do algoritmo de menor caminho de Dijksta para digrafos
  * ponderados.
- * 
+ *
+ * Versão "eager", igual à de {@link aesd.algorithms.graph.edgeweighted.DijkstraSP}
+ * para grafos não direcionados: fila de prioridades indexada (uma entrada
+ * por vértice), atualizada no lugar via decreaseKey ao relaxar uma aresta
+ * que melhora distTo[w]. A exigência de pesos não negativos garante que,
+ * uma vez removido da fila, distTo[v] não seja mais melhorado depois.
+ * Complexidade O(E log V).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class DirectedDijkstraSP {
@@ -93,8 +100,8 @@ public class DirectedDijkstraSP {
      * vértice de destino.
      *
      * @param v o vértice de destino
-     * @return o comprimento/tamanho do menor caminho entre o vértice fonte e o 
-     * vértice de destino ou Dougle.POSITIVE_INFINITY se não hover caminho entre
+     * @return o comprimento/tamanho do menor caminho entre o vértice fonte e o
+     * vértice de destino ou Double.POSITIVE_INFINITY se não houver caminho entre
      * eles.
      * @throws IllegalArgumentException se o vértice for inválido
      */

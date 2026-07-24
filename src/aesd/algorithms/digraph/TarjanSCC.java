@@ -6,10 +6,20 @@ import aesd.ds.interfaces.Stack;
 
 /**
  * Calcula os componentes fortes do digrafo (componentes fortemente conexos).
- * 
+ *
+ * Algoritmo de Tarjan: uma única passada de DFS, ao custo de manter, para
+ * cada vértice v, um número de baixo (low[v]) — o menor número de pré-ordem
+ * alcançável a partir de v usando no máximo uma aresta de retorno (back
+ * edge) para um ancestral ainda na pilha. Um vértice v é a raiz de um
+ * componente fortemente conexo quando low[v] não pôde ser reduzido por
+ * nenhum dos seus sucessores (min == low[v] ao final do laço); nesse
+ * momento, todos os vértices empilhados até v pertencem ao mesmo componente
+ * e são desempilhados de uma vez. Diferente de {@link KosarajuSharirSCC},
+ * não exige computar o digrafo reverso. Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class TarjanSCC {

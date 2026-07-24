@@ -6,10 +6,21 @@ import aesd.ds.interfaces.Stack;
 
 /**
  * Calcula os componentes fortes do digrafo (componentes fortemente conexos).
- * 
+ *
+ * Algoritmo de Gabow: como {@link TarjanSCC}, faz uma única passada de DFS
+ * sem precisar do digrafo reverso, mas evita o cálculo explícito de low[]
+ * usando duas pilhas. stack1 acumula os vértices na ordem em que são
+ * visitados (candidatos ao componente atual); stack2 mantém, no topo, o
+ * vértice de menor pré-ordem já confirmado como raiz do componente em
+ * formação — sempre que uma aresta leva a um vértice w já visitado mas ainda
+ * sem componente definido, todos os vértices em stack2 com pré-ordem maior
+ * que a de w são descartados, pois passam a fazer parte do mesmo componente
+ * que w. Quando o topo de stack2 volta a ser o próprio v, um componente
+ * completo é desempilhado de stack1. Complexidade O(V + E).
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class GabowSCC {

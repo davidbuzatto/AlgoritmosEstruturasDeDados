@@ -10,10 +10,22 @@ import aesd.ds.interfaces.Stack;
 /**
  * Computa a árvore de menor caminho a partir do vértice fonte para
  * todos os outros vértices do digrafo ponderado.
- * 
+ *
+ * Diferente de Dijkstra, aceita arestas com peso negativo — o preço é não
+ * poder mais processar cada vértice apenas uma vez, já que uma aresta
+ * negativa pode melhorar uma distância já dada como definitiva. Esta é a
+ * versão baseada em fila (queue-based Bellman-Ford, também chamada SPFA):
+ * apenas os vértices cujo distTo mudou entram na fila para terem suas
+ * arestas relaxadas novamente, o que evita boa parte do trabalho
+ * desnecessário da versão clássica (V-1 passadas por todas as arestas).
+ * A cada V relaxamentos verifica-se, no grafo formado pelas arestas
+ * predecessoras (edgeTo[]), se surgiu um ciclo negativo alcançável a partir
+ * da fonte — nesse caso não existe menor caminho bem definido, e a busca
+ * para. Complexidade O(V E) no pior caso.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class BellmanFordSP {
