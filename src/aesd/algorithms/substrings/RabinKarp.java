@@ -5,10 +5,22 @@ import java.util.Random;
 
 /**
  * Implementação do algoritmo de Rabin-Karp para busca de substrings.
- * 
- * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ *
+ * A ideia central é o hash rolante: em vez de recalcular o hash de cada
+ * janela de m caracteres do texto do zero (o que custaria O(m) por
+ * posição), o hash da próxima janela é obtido em O(1) a partir do hash
+ * atual, removendo a contribuição do caractere que sai e somando a do que
+ * entra. Um hash igual ao do padrão é apenas um candidato a casamento —
+ * esta implementação é a versão "Las Vegas": todo candidato é confirmado
+ * caractere a caractere por check(), garantindo corretude sempre, ao custo
+ * de o pior caso poder chegar a O(nm) (colisões de hash muito frequentes).
+ * A versão "Monte Carlo" (comentada mais abaixo) pularia essa confirmação,
+ * sempre O(n), mas aceitando o risco (muito baixo, na prática) de um falso
+ * positivo por colisão de hash.
+ *
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms.
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class RabinKarp {
@@ -35,6 +47,12 @@ public class RabinKarp {
     // R^(M-1) % Q
     private long RM;
     
+    /**
+     * Pré-computa o hash do padrão pattern, usando um alfabeto de tamanho R.
+     *
+     * @param pattern O padrão a ser buscado.
+     * @param R O tamanho do alfabeto.
+     */
     public RabinKarp( char[] pattern, int R ) {
 
         this.pattern = pattern.clone();
@@ -53,6 +71,11 @@ public class RabinKarp {
 
     }
     
+    /**
+     * Pré-computa o hash do padrão pat.
+     *
+     * @param pat O padrão a ser buscado.
+     */
     public RabinKarp( String pat ) {
         
         // salva o padrão (necessário apenas para a versão Las Vegas)
@@ -125,11 +148,24 @@ public class RabinKarp {
 
     }
 
-    // versão Monte Carlo: sempre retorna verdadeiro
+    // versão Monte Carlo: sempre retorna verdadeiro, sem confirmar
+    // caractere a caractere. Troca a garantia de corretude da versão Las
+    // Vegas (usada acima) por desempenho sempre O(n), aceitando o risco
+    // (muito baixo, na prática, com um primo q grande o bastante) de um
+    // falso positivo por colisão de hash
     // private boolean check( int i ) {
     //    return true;
     //}
-    
+
+    /**
+     * Busca o padrão em txt usando hash rolante, confirmando cada
+     * candidato a casamento de hash caractere a caractere (versão Las
+     * Vegas).
+     *
+     * @param txt O texto onde o padrão será buscado.
+     * @return O índice da primeira ocorrência do padrão, ou txt.length()
+     * se não encontrado.
+     */
     public int search( String txt ) {
         
         int n = txt.length();
@@ -148,7 +184,10 @@ public class RabinKarp {
         // verifica o casamento do hash. se houve casamento, executa o casamento exato
         for ( int i = m; i < n; i++ ) {
             
-            // remove o dígito inicial, insere o dígito final e verifica o casamento
+            // remove o dígito inicial, insere o dígito final e verifica o casamento.
+            // o "+ q" antes do "% q" final garante um resultado não-negativo,
+            // já que o operador % de Java pode retornar valor negativo quando
+            // o dividendo (a subtração RM * ... anterior) é negativo
             txtHash = ( txtHash + q - RM * txt.charAt( i - m ) % q ) % q;
             txtHash = ( txtHash * R + txt.charAt( i ) ) % q;
 
@@ -166,6 +205,15 @@ public class RabinKarp {
 
     }
 
+    /**
+     * Busca o padrão em text usando hash rolante, confirmando cada
+     * candidato a casamento de hash caractere a caractere (versão Las
+     * Vegas).
+     *
+     * @param text O texto onde o padrão será buscado.
+     * @return O índice da primeira ocorrência do padrão, ou text.length
+     * se não encontrado.
+     */
     public int search( char[] text ) {
 
         int n = text.length;
@@ -184,7 +232,10 @@ public class RabinKarp {
         // verifica o casamento do hash. se houve casamento, executa o casamento exato
         for ( int i = m; i < n; i++ ) {
 
-            // remove o dígito inicial, insere o dígito final e verifica o casamento
+            // remove o dígito inicial, insere o dígito final e verifica o casamento.
+            // o "+ q" antes do "% q" final garante um resultado não-negativo,
+            // já que o operador % de Java pode retornar valor negativo quando
+            // o dividendo (a subtração RM * ... anterior) é negativo
             textHash = ( textHash + q - RM * text[i - m] % q ) % q;
             textHash = ( textHash * R + text[i] ) % q;
 
