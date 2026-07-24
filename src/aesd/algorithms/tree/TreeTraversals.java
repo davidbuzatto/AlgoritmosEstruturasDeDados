@@ -11,20 +11,30 @@ import aesd.ds.interfaces.BinaryTree;
 
 /**
  * Implementação dos percursos das árvores binárias de busca.
- * 
+ *
+ * Os quatro percursos recursivos (PREORDER, INORDER, POSTORDER e suas
+ * variantes INVERSE_*, que apenas trocam a ordem left/right) diferem apenas
+ * em quando cada nó é visitado em relação às suas subárvores: antes de
+ * ambas (pré-ordem), entre elas (em ordem — que, numa árvore de busca
+ * binária, produz as chaves em ordem crescente) ou depois de ambas
+ * (pós-ordem). LEVEL_ORDER e sua variante inversa não são recursivos:
+ * percorrem a árvore nível a nível usando uma fila (BFS), e a variante
+ * inversa apenas empilha o resultado para inverter a ordem de saída ao
+ * final. Todos os percursos são O(n).
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class TreeTraversals {
-    
+
     /**
      * Retorna um iterável contendo os pares chave/valor das árvores na ordem do
      * percurso especificado.
-     * 
+     *
      * @param <Key> Tipo da chave do par chave/valor da árvore
      * @param <Value> Tipo do valor do par chave/valor da árvore
      * @param node Árvore a ser percorrida
      * @param type Tipo do percurso
-     * @return 
+     * @return os pares chave/valor da árvore, na ordem do percurso especificado
      */
     public static <Key extends Comparable<Key>, Value> Iterable<BinaryTree.Entry<Key, Value>> traverse( BinaryTree.Node<Key, Value> node, TraversalTypes type ) {
         

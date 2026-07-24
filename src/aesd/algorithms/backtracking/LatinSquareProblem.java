@@ -5,20 +5,38 @@ import aesd.ds.interfaces.List;
 
 /**
  * Um resolvedor de quadrados latinos que usa backtracking.
- * 
+ *
+ * Um quadrado latino é um array de duas dimensões n x n em que cada símbolo
+ * aparece exatamente uma vez em cada linha e em cada coluna. Partindo das posições
+ * já preenchidas (fixas) e das vazias (a preencher, listadas em
+ * linearPositions), o algoritmo tenta, posição a posição, cada símbolo que
+ * ainda não apareça na linha nem na coluna correspondentes; ao esgotar as
+ * posições sem conflito, a solução foi encontrada. Se nenhum símbolo serve
+ * em alguma posição, a última escolha é desfeita (a posição volta a ' ') e a
+ * busca retrocede para tentar o próximo símbolo na posição anterior.
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class LatinSquareProblem {
-    
+
     private char[][] latinSquare;
     private char[] symbols;
     private List<Integer> linearPositions;
-    
+
     private int lines;
     private int columns;
-    
+
     private boolean hasSolution;
-    
+
+    /**
+     * Cria uma instância do resolvedor de quadrados latinos e resolve o
+     * problema para os dados passados.
+     *
+     * @param latinSquare O array de duas dimensões do quadrado latino, já
+     * com eventuais posições fixas preenchidas e as demais marcadas com ' '
+     * (espaço).
+     * @param symbols Os símbolos válidos para preencher o quadrado latino.
+     */
     public LatinSquareProblem( char[][] latinSquare, char[] symbols ) {
         
         this.latinSquare = latinSquare;

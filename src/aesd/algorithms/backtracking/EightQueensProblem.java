@@ -3,16 +3,32 @@ package aesd.algorithms.backtracking;
 /**
  * Um resolvedor do problema das oito rainhas (Eight Queens Problem) que usa
  * backtracking.
- * 
+ *
+ * Como duas rainhas nunca podem dividir a mesma linha (a representação já
+ * garante isso: q[i] é a coluna da rainha da linha i), o problema se reduz a
+ * escolher, linha a linha, uma coluna que ainda não entre em conflito de
+ * coluna ou de diagonal com nenhuma rainha já posicionada (isConsistent()).
+ * Ao chegar à última linha (k == n) sem conflitos, uma solução completa foi
+ * encontrada; caso contrário, a recursão simplesmente retorna e a próxima
+ * coluna candidata é tentada — não é necessário desfazer nada
+ * explicitamente, pois q[k] é sobrescrito antes de cada nova tentativa.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Computer Science: An
  * Interdisciplinary Approach. Boston: Pearson Education, 2016. 1146 p.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class EightQueensProblem {
-    
+
     private int count = 0;
-    
+
+    /**
+     * Cria uma instância do resolvedor do problema das n rainhas e enumera
+     * (imprimindo) todas as soluções possíveis.
+     *
+     * @param numberOfQueens A quantidade de rainhas (e o tamanho do
+     * tabuleiro numberOfQueens x numberOfQueens).
+     */
     public EightQueensProblem( int numberOfQueens ) {
         enumerate( numberOfQueens );
     }
@@ -29,22 +45,27 @@ public class EightQueensProblem {
     private static boolean isConsistent( int[] q, int n ) {
         
         for ( int i = 0; i < n; i++ ) {
-            
+
             // mesma coluna
             if ( q[i] == q[n] ) {
                 return false;
             }
-            
+
+            // duas casas estão na mesma diagonal quando a diferença entre
+            // suas colunas é igual à diferença entre suas linhas (em módulo);
+            // os dois testes abaixo cobrem as duas diagonais (maior e menor)
+            // sem precisar de Math.abs
+
             // mesma diagonal maior
             if ( ( q[i] - q[n] ) == ( n - i ) ) {
                 return false;
             }
-            
+
             // mesma diagonal menor
             if ( ( q[n] - q[i] ) == ( n - i ) ) {
                 return false;
             }
-            
+
         }
         
         return true;

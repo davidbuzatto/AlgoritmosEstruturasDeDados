@@ -4,9 +4,10 @@ package aesd.algorithms.dp;
  * Um resolvedor do problema da Subcadeia Comum Máxima (Longest Common
  * Substring Problem) que usa programação dinâmica.
  *
- * Diferente da Subsequência Comum Máxima (LongestCommonSubsequenceProblem),
- * aqui os caracteres da subcadeia resultante precisam ser contíguos em
- * ambas as strings originais.
+ * Diferente da Subsequência Comum Máxima
+ * ({@link LongestCommonSubsequenceProblem}), aqui os caracteres da
+ * subcadeia resultante precisam ser contíguos em ambas as strings
+ * originais. Complexidade O(nm) de tempo e espaço.
  *
  * @author Prof. Dr. David Buzatto
  */

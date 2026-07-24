@@ -4,7 +4,15 @@ package aesd.algorithms.dp;
  * Implementação do algoritmo de Kadane para um resolvedor do problema do
  * subarranjo máximo de maior soma (Maximum Sum Subarray Problem) que usa
  * programação dinâmica.
- * 
+ *
+ * A recorrência é: a maior soma de um subarranjo terminando em i é
+ * sequence[i] mais a maior soma terminando em i-1, mas só se essa soma
+ * anterior for positiva — caso contrário, é melhor recomeçar em i (arrastar
+ * uma soma negativa só piora o resultado). Percorrendo o array uma única
+ * vez e guardando o melhor valor encontrado, evita-se testar todos os
+ * O(n^2) subarranjos possíveis. Complexidade O(n), tempo ótimo para o
+ * problema.
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class MaximumSumSubarrayProblem {

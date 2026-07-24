@@ -3,7 +3,15 @@ package aesd.algorithms.dp;
 /**
  * Um resolvedor do Problema da Mochila (Knapsack Problem) que usa programação
  * dinâmica.
- * 
+ *
+ * Versão 0/1: cada item só pode ser usado no máximo uma vez. z[k][d] guarda
+ * o maior valor alcançável considerando apenas os k primeiros itens com uma
+ * mochila de capacidade d — para cada item k, ou ele não cabe (herda
+ * z[k-1][d]), ou o algoritmo escolhe o melhor entre não usá-lo e usá-lo
+ * (o que soma seu valor mas consome w[k-1] de capacidade). A resposta final
+ * é z[n][c]. Complexidade O(nc) de tempo e espaço, pseudo-polinomial (c é um
+ * valor, não o tamanho da entrada).
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class KnapsackProblem {
@@ -52,8 +60,9 @@ public class KnapsackProblem {
         
     }
     
+    // preenche a tabela pd de baixo para cima segundo a recorrência abaixo
     private void solve() {
-        
+
         /*
          * z[k][d] = 0,                                           se k = 0 ou d = 0
          * z[k][d] = z[k-1][d],                                   se w[k-1] > d

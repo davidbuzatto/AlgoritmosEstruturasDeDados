@@ -4,6 +4,19 @@ package aesd.algorithms.dp;
  * Um resolvedor do problema da Subsequência Comum Máxima (Longest Common
  * Subsequence Problem) que usa programação dinâmica.
  *
+ * Diferente da Subcadeia Comum Máxima ({@link LongestCommonSubstringProblem}),
+ * aqui os caracteres da subsequência resultante não precisam ser contíguos
+ * em nenhuma das duas strings originais, apenas preservar a ordem relativa
+ * em que aparecem. A tabela c[i][j] guarda o comprimento da maior
+ * subsequência comum entre os prefixos string1[0..i) e string2[0..j): ao
+ * bater um caractere, herda-se a diagonal (c[i-1][j-1] + 1); ao não bater,
+ * herda-se o melhor entre ignorar um caractere de cada string
+ * (max(c[i-1][j], c[i][j-1])). A resposta é sempre c[n][m] (diferente da
+ * subcadeia, aqui não pode "zerar"). A própria subsequência é reconstruída
+ * depois, em processPaths(), percorrendo de trás para frente as decisões
+ * registradas em paths[][] (d = veio da diagonal/caractere aproveitado,
+ * l/u = veio de left/up). Complexidade O(nm) de tempo e espaço.
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class LongestCommonSubsequenceProblem {

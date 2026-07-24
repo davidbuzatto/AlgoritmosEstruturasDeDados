@@ -6,7 +6,17 @@ import aesd.ds.interfaces.Stack;
 
 /**
  * Algoritmos básicos utilizando pilhas.
- * 
+ *
+ * Os validadores de balanceamento empilham cada símbolo de abertura e, ao
+ * encontrar um símbolo de fechamento, verificam se ele corresponde ao topo
+ * da pilha — uma pilha é a estrutura natural aqui porque o par de
+ * fechamento mais recente precisa casar com o par de abertura mais recente
+ * ainda não fechado (LIFO). Já a avaliação de expressão pós-fixada dispensa
+ * pilha para precedência de operadores (a própria notação já define a
+ * ordem): cada operando é empilhado, e cada operador desempilha seus dois
+ * operandos, aplica a operação e empilha o resultado. Todos os métodos são
+ * O(n) no tamanho da entrada.
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class StackBasicAlgorithms {

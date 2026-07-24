@@ -3,7 +3,16 @@ package aesd.algorithms.dp;
 /**
  * Um resolvedor do problema do troco (Coin Change Problem) que usa programação
  * dinâmica.
- * 
+ *
+ * Calcula a menor quantidade de moedas (com reposição ilimitada de cada
+ * denominação) necessária para totalizar exatamente a quantia v.
+ * coinChange[v] é construído de baixo para cima a partir de coinChange[0] = 0,
+ * tentando, para cada quantia, usar cada denominação disponível como a
+ * última moeda e aproveitando o menor resultado já calculado para o
+ * restante (v - moeda). Quantias sem solução ficam marcadas com
+ * Integer.MAX_VALUE (nesta implementação, o "infinito"). Complexidade
+ * O(v * |d|).
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class CoinChangeProblem {
@@ -23,9 +32,9 @@ public class CoinChangeProblem {
     /**
      * Cria uma instância do resolvedor do problema do troco e resolve
      * o problema para os dados passados.
-     * 
-     * @param v
-     * @param d 
+     *
+     * @param v A quantia a ser totalizada.
+     * @param d As denominações de moedas disponíveis.
      */
     public CoinChangeProblem( int v, int[] d ) {
         this.v = v;
