@@ -3,6 +3,7 @@ package aesd.ds.implementations.linear;
 import aesd.ds.exceptions.EmptyQueueException;
 import aesd.ds.interfaces.Queue;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementação de uma fila genérica com redimensionamento de array.
@@ -160,6 +161,9 @@ public class ResizingArrayQueue<Type> implements Queue<Type> {
 
             @Override
             public Type next() {
+                if ( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
                 return values[current++];
             }
             

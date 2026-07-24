@@ -3,6 +3,7 @@ package aesd.ds.implementations.linear;
 import aesd.ds.interfaces.Deque;
 import aesd.ds.exceptions.EmptyDequeException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementação de uma deque genérica com redimensionamento de array.
@@ -211,6 +212,9 @@ public class ResizingArrayDeque<Type> implements Deque<Type> {
 
             @Override
             public Type next() {
+                if ( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
                 return values[current++];
             }
             

@@ -3,6 +3,7 @@ package aesd.ds.implementations.linear;
 import aesd.ds.interfaces.Queue;
 import aesd.ds.exceptions.EmptyQueueException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementação de uma fila genérica com encadeamento.
@@ -141,6 +142,9 @@ public class LinkedQueue<Type> implements Queue<Type> {
 
             @Override
             public Type next() {
+                if ( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
                 Type value = current.value;
                 current = current.next;
                 return value;

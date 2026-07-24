@@ -4,6 +4,7 @@ import aesd.ds.interfaces.List;
 import aesd.ds.exceptions.EmptyListException;
 import aesd.ds.exceptions.ListIndexOutOfBoundsException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementação de uma lista genérica com encadeamento duplo.
@@ -284,6 +285,9 @@ public class DoublyLinkedList<Type> implements List<Type> {
 
             @Override
             public Type next() {
+                if ( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
                 Type value = current.value;
                 current = current.next;
                 return value;

@@ -4,6 +4,7 @@ import aesd.ds.interfaces.List;
 import aesd.ds.exceptions.EmptyListException;
 import aesd.ds.exceptions.ListIndexOutOfBoundsException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementação de uma lista circular genérica com encadeamento duplo.
@@ -152,19 +153,31 @@ public class CircularDoublyLinkedList<Type> implements List<Type> {
         
     }
 
+    /**
+     * Retorna o valor na posição informada. Diferente de set() e remove(),
+     * essa operação não valida o limite superior do índice: por se tratar de
+     * uma lista circular, um índice maior ou igual ao tamanho é mapeado de
+     * volta para dentro da lista (index % size), demonstrando a
+     * circularidade da estrutura.
+     *
+     * @param index Índice do valor a ser obtido (pode ser maior ou igual ao
+     * tamanho da lista, sendo mapeado ciclicamente).
+     * @return O valor da lista.
+     * @throws EmptyListException se a lista estiver vazia.
+     */
     @Override
     public Type get( int index ) throws EmptyListException {
-        
+
         if ( isEmpty() ) {
             throw new EmptyListException();
         }
-        
+
         if ( index < 0 ) {
-            throw new ListIndexOutOfBoundsException( 
+            throw new ListIndexOutOfBoundsException(
                     "index must be greater or igual to 0, but it's " + index );
         }
-        
-        // mapeamento!
+
+        // mapeamento cíclico, proposital (ver Javadoc do método)
         index = index % size;
         
         Node current = start;
@@ -309,6 +322,9 @@ public class CircularDoublyLinkedList<Type> implements List<Type> {
 
             @Override
             public Type next() {
+                if ( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
                 Type value = current.value;
                 current = current.next;
                 index++;

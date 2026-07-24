@@ -74,8 +74,11 @@ import aesd.sorting.utils.SortingUtils;
 public class HeapSort {
 
     public static <Type extends Comparable<Type>> void sort( Type[] array ) {
-        
-        // IMPORTANTE! O índice 1 é a raiz nesta implementação!
+
+        // IMPORTANTE! O índice 1 é a raiz nesta implementação! Como o array
+        // do Java é 0-based, todo acesso físico ao array é feito na posição
+        // (índice lógico - 1). A matemática de índice do heap (k/2, 2*k,
+        // 2*k+1) continua toda em base 1, igual ao material.
 
         // Abordagem 2 do Heap Sort
         // Da direta para a esquerda,
@@ -86,11 +89,9 @@ public class HeapSort {
         // do meio, indo para o início, lendo nó a nó
         int k;
 
-        // o espaço útil do heap é o intervalo [1; n-1]
-        // pois para o cálculo dos filhos e do pai funcionar
-        // como está na implementação "padrão"
-        // é necessário que a primeira posição (raiz) seja 1
-        int n = array.length - 1;
+        // n é a quantidade de elementos do heap, que ocupa as posições
+        // lógicas [1; n] (fisicamente, [0; n-1])
+        int n = array.length;
 
         // percorre o array da metade ao início, organizando
         // o heap (afundando) cada elemento. a metade após
@@ -106,15 +107,16 @@ public class HeapSort {
             // troca a raiz (maior elemento) pela
             // posição atual e diminiu o tamanho
             // do heap que será processado
-            SortingUtils.swap( array, 1, n-- );
+            SortingUtils.swap( array, 0, n-1 );
+            n--;
 
             // afunda a nova raiz
             sink( array, 1, n );
 
         }
-    
+
     }
-    
+
     /*
      * Algoritmo para organização do heap.
      *
@@ -125,10 +127,11 @@ public class HeapSort {
 
         // se o nó k não é a raiz (nó 1) e
         // seu pai (k/2) for menor que ele
-        while ( k > 1 && array[k/2].compareTo( array[k] ) < 0 ) {
+        // (acesso físico ao array sempre com -1, pois k e k/2 são índices lógicos em base 1)
+        while ( k > 1 && array[k/2 - 1].compareTo( array[k-1] ) < 0 ) {
 
             // troca o pai pelo filho
-            SortingUtils.swap( array, k/2, k );
+            SortingUtils.swap( array, k/2 - 1, k-1 );
 
             // indica que o nó que será processado
             // na próxima iteração é o pai do nó k atual
@@ -158,7 +161,8 @@ public class HeapSort {
             // se j está dentro do limite
             // e o valor da posição j é menor que
             // o valor do seu irmão
-            if ( j < n && array[j].compareTo( array[j+1] ) < 0 ) {
+            // (acesso físico ao array sempre com -1, pois j e k são índices lógicos em base 1)
+            if ( j < n && array[j-1].compareTo( array[j] ) < 0 ) {
 
                 // muda para o irmão (filho da direita)
                 // pois o filho à esquerda é menor que o maior filho (o da direita),
@@ -172,13 +176,13 @@ public class HeapSort {
             // ao valor do filho da direita (que faltou ser testado).
             // está ok, pois atende à regra do max-heap e termina
             // o loop
-            if ( array[k].compareTo( array[j] ) >= 0 ) {
+            if ( array[k-1].compareTo( array[j-1] ) >= 0 ) {
                 break;
             }
 
             // caso contrário (se o nó k for menor que o nó j),
             // troca o pai pelo filho da direita (nó j)
-            SortingUtils.swap( array, k, j );
+            SortingUtils.swap( array, k-1, j-1 );
 
             // indica o novo pai como o filho da direita
             // para dar continuidade ao processo de afundamento

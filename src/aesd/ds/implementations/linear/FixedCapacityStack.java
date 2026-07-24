@@ -4,6 +4,7 @@ import aesd.ds.interfaces.Stack;
 import aesd.ds.exceptions.EmptyStackException;
 import aesd.ds.exceptions.StackOverflowException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementação de uma pilha genérica com capacidade fixa.
@@ -132,6 +133,9 @@ public class FixedCapacityStack<Type> implements Stack<Type> {
 
             @Override
             public Type next() {
+                if ( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
                 return values[current--];
             }
             

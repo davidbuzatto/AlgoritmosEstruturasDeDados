@@ -3,6 +3,7 @@ package aesd.ds.implementations.linear;
 import aesd.ds.interfaces.Deque;
 import aesd.ds.exceptions.EmptyDequeException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementação de uma deque genérica com encadeamento.
@@ -199,6 +200,9 @@ public class DoublyLinkedDeque<Type> implements Deque<Type> {
 
             @Override
             public Type next() {
+                if ( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
                 Type value = current.value;
                 current = current.next;
                 return value;

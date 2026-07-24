@@ -4,6 +4,7 @@ import aesd.ds.interfaces.List;
 import aesd.ds.exceptions.EmptyListException;
 import aesd.ds.exceptions.ListIndexOutOfBoundsException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementação de uma lista genérica com redimensionamento de array.
@@ -219,6 +220,9 @@ public class ResizingArrayList<Type> implements List<Type> {
 
             @Override
             public Type next() {
+                if ( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
                 return values[current++];
             }
             

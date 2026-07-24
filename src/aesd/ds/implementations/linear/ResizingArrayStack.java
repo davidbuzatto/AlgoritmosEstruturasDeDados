@@ -3,6 +3,7 @@ package aesd.ds.implementations.linear;
 import aesd.ds.interfaces.Stack;
 import aesd.ds.exceptions.EmptyStackException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Implementação de uma pilha genérica com redimensionamento de array.
@@ -148,6 +149,9 @@ public class ResizingArrayStack<Type> implements Stack<Type> {
 
             @Override
             public Type next() {
+                if ( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
                 return values[current--];
             }
             
