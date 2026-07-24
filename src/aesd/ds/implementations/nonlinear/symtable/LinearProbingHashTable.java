@@ -11,13 +11,29 @@ import java.util.Iterator;
  * Implementação de uma tabela de dispersão usando endereçamento aberto com
  * sondagem linear (linear probing).
  *
+ * Em endereçamento aberto, todas as chaves ficam armazenadas diretamente
+ * no próprio array (ao contrário do encadeamento separado, que usa uma
+ * lista por posição). Quando a posição calculada pelo hash de uma chave já
+ * está ocupada por outra chave, a sondagem linear simplesmente avança para
+ * a próxima posição (voltando ao início ao chegar no fim do array) até
+ * achar uma posição livre ou a própria chave — essa sequência de posições
+ * ocupadas consecutivas é chamada de cluster.
+ *
+ * Como não há um "fim de tabela" explícito além do próprio array, a busca
+ * só sabe parar quando encontra uma posição vazia; por isso a tabela nunca
+ * pode ficar completamente cheia (senão get() de uma chave ausente nunca
+ * pararia de procurar). Por esse motivo, o fator de carga é mantido abaixo
+ * de 50% (a tabela dobra de tamanho bem antes de encher) — mais rigoroso
+ * que o limite tolerado em SeparateChainingHashTable, cuja busca sempre
+ * termina ao chegar ao fim da lista do bucket.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
  * @param <Key> Tipo das chaves que serão armazenadas na tabela de dispersão.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na tabela de
  * dispersão.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class LinearProbingHashTable<Key, Value> implements SymbolTable<Key, Value> {
@@ -128,7 +144,10 @@ public class LinearProbingHashTable<Key, Value> implements SymbolTable<Key, Valu
         keys[i] = null;
         values[i] = null;
 
-        // realiza o rehash de todas as chaves do mesmo cluster
+        // realiza o rehash de todas as chaves do mesmo cluster: sem
+        // reinseri-las, get() pararia de procurar assim que encontrasse a
+        // posição vazia que acabou de ser aberta aqui, "escondendo" as
+        // chaves seguintes do cluster que ainda existem mais adiante
         i = ( i + 1 ) % lptSize;
         
         while ( keys[i] != null ) {

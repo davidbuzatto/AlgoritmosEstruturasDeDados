@@ -10,13 +10,22 @@ import java.util.Iterator;
 /**
  * Implementação de uma tabela de dispersão com encadeamento.
  *
+ * Diferente do endereçamento aberto (ver LinearProbingHashTable), aqui
+ * cada posição da tabela (bucket) guarda uma lista própria com todas as
+ * chaves que colidiram nela; colisões nunca "vazam" para outras posições.
+ * Isso permite tolerar um fator de carga bem mais alto: o redimensionamento
+ * mantém o tamanho médio das listas entre 2 e 10 elementos, contra o
+ * limite de 50% de ocupação do endereçamento aberto, já que uma lista
+ * encadeada não tem problema em crescer um pouco além do ideal — a busca
+ * apenas percorre alguns elementos a mais, sem risco de nunca terminar.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
  * @param <Key> Tipo das chaves que serão armazenadas na tabela de dispersão.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na tabela de
  * dispersão.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class SeparateChainingHashTable<Key, Value> implements SymbolTable<Key, Value> {

@@ -311,7 +311,14 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Bin
     }
     
     /*
-     * Método privado para a remoção recursiva (Hibbard Deletion).
+     * Método privado para a remoção recursiva (Hibbard Deletion): quando o
+     * nó a remover tem dois filhos, ele é substituído pelo seu sucessor (o
+     * menor da subárvore direita), que é então removido de dentro dessa
+     * subárvore. Aplicada repetidamente, essa técnica tende a desbalancear
+     * a árvore ao longo do tempo (o sucessor é sempre puxado da subárvore
+     * direita, nunca da esquerda) — motivo pelo qual estruturas como AVL e
+     * árvores vermelho-preto existem, garantindo altura O(log n) mesmo após
+     * muitas remoções.
      */
     private Node<Key, Value> delete( Node<Key, Value> node, Key key ) {
         

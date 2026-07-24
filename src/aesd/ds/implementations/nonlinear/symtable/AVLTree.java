@@ -9,13 +9,21 @@ import aesd.ds.interfaces.Queue;
 
 /**
  * Implementação de uma árvore AVL (Adelson-Velsky e Landis).
- * 
+ *
+ * Uma árvore AVL é uma árvore binária de busca que mantém, para todo nó, a
+ * invariante de que a diferença de altura entre suas subárvores esquerda e
+ * direita nunca ultrapassa ALLOWED_IMBALANCE (1). Como cada nó guarda sua
+ * própria altura, put()/delete() recalculam a altura de cada nó no caminho
+ * de volta da recursão (bottom-up, das folhas em direção à raiz) através
+ * de balance(), que também detecta e corrige qualquer violação da
+ * invariante ao longo do caminho.
+ *
  * Implementação baseada na obra: WEISS, M. A. Data Structures and Algorithm
  * Analysis in Java. 3. ed. Pearson Education: New Jersey, 2012. 614 p.
- * 
+ *
  * @param <Key> Tipo das chaves que serão armazenadas na árvore.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na árvore.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<Key, Value> {
@@ -158,25 +166,30 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
         } else if ( comp > 0 ) {
             node.right = delete( node.right, key );
         } else {
-            
-            // dois filhos
+
+            // dois filhos: substitui a chave/valor deste nó pelos do
+            // sucessor (o menor da subárvore direita) e remove o sucessor
+            // de dentro da subárvore direita — a mesma ideia da Hibbard
+            // Deletion usada em BinarySearchTree
             if ( node.left != null && node.right != null ) {
-                
+
                 Node<Key, Value> min = min( node.right );
                 node.key = min.key;
                 node.value = min.value;
-                
+
                 node.right = delete( node.right, node.key );
-                
+
                 // um ou nenhum filho
             } else {
                 node = ( node.left != null ) ? node.left : node.right;
             }
-            
+
         }
-        
+
+        // rebalanceia todos os nós no caminho de volta da recursão, já que
+        // a remoção pode ter desfeito a invariante AVL em qualquer um deles
         return balance( node );
-        
+
     }
     
     @Override
@@ -265,8 +278,21 @@ public class AVLTree<Key extends Comparable<Key>, Value> implements BinaryTree<K
         return size;
     }
     
+    /**
+     * Restaura a invariante AVL do nó, se necessário, escolhendo entre uma
+     * rotação simples ou dupla de acordo com o "formato" do desbalanço:
+     * quando a subárvore mais alta tem seu próprio filho mais alto do
+     * mesmo lado (ex.: pesada à esquerda, e o filho esquerdo é mais alto à
+     * esquerda), uma única rotação resolve (caso LL ou RR); quando o filho
+     * mais alto está do lado oposto (ex.: pesada à esquerda, mas o filho
+     * esquerdo é mais alto à direita), é preciso uma rotação dupla (caso LR
+     * ou RL), que nada mais é que duas rotações simples em sequência.
+     *
+     * @param node nó a ser balanceado.
+     * @return o nó balanceado (pode ser uma nova raiz da subárvore).
+     */
     private BinaryTree.Node<Key, Value> balance( BinaryTree.Node<Key, Value> node ) {
-        
+
         if ( node == null ) {
             return node;
         }

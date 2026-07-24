@@ -98,7 +98,10 @@ public class MaxPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
 
     /**
      * Cria uma fila de prioridades máxima com um array de chaves.
-     * Constrói a fila de prioridades construindo subárvores, do meio até o início.
+     * Constrói a fila de prioridades usando heapify bottom-up: percorre o
+     * array construindo subárvores válidas do meio até o início, afundando
+     * cada uma. Esse processo custa O(n), mais rápido que inserir as n
+     * chaves uma a uma (o que custaria O(n log n)).
      *
      * @param keys array de chaves
      */
@@ -197,7 +200,10 @@ public class MaxPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
         
         // se o tamanho é igual à um quarto da capacidade
         if ( ( n > 0 ) && ( n == ( pq.length - 1 ) / 4 ) ) {
-            // diminui a capacidade pela metade
+            // diminui a capacidade pela metade; usar 1/4 como limiar, ao
+            // invés de 1/2, evita thrashing (crescer e encolher o array
+            // repetidamente) quando inserções e remoções alternam perto
+            // do limite de capacidade
             resize( pq.length / 2 );
         }
         
@@ -219,15 +225,17 @@ public class MaxPriorityQueue<Key extends Comparable<Key>> implements PriorityQu
         while ( 2 * k <= n ) {
             
             int j = 2 * k;
-            
+
+            // se o filho da esquerda (j) for menor que o da direita (j+1),
+            // troca j para apontar ao maior dos dois filhos
             if ( j < n && less( j, j + 1 ) ) {
                 j++;
             }
-            
+
             if ( !less( k, j ) ) {
                 break;
             }
-            
+
             exchange( k, j );
             k = j;
             

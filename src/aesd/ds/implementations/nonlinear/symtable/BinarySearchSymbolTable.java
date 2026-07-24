@@ -189,7 +189,18 @@ public class BinarySearchSymbolTable<Key extends Comparable<Key>, Value> impleme
 
     }
 
-    // calcula o ranque da chave realizando uma busca binária
+    /**
+     * Calcula o ranque da chave usando busca binária: a quantidade de
+     * chaves estritamente menores que key presentes na tabela. Se a chave
+     * existir, keys[rank(key)] é a própria chave; se não existir, rank(key)
+     * é exatamente a posição em que ela deveria ser inserida para manter o
+     * array ordenado. É por isso que get()/put()/delete() usam rank() como
+     * base para localizar (ou decidir onde inserir) uma chave.
+     *
+     * @param key Chave usada na busca.
+     * @return O ranque da chave.
+     * @throws IllegalArgumentException se a chave for nula.
+     */
     public int rank( Key key ) throws IllegalArgumentException {
 
         if ( key == null ) {

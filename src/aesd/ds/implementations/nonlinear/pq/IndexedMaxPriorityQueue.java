@@ -7,7 +7,25 @@ import java.util.NoSuchElementException;
 /**
  * Implementação de uma fila de prioridades máxima indexada usando um heap
  * binário máximo.
- * 
+ *
+ * Diferente de uma fila de prioridades comum, cada chave aqui é associada
+ * a um índice externo (fornecido por quem usa a estrutura), o que permite
+ * localizar e alterar a prioridade de um elemento já inserido a partir
+ * desse índice, sem precisar removê-lo e reinseri-lo. Esse comportamento é
+ * essencial em algoritmos como os de Dijkstra e de Prim, em que a
+ * prioridade de um vértice já presente na fila precisa ser atualizada
+ * quando um caminho ou uma aresta mais curta é descoberta.
+ *
+ * A estrutura mantém três arrays paralelos, todos indexados de 0 a maxN:
+ *     - keys[i]: a chave (prioridade) associada ao índice i;
+ *     - pq[]: o heap binário propriamente dito, guardando índices (não
+ *       chaves) nas posições 1 a n; pq[k] é o índice armazenado na posição
+ *       k do heap;
+ *     - qp[]: o inverso de pq, isto é, qp[pq[k]] == k para toda posição k
+ *       ocupada do heap (e -1 quando o índice não está na fila); é qp que
+ *       permite, dado um índice, achar imediatamente sua posição no heap
+ *       para as operações de alteração de prioridade.
+ *
  * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 4. ed.
  * Boston: Pearson Education, 2011. 955 p.
  *
@@ -234,26 +252,45 @@ public class IndexedMaxPriorityQueue<Key extends Comparable<Key>> implements Ind
     }
 
     private void exchange( int i, int j ) {
-        
+
         int temp = pq[i];
-        
+
         pq[i] = pq[j];
         pq[j] = temp;
-        
+
+        // mantém qp sincronizado com a nova posição de cada índice no heap;
+        // sem isso, changeKey/increaseKey/decreaseKey/delete(index) não
+        // conseguiriam localizar em O(1) a posição de um índice arbitrário
         qp[pq[i]] = i;
         qp[pq[j]] = j;
-        
+
     }
 
+    /**
+     * Flutua o índice na posição k do heap até restaurar a invariante de
+     * heap máximo. É chamado por insert() (o elemento recém-inserido pode
+     * ter prioridade maior que o pai) e por changeKey()/increaseKey()
+     * (quando a chave aumenta, o elemento pode precisar subir).
+     *
+     * @param k posição no heap a partir de onde flutuar.
+     */
     private void swim( int k ) {
-        
+
         while ( k > 1 && less( k / 2, k ) ) {
             exchange( k, k / 2 );
             k = k / 2;
         }
-        
+
     }
 
+    /**
+     * Afunda o índice na posição k do heap até restaurar a invariante de
+     * heap máximo. É chamado por delete()/delete(index) (o elemento movido
+     * para o topo pode precisar descer) e por changeKey()/decreaseKey()
+     * (quando a chave diminui, o elemento pode precisar descer).
+     *
+     * @param k posição no heap a partir de onde afundar.
+     */
     private void sink( int k ) {
         
         while ( 2 * k <= n ) {

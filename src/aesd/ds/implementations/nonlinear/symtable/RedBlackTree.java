@@ -13,14 +13,29 @@ import aesd.ds.interfaces.BinaryTree;
 import aesd.ds.interfaces.Queue;
 
 /**
- * Implementação de uma árvore vermelho-preto (Red-Black Tree).
- * 
- * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms. 
+ * Implementação de uma árvore vermelho-preto (Red-Black Tree), mais
+ * especificamente uma Left-Leaning Red-Black Tree (LLRB): cada nó tem uma
+ * cor (vermelho ou preto) e a árvore é equivalente a uma árvore 2-3, em que
+ *     - um nó preto sem filhos vermelhos corresponde a um nó-2 da árvore
+ *       2-3 (uma chave, dois filhos);
+ *     - um nó preto com um filho vermelho à esquerda corresponde a um nó-3
+ *       (duas chaves, três filhos), representado aqui como dois nós ligados
+ *       por um link vermelho.
+ *
+ * Invariantes mantidos pela implementação:
+ *     - links vermelhos só existem inclinados para a esquerda;
+ *     - nenhum nó tem dois links vermelhos ao mesmo tempo;
+ *     - a raiz é sempre preta;
+ *     - todo caminho da raiz até um link null tem exatamente a mesma
+ *       quantidade de links pretos (balanceamento perfeito de pretos), o
+ *       que garante altura O(log n).
+ *
+ * Implementação baseada na obra: SEDGEWICK, R.; WAYNE, K. Algorithms.
  * 4. ed. Boston: Pearson Education, 2011. 955 p.
- * 
+ *
  * @param <Key> Tipo das chaves que serão armazenadas na árvore.
  * @param <Value> Tipo dos valores associados às chaves armazenadas na árvore.
- * 
+ *
  * @author Prof. Dr. David Buzatto
  */
 public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryTree<Key, Value> {
@@ -206,28 +221,42 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     private BinaryTree.Node<Key, Value> delete( BinaryTree.Node<Key, Value> node, Key key ) {
 
         if ( key.compareTo( node.key ) < 0 ) {
-            
+
+            // antes de descer à esquerda, garante que o nó da esquerda não
+            // seja um nó-2 (preto sem filhos vermelhos): removendo dali sem
+            // essa garantia, o balanceamento de pretos da árvore quebraria
             if ( !isRed( node.left ) && !isRed( node.left.left ) ) {
                 node = moveRedLeft( node );
             }
-            
+
             node.left = delete( node.left, key );
-            
+
         } else {
-            
+
+            // inclina o link vermelho para a direita antes de decidir o
+            // próximo passo, o que simplifica os casos que seguem
             if ( isRed( node.left ) ) {
                 node = rotateRight( node );
             }
-            
+
+            // a chave a remover está neste nó e ele não tem filho à
+            // direita: é uma folha, basta removê-la
             if ( key.compareTo( node.key ) == 0 && ( node.right == null ) ) {
                 return null;
             }
-            
+
+            // mesma ideia de moveRedLeft, mas para a subárvore direita:
+            // garante que não se desça a um nó-2 antes de continuar
             if ( !isRed( node.right ) && !isRed( node.right.left ) ) {
                 node = moveRedRight( node );
             }
-            
+
             if ( key.compareTo( node.key ) == 0 ) {
+                // nó com dois filhos: em vez de removê-lo diretamente, copia
+                // a chave/valor do sucessor (o menor da subárvore direita)
+                // para este nó e remove o sucessor de dentro da subárvore
+                // direita através de deleteMin, que é sempre um caso mais
+                // simples de tratar
                 BinaryTree.Node<Key, Value> x = min( node.right );
                 node.key = x.key;
                 node.value = x.value;
@@ -235,11 +264,12 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
             } else {
                 node.right = delete( node.right, key );
             }
-            
+
         }
-        
+
+        // desfaz eventuais violações da invariante deixadas pela recursão
         return balance( node );
-        
+
     }
     
     @Override
@@ -248,19 +278,21 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     }
     
     private BinaryTree.Node<Key, Value> deleteMin( BinaryTree.Node<Key, Value> node ) {
-        
+
         if ( node.left == null ) {
             return null;
         }
 
+        // mesma ideia usada em delete(): garante que não se desça a um nó-2
+        // antes de continuar a descida à esquerda
         if ( !isRed( node.left ) && !isRed( node.left.left ) ) {
             node = moveRedLeft( node );
         }
 
         node.left = deleteMin( node.left );
-        
+
         return balance( node );
-        
+
     }
     
     /**
@@ -327,7 +359,13 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     /**
      * Assumindo que o nó é vermelho e ambos os seus filhos são pretos, faz
      * com que a esquerda do nó ou um de seus filhos seja vermelho.
-     * 
+     *
+     * É usado durante a remoção, logo antes de descer para a subárvore
+     * esquerda: a remoção nunca pode descer até um nó-2 (nó preto sem
+     * filhos vermelhos), pois não haveria como remover uma chave dali sem
+     * quebrar o balanceamento de pretos da árvore. Este método "empresta"
+     * um link vermelho do lado direito para evitar que isso aconteça.
+     *
      * @param node nó a ser movido.
      * @return o nó modificado.
      */
@@ -348,7 +386,11 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     /**
      * Assumindo que o nó é vermelho e ambos os seus filhos são pretos, faz
      * com que nó da direita ou um de seus filhos seja vermelho.
-     * 
+     *
+     * Mesma ideia de moveRedLeft, mas usado antes de descer para a
+     * subárvore direita durante a remoção: garante que não se desça a um
+     * nó-2, tomando emprestado um link vermelho do lado esquerdo.
+     *
      * @param no nó a ser movido.
      * @return o nó modificado.
      */
@@ -366,8 +408,13 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> implements BinaryT
     }
 
     /**
-     * Recupera a condição de existência (invariante) para a árvore vermelho-preto.
-     * 
+     * Recupera a condição de existência (invariante) para a árvore
+     * vermelho-preto depois de uma inserção ou remoção, desfazendo as três
+     * violações possíveis: um link vermelho inclinado para a direita
+     * (rotaciona à esquerda), dois links vermelhos consecutivos inclinados
+     * para a esquerda (rotaciona à direita) e um nó com dois filhos
+     * vermelhos, temporariamente equivalente a um nó-4 (inverte as cores).
+     *
      * @param node nó de origem.
      * @return o nó modificado.
      */
