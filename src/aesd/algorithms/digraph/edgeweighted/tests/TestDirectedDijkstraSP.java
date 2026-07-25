@@ -1,18 +1,20 @@
-package aesd.algorithms.graph.edgeweighted.tests;
+package aesd.algorithms.digraph.edgeweighted.tests;
 
 import aesd.algorithms.digraph.edgeweighted.DirectedDijkstraSP;
 import aesd.ds.implementations.nonlinear.graph.Edge;
 import aesd.ds.implementations.nonlinear.graph.EdgeWeightedDigraph;
 
 /**
- * Teste de uso do algoritmo de Dijkstra da classe DirectedDijkstraSP.
- * 
+ * Teste de uso do algoritmo de Dijkstra (digrafo ponderado) usando a classe
+ * DirectedDijkstraSP.
+ *
  * @author Prof. Dr. David Buzatto
  */
-public class TestDirectedDijkstraSPTrace {
-    
+public class TestDirectedDijkstraSP {
+
     public static void main( String[] args ) {
-        
+
+        // digrafo ponderado clássico (tinyEWD)
         EdgeWeightedDigraph g = new EdgeWeightedDigraph( 8 );
         g.addEdge( 4, 5, 0.35 );
         g.addEdge( 5, 4, 0.35 );
@@ -29,13 +31,23 @@ public class TestDirectedDijkstraSPTrace {
         g.addEdge( 3, 6, 0.52 );
         g.addEdge( 6, 0, 0.58 );
         g.addEdge( 6, 4, 0.93 );
-        System.out.println( g );
-        
-        DirectedDijkstraSP dSP = new DirectedDijkstraSP( g, 0 );
-        for ( Edge e : dSP.pathTo( 0 ) ) {
-            System.out.println( e );
+
+        DirectedDijkstraSP sp = new DirectedDijkstraSP( g, 0 );
+
+        for ( int v = 0; v < g.getNumberOfVertices(); v++ ) {
+
+            System.out.print( "0 -> " + v + " (" + sp.distTo( v ) + "): " );
+
+            if ( sp.hasPathTo( v ) ) {
+                for ( Edge e : sp.pathTo( v ) ) {
+                    System.out.print( e + "   " );
+                }
+            }
+
+            System.out.println();
+
         }
-        
+
     }
-    
+
 }
