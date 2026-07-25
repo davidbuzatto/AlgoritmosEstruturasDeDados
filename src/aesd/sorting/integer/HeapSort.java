@@ -30,11 +30,12 @@ import aesd.sorting.utils.SortingUtils;
  *          * Pai: posição do filho / 2
  *          * Filho esquerda: posição do pai * 2
  *          * Filho direita: posicao do pai * 2 + 1
- *
- *     - Para raiz na posição 0, a geração das posições seria
+ *     - Para raiz na posição 0, a geração das posições seria:
  *          * Pai: (posição do filho - 1) / 2
  *          * Filho esquerda: posição do pai * 2 + 1
  *          * Filho direita: posicao do pai * 2 + 2
+ *     - Nessa implementação usaremos uma posição lógica e um ajuste para
+ *       a posição física.
  *
  * Elemento violando a condição heap
  *     - Valor maior que o pai
@@ -81,7 +82,7 @@ public class HeapSort {
         // 2*k+1) continua toda em base 1, igual ao material.
 
         // Abordagem 2 do Heap Sort
-        // Da direta para a esquerda,
+        // Da direita para a esquerda,
         // construir sub-árvores e unir cada uma delas,
         // utilizando o top-down (sink => afundar)
 
