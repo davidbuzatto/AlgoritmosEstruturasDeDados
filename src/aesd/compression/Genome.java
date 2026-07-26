@@ -1,8 +1,6 @@
 package aesd.compression;
 
 import aesd.algorithms.strings.Alphabet;
-import aesd.compression.utils.BinaryStdIn;
-import aesd.compression.utils.BinaryStdOut;
 
 /**
  * Implementação da compressão de genomas. Fornece dois métodos estáticos para

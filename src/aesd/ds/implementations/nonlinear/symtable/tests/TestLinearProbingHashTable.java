@@ -3,7 +3,7 @@ package aesd.ds.implementations.nonlinear.symtable.tests;
 import aesd.ds.implementations.nonlinear.symtable.LinearProbingHashTable;
 import aesd.ds.implementations.linear.ResizingArrayList;
 import aesd.ds.interfaces.List;
-import aesd.ds.utils.Utils;
+import aesd.utils.Utils;
 import aesd.ds.interfaces.SymbolTable.Entry;
 
 /**

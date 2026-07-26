@@ -1,6 +1,6 @@
 package aesd.sorting.integer;
 
-import aesd.sorting.utils.SortingUtils;
+import aesd.utils.Utils;
 
 /**
  * Ordenação por inserção (Insertion Sort)
@@ -67,7 +67,7 @@ public class InsertionSort {
             while ( j > 0 && array[j-1] > array[j] ) {
 
                 // troca os elementos adjacentes
-                SortingUtils.swap( array, j-1, j );
+                Utils.swap( array, j-1, j );
 
                 // e posiciona o j para a esquerda
                 j--;

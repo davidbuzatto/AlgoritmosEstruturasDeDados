@@ -1,6 +1,6 @@
 package aesd.sorting.integer;
 
-import aesd.sorting.utils.SortingUtils;
+import aesd.utils.Utils;
 
 /**
  * Ordenação Shell (Shell Sort)
@@ -84,7 +84,7 @@ public class ShellSort {
                 while( j >= h && array[j-h] > array[j] ) {
 
                     // troca os elementos
-                    SortingUtils.swap( array, j-h, j );
+                    Utils.swap( array, j-h, j );
 
                     // prepara j para comparar outro arco
                     // dando continuidade ao h-sorting

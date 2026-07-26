@@ -1,6 +1,6 @@
 package aesd.sorting.generic;
 
-import aesd.sorting.utils.SortingUtils;
+import aesd.utils.Utils;
 
 /**
  * Ordenação por seleção (Selection Sort)
@@ -72,7 +72,7 @@ public class SelectionSort {
 
             // troca o mínimo com o item atual
             // aumentando assim a parte ordenada
-            SortingUtils.swap( array, i, min );
+            Utils.swap( array, i, min );
 
         }
     

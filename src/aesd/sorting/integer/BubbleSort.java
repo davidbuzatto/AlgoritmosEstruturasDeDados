@@ -1,6 +1,6 @@
 package aesd.sorting.integer;
 
-import aesd.sorting.utils.SortingUtils;
+import aesd.utils.Utils;
 
 /**
  * Ordenação por "flutuação" ou "borbulhamento" (Bubble Sort)
@@ -75,7 +75,7 @@ public class BubbleSort {
                 if ( array[j-1] > array[j] ) {
 
                     // troca os elementos adjacentes
-                    SortingUtils.swap( array, j-1, j );
+                    Utils.swap( array, j-1, j );
 
                     // indica que houve uma troca
                     swapped = true;

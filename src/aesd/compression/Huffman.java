@@ -1,8 +1,6 @@
 package aesd.compression;
 
 import aesd.ds.implementations.nonlinear.pq.MinPriorityQueue;
-import aesd.compression.utils.BinaryStdIn;
-import aesd.compression.utils.BinaryStdOut;
 
 /**
  * Implementação do algoritmo de compressão de Huffman.

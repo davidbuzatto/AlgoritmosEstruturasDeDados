@@ -4,7 +4,7 @@ import aesd.algorithms.tree.TraversalTypes;
 import aesd.ds.implementations.nonlinear.symtable.BinarySearchTree;
 import aesd.ds.implementations.linear.ResizingArrayList;
 import aesd.ds.interfaces.List;
-import aesd.ds.utils.Utils;
+import aesd.utils.Utils;
 import aesd.ds.interfaces.BinaryTree;
 
 /**

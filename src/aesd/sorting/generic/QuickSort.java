@@ -1,6 +1,6 @@
 package aesd.sorting.generic;
 
-import aesd.sorting.utils.SortingUtils;
+import aesd.utils.Utils;
 
 /**
  * Ordenação "Rápida" (Quick Sort)
@@ -149,7 +149,7 @@ public class QuickSort {
 
            // troca i por j, posicionando o valor menor
            // que está em j na posição de i e vice versa
-           SortingUtils.swap( array, i, j );
+           Utils.swap( array, i, j );
 
        }
 
@@ -163,7 +163,7 @@ public class QuickSort {
        // com o valor de j (que é menor que o pivô), fazendo
        // com que o o pivô seja posicionado corretamente
        // e que o início receba o valor menor que o pivô
-       SortingUtils.swap( array, start, j );
+       Utils.swap( array, start, j );
 
        // j agora contém o valor do pivô, que divide
        // a sequência menor e a sequencia maior e por consequência

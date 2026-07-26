@@ -1,7 +1,7 @@
 package aesd.sorting.generic.tests;
 
 import aesd.sorting.generic.QuickSort;
-import aesd.sorting.utils.SortingUtils;
+import aesd.utils.Utils;
 import java.util.Arrays;
 
 /**
@@ -17,7 +17,7 @@ public class TestQuickSort {
 
         // embaralha antes de ordenar, já que esta implementação sempre usa
         // o primeiro elemento como pivô (ver Javadoc de QuickSort)
-        SortingUtils.shuffle( array );
+        Utils.shuffle( array );
 
         System.out.println( "Antes de ordenar: " + Arrays.toString( array ) );
         QuickSort.sort( array );

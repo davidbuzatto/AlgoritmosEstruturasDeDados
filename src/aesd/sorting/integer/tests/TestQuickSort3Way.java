@@ -1,7 +1,7 @@
 package aesd.sorting.integer.tests;
 
 import aesd.sorting.integer.QuickSort3Way;
-import aesd.sorting.utils.SortingUtils;
+import aesd.utils.Utils;
 import java.util.Arrays;
 
 /**
@@ -19,7 +19,7 @@ public class TestQuickSort3Way {
 
         // embaralha antes de ordenar, já que esta implementação sempre usa
         // o primeiro elemento como pivô (ver Javadoc de QuickSort3Way)
-        SortingUtils.shuffle( array );
+        Utils.shuffle( array );
 
         System.out.println( "Antes de ordenar: " + Arrays.toString( array ) );
         QuickSort3Way.sort( array );

@@ -1,6 +1,6 @@
 package aesd.sorting.generic;
 
-import aesd.sorting.utils.SortingUtils;
+import aesd.utils.Utils;
 
 /**
  * Ordenação usando um Heap (Heap Sort)
@@ -108,7 +108,7 @@ public class HeapSort {
             // troca a raiz (maior elemento) pela
             // posição atual e diminiu o tamanho
             // do heap que será processado
-            SortingUtils.swap( array, 0, n-1 );
+            Utils.swap( array, 0, n-1 );
             n--;
 
             // afunda a nova raiz
@@ -137,7 +137,7 @@ public class HeapSort {
         while ( k > 1 && array[k/2 - 1].compareTo( array[k-1] ) < 0 ) {
 
             // troca o pai pelo filho
-            SortingUtils.swap( array, k/2 - 1, k-1 );
+            Utils.swap( array, k/2 - 1, k-1 );
 
             // indica que o nó que será processado
             // na próxima iteração é o pai do nó k atual
@@ -188,7 +188,7 @@ public class HeapSort {
 
             // caso contrário (se o nó k for menor que o nó j),
             // troca o pai pelo filho da direita (nó j)
-            SortingUtils.swap( array, k-1, j-1 );
+            Utils.swap( array, k-1, j-1 );
 
             // indica o novo pai como o filho da direita
             // para dar continuidade ao processo de afundamento

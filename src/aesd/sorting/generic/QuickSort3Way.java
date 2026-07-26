@@ -1,6 +1,6 @@
 package aesd.sorting.generic;
 
-import aesd.sorting.utils.SortingUtils;
+import aesd.utils.Utils;
 
 /**
  * Quick Sort 3-Way.
@@ -89,7 +89,7 @@ public class QuickSort3Way {
                    // e desloca os dois controles para a direita
                    // este passo joga os valores menores para
                    // a esquerda
-                   SortingUtils.swap( array, min++, i++ );
+                   Utils.swap( array, min++, i++ );
 
                    // se o valor de i for maior que o valor base
                    // indica que é necessário jogar o valor de i
@@ -100,7 +100,7 @@ public class QuickSort3Way {
                    // e desloca o menor para a esquerda
                    // este passo joga os valores maiores para
                    // a direita
-                   SortingUtils.swap( array, i, max-- );
+                   Utils.swap( array, i, max-- );
 
                    // se i for o mesmo valor do valor base, desloca
                    // i para a direita, procurando por um valor
