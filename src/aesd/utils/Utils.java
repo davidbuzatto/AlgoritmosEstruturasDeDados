@@ -5,7 +5,7 @@ import aesd.ds.interfaces.List;
 import java.util.Random;
 
 /**
- * Métodos utilitários.
+ * Métodos utilitários para algoritmos e estruturas de dados implementados.
  * 
  * @author Prof. Dr. David Buzatto
  */
@@ -86,8 +86,7 @@ public abstract class Utils {
      *
      * @param list A lista cujos elementos serão embaralhados.
      */
-    @SuppressWarnings( "unchecked" )
-    public static void shuffle( List list ) {
+    public static <Type> void shuffle( List<Type> list ) {
 
         Random r = new Random();
         int listSize = list.getSize();
@@ -95,8 +94,8 @@ public abstract class Utils {
         for ( int i = 0; i < listSize; i++ ) {
 
             int p = i + r.nextInt( listSize - i );
-            Object o1 = list.get( i );
-            Object o2 = list.get( p );
+            Type o1 = list.get( i );
+            Type o2 = list.get( p );
 
             list.set( i, o2 );
             list.set( p, o1 );

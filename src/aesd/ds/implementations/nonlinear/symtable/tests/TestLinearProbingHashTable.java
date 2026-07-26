@@ -3,8 +3,8 @@ package aesd.ds.implementations.nonlinear.symtable.tests;
 import aesd.ds.implementations.nonlinear.symtable.LinearProbingHashTable;
 import aesd.ds.implementations.linear.ResizingArrayList;
 import aesd.ds.interfaces.List;
-import aesd.utils.Utils;
 import aesd.ds.interfaces.SymbolTable.Entry;
+import aesd.utils.Utils;
 
 /**
  * Teste de uso da tabela de dispersão com sondagem linear.

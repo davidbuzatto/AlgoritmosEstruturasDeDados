@@ -4,8 +4,8 @@ import aesd.algorithms.tree.TraversalTypes;
 import aesd.ds.implementations.nonlinear.symtable.AVLTree;
 import aesd.ds.implementations.linear.ResizingArrayList;
 import aesd.ds.interfaces.List;
-import aesd.utils.Utils;
 import aesd.ds.interfaces.BinaryTree;
+import aesd.utils.Utils;
 
 /**
  * Teste de uso da árvore AVL.
@@ -106,9 +106,9 @@ public class TestAVLTree {
         for ( BinaryTree.Entry<Character, String> e : aavl.traverse(TraversalTypes.INORDER ) ) {
             elementos.add( e );
         }
-        elementos.add(new BinaryTree.Entry<>( 'S', "Snoopy" ) );
-        elementos.add(new BinaryTree.Entry<>( 'P', "Papai Noel" ) );
-        elementos.add(new BinaryTree.Entry<>( 'M', "Mario" ) );
+        elementos.add( new BinaryTree.Entry<>( 'S', "Snoopy" ) );
+        elementos.add( new BinaryTree.Entry<>( 'P', "Papai Noel" ) );
+        elementos.add( new BinaryTree.Entry<>( 'M', "Mario" ) );
         Utils.shuffle( elementos );
         for ( BinaryTree.Entry<Character, String> e : elementos ) {
             System.out.printf( "%c está na árvore? => %s\n", e.getKey(),

@@ -40,12 +40,12 @@ public class TestUtils {
             list.add( i );
         }
 
-        System.out.println( "Lista antes do shuffle:" );
+        System.out.println( "\nLista antes do shuffle:" );
         System.out.println( list );
 
         Utils.shuffle( list );
 
-        System.out.println( "\nLista depois do shuffle:" );
+        System.out.println( "Lista depois do shuffle:" );
         System.out.println( list );
 
     }
