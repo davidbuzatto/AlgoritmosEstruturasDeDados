@@ -1,8 +1,8 @@
 package aesd.compression;
 
 import aesd.ds.implementations.nonlinear.symtable.TernarySearchTrie;
-import aesd.utils.BinaryStdIn;
-import aesd.utils.BinaryStdOut;
+import aesd.compression.utils.BinaryStdIn;
+import aesd.compression.utils.BinaryStdOut;
 
 /**
  * Implementação do algoritmo de compressão de Lempel-Ziv-Welch.

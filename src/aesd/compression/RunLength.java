@@ -1,7 +1,7 @@
 package aesd.compression;
 
-import aesd.utils.BinaryStdIn;
-import aesd.utils.BinaryStdOut;
+import aesd.compression.utils.BinaryStdIn;
+import aesd.compression.utils.BinaryStdOut;
 
 /**
  * Implementação da codificação de comprimento de carreira (Run Length Encoding).

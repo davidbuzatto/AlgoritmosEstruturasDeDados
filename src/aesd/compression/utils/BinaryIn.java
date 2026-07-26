@@ -1,4 +1,4 @@
-package aesd.utils;
+package aesd.compression.utils;
 
 import java.io.BufferedInputStream;
 import java.io.File;
